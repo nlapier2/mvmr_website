@@ -32,6 +32,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -270,7 +272,13 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/nlapier2/mvmr_website">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -336,22 +344,25 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong88ab006"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 88ab006 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef87ed72cd0a45d63bd8bb277a537bc1ed9061aa8targetblankf87ed72a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/f87ed72cd0a45d63bd8bb277a537bc1ed9061aa8" target="_blank">f87ed72</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong88ab006" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef87ed72cd0a45d63bd8bb277a537bc1ed9061aa8targetblankf87ed72a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 88ab006. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/f87ed72cd0a45d63bd8bb277a537bc1ed9061aa8" target="_blank">f87ed72</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
-working directory clean
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    figs/.DS_Store
+
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -394,7 +405,41 @@ Message
 Rmd
 </td>
 <td>
-88ab006
+<a href="https://github.com/nlapier2/mvmr_website/blob/f87ed72cd0a45d63bd8bb277a537bc1ed9061aa8/analysis/index.Rmd" target="_blank">f87ed72</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-05
+</td>
+<td>
+added project overview, simulation description, and simulation results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/05a281bbe03de8adf620c787141102b4739ed475/docs/index.html" target="_blank">05a281b</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-05
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/88ab00691df4b9f77b61a1b020331f3b87f3c7d7/analysis/index.Rmd" target="_blank">88ab006</a>
 </td>
 <td>
 Nathan LaPierre
@@ -413,7 +458,94 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<p>Welcome to my research website.</p>
+<p>Welcome to the MultiVariable Mendelian Randomization (MVMR) project website. Here we briefly describe the project and provide some simulation results. In the future we will also include instructions for running our software.</p>
+<div id="project-description" class="section level3">
+<h3>Project description</h3>
+<p>In MVMR, we wish to determine which “exposure” phenotypes X affect an “outcome” phenotype Y given genotypes G that affect X. X might be something like metabolites, gene expression, blood cell traits, etc. Y could be a disease or another cellular phenotype. An example would be the classic question of whether HDL, LDL, and/or triglycerides (X) affect cardiovascular disease (CVD) risk (Y). However, if the genetic variants for X affect Y through pathways other than X, this can lead to false positive conclusions. Suppose Z represents some gene whose expression level modulates both HDL level and CVD risk. Then even if HDL doesn’t affect CVD risk, we may still find a false positive with standard MVMR methods. This is called “confounding”. Our method seeks to address this challenge by modeling potential confounders and adjusting for this unwanted signal in the data.</p>
+</div>
+<div id="simulation-description" class="section level3">
+<h3>Simulation description</h3>
+<p>We simulate according to the following DAG:</p>
+<p><img src="../figs/mvmr_dag.jpg" /></p>
+<p>Here, G are the Genotypes, X are the exposure phenotypes, Y is the outcome phenotype, and Z are confounders. All except Y are expected to be multivariate. The edge variables signify effects between these variables. Let <span class="math inline">\(M\)</span> be the number of SNPs, <span class="math inline">\(K\)</span> be the number of exposures, and <span class="math inline">\(J\)</span> be the number of confounders.</p>
+<p>The structural equation model for this DAG is:</p>
+<p><span class="math display">\[Z = G\theta_z + \epsilon_z\]</span> <span class="math display">\[X = G\theta_x + Z\alpha_x + \epsilon_x\]</span> <span class="math display">\[Y = X\beta + G\theta_y + Z\alpha_y + \epsilon_y\]</span></p>
+<p>G is assumed fixed or is drawn from standard normal distributions. Define</p>
+<p><span class="math display">\[\psi_x = \theta_z * \alpha_x\]</span> <span class="math display">\[\psi_y = \theta_z * \alpha_y\]</span> Then <span class="math inline">\(\psi_x\)</span> defines the heritability of X mediated through Z, <span class="math inline">\(\psi_y\)</span> defines the confounding effect from G to Y that is correlated with X, and <span class="math inline">\(\theta_y\)</span> defines the confounding effect from G to Y that is not correlated with X.</p>
+<p>All theta are drawn according to point-(multivariate)normal distributions,</p>
+<p><span class="math display">\[\theta_i = f_i * \gamma^*_{gi}\]</span></p>
+<p>Where i is a stand-in for Z, X, or Y. f is the point-(multivariate)normal,</p>
+<p><span class="math display">\[f_i \sim \pi_{0,i} + \pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{gi})\]</span></p>
+<p>Where d is J, K, or 1 (i.e. the dimensionality of the affected variable). Mu, the mean parameter, is set to 0 by default, but can be set to non-zero values to allow “directional pleiotropy”. Sigma_gi is currently taken to be a diagonal matrix, but could be generalized to allow correlated effects.</p>
+<p>Pi_0 represents the amount of sparsity while Pi_1 represents the density. In practice this is achieved by first simulating the full multivariate normal, then multiplying each entry by Pi_1i, which is drawn separately for each entry according to</p>
+<p><span class="math display">\[\pi_{1,i} \sim Bernoulli(\phi_i)\]</span></p>
+<p>Where phi is a parameter that controls the level of density, and i is a stand-in for Z, X, or Y.</p>
+<p>Finally, gamma_gi represents the scaling parameter to achieve the desired R^2. G, Z, X, and Y are controlled to have unit variance (see simulation of noise below). For G to have the desired R^2 on Z, X, or Y, we need to adjust this parameter by the number of SNPs and the sparsity of the effects. Therefore, the per-SNP gamma is</p>
+<p><span class="math display">\[\gamma^*_{gi} = \sqrt{\gamma_{gi} / M / \phi_i}\]</span></p>
+<p>We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X.</p>
+<p>The noise variances, epsilon, are designed so that Z, X, and Y have unit variance. So they are simulated according to</p>
+<p><span class="math display">\[\epsilon_z \sim \mathcal{N}_J(0, I_J) * \xi_z\]</span> <span class="math display">\[\epsilon_x \sim \mathcal{N}_K(0, I_K) * \xi_x\]</span> <span class="math display">\[\epsilon_y \sim \mathcal{N}(0, 1) * \xi_y\]</span></p>
+<p>Where</p>
+<p><span class="math display">\[\xi_z = \sqrt{1 - \gamma_{gz}}\]</span> <span class="math display">\[\xi_x = \sqrt{1 - \gamma_{gx} - \gamma_{zx}}\]</span> <span class="math display">\[\xi_y = \sqrt{1 - \gamma_{gy} - \gamma_{zy} - \sum_i \beta_i^2}\]</span></p>
+</div>
+<div id="simulation-results" class="section level3">
+<h3>Simulation Results</h3>
+<p>Here are some plots showing our simulation results.</p>
+<p>I currently evaluate the following methods:</p>
+<ul>
+<li>“2SLS”: vanilla two-stage least squares implemented by me.</li>
+<li>“2SLS Oracle”: 2SLS except I include the true confounders in the second stage regression (should be optimal).</li>
+<li>“MVMR IVW”: MendelianRandomization package implementation of multivariate IVW method.</li>
+<li>“MVMR Egger”: MendelianRandomization package implementation of multivariate Egger method.</li>
+<li>“MVMR Median”: MendelianRandomization package implementation of multivariate Median method.</li>
+<li>“MVMR Lasso”: MendelianRandomization package implementation of multivariate Lasso method.</li>
+</ul>
+<p>The following parameters are fixed:</p>
+<ul>
+<li>N = 20000 samples / individuals</li>
+<li>M = 100 SNPs</li>
+<li>K = 30 exposures / risk factors</li>
+<li>First four exposures are true effects with beta = 0.05 / 0.1 / 0.2 / 0.3. This means that the variance explained of the outcome is 0.0025, 0.01, 0.04, 0.09. The other 26 betas are null. I show the first four nulls in the plots below for illustrative purposes.</li>
+<li>J = 3 correlated confounding variables “Z”</li>
+<li>50% sparsity, i.e. of genotype effects on X/Y/Z are set to zero. The rest are drawn from normal distributions. In other words, the effects are point-normal. See “About” for details.</li>
+</ul>
+<p>There are five key parameters I vary in these simulations:</p>
+<ul>
+<li>gx/gy/gz = variance of X/Y/Z explained by G;</li>
+<li>psi_x/psi_y = percent of X/Y explained by G through confounder Z;</li>
+<li>mu = mean parameter of multivariate normal effect size draws</li>
+</ul>
+<p>The default settings of these are 0.1 (10%) for gx/gy/psi_x/psi_y and 0 for mu. The default setting for gz is 0.6, which is high, but this is to allow a wide range of psi_x and psi_y values, since psi_x and psi_y cannot be greater than gz.</p>
+<p>Here are the results with those default settings:</p>
+<p><img src="../figs/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
+<p>Here is a sanity check were I remove the confounding effects (gy=psi_x=psi_y=0), so all methods should do well:</p>
+<p><img src="../figs/no_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
+<p>Back to the default settings, but now I increase the non-mediated heritability of X, gx, to 0.4:</p>
+<p><img src="../figs/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
+<p>Default settings except uncorrelated pleiotropy variance explained, gy, is increased to 0.4:</p>
+<p><img src="../figs/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
+<p>Default settings except correlated pleiotropy variance explained, psi_y, is increased to 0.4:</p>
+<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0.png" /></p>
+<p>Default settings except mediated heritability (through confounder Z) of X, psi_x, is increased to 0.4:</p>
+<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0.png" /></p>
+<p>Default settings except multivariate normal mean parameter, mu, is increased to 3.2:</p>
+<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2.png" /></p>
+<p>Default settings except heritability of confounder Z, gz, is decreased to 0.2:</p>
+<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0.png" /></p>
+<p>A few general observations:</p>
+<ul>
+<li>As expected, methods other than 2SLS Oracle are inflated under confounding &amp; do well with no confounding, with worse performance as confounding increases. 2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.</li>
+<li>Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods don’t fully separate signal from noise, they are just more or less conservative than one another.</li>
+<li>IVW/Egger tend to lose power under confounding moreso than increasing FPR (especially see the gy=0.4 plot). On the other hand, 2SLS retains power but FPR spikes. Lasso &amp; Median are in-between. This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), while 2SLS stderr does not. Beta estimates are the same for both methods.</li>
+<li>2SLS Oracle is generally the most powerful method except in a couple cases where 2SLS is more powerful for beta_1, and is calibrated except strangely when gz is low. Not sure if these are just noisy results or represent things I need to fix.</li>
+</ul>
+<p>Some simulation to-do’s:</p>
+<ul>
+<li>Use real data parameters / parameter settings to be more realistic.</li>
+<li>Use real UK Biobank genotypes.</li>
+<li>Line plots showing changes in power/FPR as parameters are adjusted, rather than static barplot for single parameter setting,</li>
+</ul>
+</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
