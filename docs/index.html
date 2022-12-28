@@ -408,16 +408,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreec72e79f643ddfa57ab83bc2edc0fa8f59647d4a1targetblankc72e79fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/c72e79f643ddfa57ab83bc2edc0fa8f59647d4a1" target="_blank">c72e79f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreed2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17targetblankd2f34a9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17" target="_blank">d2f34a9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreec72e79f643ddfa57ab83bc2edc0fa8f59647d4a1targetblankc72e79fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreed2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17targetblankd2f34a9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/c72e79f643ddfa57ab83bc2edc0fa8f59647d4a1" target="_blank">c72e79f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17" target="_blank">d2f34a9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -425,7 +425,12 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .RData
+    Ignored:    .Rhistory
     Ignored:    figs/.DS_Store
+
+Untracked files:
+    Untracked:  data/results/
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
@@ -467,6 +472,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17/analysis/index.Rmd" target="_blank">d2f34a9</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+<td>
+remade DAG with diagrammeR, refactored notation, improved description of methods
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17/docs/index.html" target="_blank">d2f34a9</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+<td>
+remade DAG with diagrammeR, refactored notation, improved description of methods
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -602,7 +641,7 @@ Start workflowr project.
 <li>N = 20000 samples / individuals</li>
 <li>M = 100 SNPs</li>
 <li>K = 30 exposures / risk factors</li>
-<li>First four exposures are true effects with <span class="math inline">\(\theta_{XY}\)</span> = 0.05 / 0.1 / 0.2 / 0.3. This means that the variance explained of the outcome is 0.0025, 0.01, 0.04, 0.09. The other 26 effects are null. I show the first four nulls in the plots below for illustrative purposes.</li>
+<li>First four exposures are true effects with <span class="math inline">\(\theta_{XY}\)</span> = 0.05 / 0.1 / 0.2 / 0.3. This means that the variance explained of the outcome is 0.0025, 0.01, 0.04, 0.09. The other 26 effects are null. I show the first four nulls in the bar plots below for illustrative purposes.</li>
 <li>J = 3 correlated confounding variables “Z”</li>
 <li>50% sparsity, i.e. of genotype effects on X/Y/Z are set to zero. The rest are drawn from normal distributions. In other words, the effects are point-normal. See “About” for details.</li>
 </ul>
@@ -613,27 +652,32 @@ Start workflowr project.
 <li><span class="math inline">\(\mu\)</span> = mean parameter of multivariate normal effect size draws</li>
 </ul>
 <p>The default settings of these are 0.1 (10%) for <span class="math inline">\(\gamma_{GZ}\)</span>/<span class="math inline">\(\gamma_{GY}\)</span>/<span class="math inline">\(\psi_{X}\)</span>/<span class="math inline">\(\psi_{Y}\)</span> and 0 for <span class="math inline">\(\mu\)</span>. The default setting for <span class="math inline">\(\gamma_{GZ}\)</span> is 0.6, which is high, but this is to allow a wide range of <span class="math inline">\(\psi_{X}\)</span> and <span class="math inline">\(\psi_{Y}\)</span> values, since <span class="math inline">\(\psi_{X}\)</span> and <span class="math inline">\(\psi_{Y}\)</span> cannot be greater than <span class="math inline">\(\gamma_{GZ}\)</span>.</p>
-<p>Here are the results with those default settings:</p>
-<p><img src="../figs/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
-<p>Here is a sanity check were I remove the confounding effects (<span class="math inline">\(\gamma_{GY}=\psi_{X}=\psi_{Y}=0\)</span>), so all methods should do well:</p>
-<p><img src="../figs/no_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
-<p>Back to the default settings, but now I increase the non-mediated heritability of X, <span class="math inline">\(\gamma_{GZ}\)</span>, to 0.4:</p>
-<p><img src="../figs/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
-<p>Default settings except uncorrelated pleiotropy variance explained, <span class="math inline">\(\gamma_{GY}\)</span>, is increased to 0.4:</p>
-<p><img src="../figs/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0.png" /></p>
-<p>Default settings except correlated pleiotropy variance explained, <span class="math inline">\(\psi_{Y}\)</span>, is increased to 0.4:</p>
-<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0.png" /></p>
-<p>Default settings except mediated heritability (through confounder Z) of X, <span class="math inline">\(\psi_{X}\)</span>, is increased to 0.4:</p>
-<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0.png" /></p>
-<p>Default settings except multivariate normal mean parameter, <span class="math inline">\(\mu\)</span>, is increased to 3.2:</p>
-<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2.png" /></p>
-<p>Default settings except heritability of confounder Z, <span class="math inline">\(\gamma_{GZ}\)</span>, is decreased to 0.2:</p>
-<p><img src="../figs/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0.png" /></p>
+<p>I show two types of plots:</p>
+<ul>
+<li>Bar plots, showing results for a single parameter setting, with Positive Rate (FPR/Power) on the y-axis and the index of the exposure on the x-axis. The first four exposures are true positives (so y-axis is empirical power) while the rest are null (so y-axis is FPR); only the first four nulls are shown for brevity.</li>
+<li>Line plots, showing results as one of the parameters is varied. FPR plots show results averaged over the four true effects while Power plots show results averaged over the null effects. FPR/Power is on the y-axis and the parameter value is on the x-axis.</li>
+</ul>
+<p>Here are the results with the default settings. We see that all methods except 2SLS-Oracle are inflated, with 2SLS-Oracle being the most powerful. Apart from 2SLS-Oracle, there is a clear order among the other methods in terms of both FPR and Power, with 2SLS &gt; MVMR Lasso &gt; MVMR Median &gt; MVMR IVW/Egger.</p>
+<p><img src="figure/index.Rmd/both_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>As a sanity check, the plot below shows results in simulations with no confounding. As expected, all methods perform well.</p>
+<p><img src="figure/index.Rmd/no_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GX}\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability NOT mediated through <span class="math inline">\(Z\)</span>. As expected, power increases as the heritability of <span class="math inline">\(X\)</span> increases. Interesetingly, so does the FPR (except for 2SLS-Oracle).</p>
+<p><img src="figure/index.Rmd/vary_theta_gx-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\psi_X\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability mediated through <span class="math inline">\(Z\)</span>. This does not noticeably increase FPR (or lower power) for most methods, since it’s not actually confounding. Interestingly, it seems to actually decrease FPR for some methods.</p>
+<p><img src="figure/index.Rmd/vary_psi_x-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates.</p>
+<p><img src="figure/index.Rmd/vary_psi_y-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic effect size. We see a similar trend to the <span class="math inline">\(\phi_{GY}\)</span> plot, except with a much more pronounced power decrease for IVW/Egger.</p>
+<p><img src="figure/index.Rmd/vary_theta_gy-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\mu\)</span>, the mean parameter of all the above effect sizes (this is called “directional pleiotropy” when <span class="math inline">\(\mu \neq 0\)</span>). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret – the median confounding effect is now no longer zero.</p>
+<p><img src="figure/index.Rmd/vary_mu-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GZ}\)</span>, the heritability of <span class="math inline">\(Z\)</span>, while keeping <span class="math inline">\(\psi_X\)</span> and <span class="math inline">\(\psi_Y\)</span> constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as <span class="math inline">\(\theta_{GZ}\)</span> increases.</p>
+<p><img src="figure/index.Rmd/vary_theta_gz-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>A few general observations:</p>
 <ul>
 <li>As expected, methods other than 2SLS Oracle are inflated under confounding &amp; do well with no confounding, with worse performance as confounding increases. 2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.</li>
 <li>Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods don’t fully separate signal from noise, they are just more or less conservative than one another.</li>
-<li>IVW/Egger tend to lose power under confounding moreso than increasing FPR (especially see the <span class="math inline">\(\gamma_{GY}=0.4\)</span> plot). On the other hand, 2SLS retains power but FPR spikes. Lasso &amp; Median are in-between. This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), while 2SLS stderr does not. Beta estimates are the same for both methods.</li>
+<li>IVW/Egger tend to lose power under confounding moreso than increasing FPR. On the other hand, 2SLS retains power but FPR spikes. Lasso &amp; Median are in-between. This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), while 2SLS stderr does not. Effect size estimates are the same for both methods.</li>
 <li>2SLS Oracle is generally the most powerful method except in a couple cases where 2SLS is more powerful for <span class="math inline">\(X_1\)</span>, and is calibrated except strangely when <span class="math inline">\(\gamma_{GZ}\)</span> is low. Not sure if these are just noisy results or represent things I need to fix.</li>
 </ul>
 <p>Some simulation to-do’s:</p>
@@ -665,21 +709,28 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] DiagrammeR_1.0.9 workflowr_1.7.0 
+[1] ggpubr_0.5.0     ggplot2_3.4.0    DiagrammeR_1.0.9 workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8         RColorBrewer_1.1-2 bslib_0.4.0        jquerylib_0.1.4   
- [5] compiler_4.1.2     pillar_1.7.0       later_1.3.0        git2r_0.30.1      
- [9] tools_4.1.2        getPass_0.2-2      digest_0.6.29      jsonlite_1.8.0    
-[13] evaluate_0.15      tibble_3.1.6       lifecycle_1.0.1    pkgconfig_2.0.3   
-[17] rlang_1.0.6        cli_3.5.0          rstudioapi_0.13    yaml_2.3.5        
-[21] xfun_0.32          fastmap_1.1.0      httr_1.4.2         stringr_1.4.0     
-[25] knitr_1.40         htmlwidgets_1.5.4  sass_0.4.2         fs_1.5.2          
-[29] vctrs_0.3.8        rprojroot_2.0.3    glue_1.6.2         R6_2.5.1          
-[33] processx_3.8.0     fansi_1.0.2        rmarkdown_2.16     callr_3.7.3       
-[37] magrittr_2.0.2     whisker_0.4        ps_1.6.0           promises_1.2.0.1  
-[41] htmltools_0.5.4    ellipsis_0.3.2     httpuv_1.6.5       utf8_1.2.2        
-[45] stringi_1.7.6      visNetwork_2.1.2   cachem_1.0.6       crayon_1.5.0      </code></pre>
+ [1] Rcpp_1.0.8         tidyr_1.2.0        getPass_0.2-2      ps_1.6.0          
+ [5] visNetwork_2.1.2   assertthat_0.2.1   rprojroot_2.0.3    digest_0.6.29     
+ [9] utf8_1.2.2         R6_2.5.1           backports_1.4.1    evaluate_0.15     
+[13] highr_0.9          httr_1.4.2         pillar_1.7.0       rlang_1.0.6       
+[17] rstudioapi_0.13    whisker_0.4        car_3.1-1          callr_3.7.3       
+[21] jquerylib_0.1.4    rmarkdown_2.16     labeling_0.4.2     stringr_1.4.0     
+[25] htmlwidgets_1.5.4  munsell_0.5.0      broom_0.7.12       compiler_4.1.2    
+[29] httpuv_1.6.5       xfun_0.32          pkgconfig_2.0.3    htmltools_0.5.4   
+[33] tidyselect_1.1.2   gridExtra_2.3      tibble_3.1.6       fansi_1.0.2       
+[37] crayon_1.5.0       dplyr_1.0.8        withr_2.5.0        later_1.3.0       
+[41] grid_4.1.2         jsonlite_1.8.0     gtable_0.3.0       lifecycle_1.0.3   
+[45] DBI_1.1.2          git2r_0.30.1       magrittr_2.0.2     scales_1.2.1      
+[49] carData_3.0-5      cli_3.5.0          stringi_1.7.6      cachem_1.0.6      
+[53] farver_2.1.0       ggsignif_0.6.4     fs_1.5.2           promises_1.2.0.1  
+[57] bslib_0.4.0        ellipsis_0.3.2     generics_0.1.2     vctrs_0.5.1       
+[61] cowplot_1.1.1      RColorBrewer_1.1-2 tools_4.1.2        glue_1.6.2        
+[65] purrr_0.3.4        abind_1.4-5        processx_3.8.0     fastmap_1.1.0     
+[69] yaml_2.3.5         colorspace_2.0-3   rstatix_0.7.1      knitr_1.40        
+[73] sass_0.4.2        </code></pre>
 </div>
 </div>
 
