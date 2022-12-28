@@ -408,16 +408,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreed2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17targetblankd2f34a9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17" target="_blank">d2f34a9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree89055eca1732fe21fb35b6b4fea2b0c5d14401aftargetblank89055eca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/89055eca1732fe21fb35b6b4fea2b0c5d14401af" target="_blank">89055ec</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreed2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17targetblankd2f34a9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree89055eca1732fe21fb35b6b4fea2b0c5d14401aftargetblank89055eca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17" target="_blank">d2f34a9</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/89055eca1732fe21fb35b6b4fea2b0c5d14401af" target="_blank">89055ec</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -427,10 +427,9 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .RData
     Ignored:    .Rhistory
-    Ignored:    figs/.DS_Store
 
 Untracked files:
-    Untracked:  data/results/
+    Untracked:  data/results_new_setting/
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
@@ -472,6 +471,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/analysis/index.Rmd" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+<td>
+re-made figures locally in R and added line plots
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/index.html" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+<td>
+re-made figures locally in R and added line plots
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -659,20 +692,316 @@ Start workflowr project.
 </ul>
 <p>Here are the results with the default settings. We see that all methods except 2SLS-Oracle are inflated, with 2SLS-Oracle being the most powerful. Apart from 2SLS-Oracle, there is a clear order among the other methods in terms of both FPR and Power, with 2SLS &gt; MVMR Lasso &gt; MVMR Median &gt; MVMR IVW/Egger.</p>
 <p><img src="figure/index.Rmd/both_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-both_plei-1">
+Past versions of both_plei-1.png
+</button>
+</p>
+<div id="fig-both_plei-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/both_plei-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>As a sanity check, the plot below shows results in simulations with no confounding. As expected, all methods perform well.</p>
 <p><img src="figure/index.Rmd/no_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no_plei-1">
+Past versions of no_plei-1.png
+</button>
+</p>
+<div id="fig-no_plei-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/no_plei-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the performance when we vary <span class="math inline">\(\theta_{GX}\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability NOT mediated through <span class="math inline">\(Z\)</span>. As expected, power increases as the heritability of <span class="math inline">\(X\)</span> increases. Interesetingly, so does the FPR (except for 2SLS-Oracle).</p>
 <p><img src="figure/index.Rmd/vary_theta_gx-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gx-1">
+Past versions of vary_theta_gx-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gx-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/vary_theta_gx-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the performance when we vary <span class="math inline">\(\psi_X\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability mediated through <span class="math inline">\(Z\)</span>. This does not noticeably increase FPR (or lower power) for most methods, since it’s not actually confounding. Interestingly, it seems to actually decrease FPR for some methods.</p>
 <p><img src="figure/index.Rmd/vary_psi_x-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_psi_x-1">
+Past versions of vary_psi_x-1.png
+</button>
+</p>
+<div id="fig-vary_psi_x-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/vary_psi_x-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the performance when we vary <span class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates.</p>
 <p><img src="figure/index.Rmd/vary_psi_y-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_psi_y-1">
+Past versions of vary_psi_y-1.png
+</button>
+</p>
+<div id="fig-vary_psi_y-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/vary_psi_y-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the performance when we vary <span class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic effect size. We see a similar trend to the <span class="math inline">\(\phi_{GY}\)</span> plot, except with a much more pronounced power decrease for IVW/Egger.</p>
 <p><img src="figure/index.Rmd/vary_theta_gy-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gy-1">
+Past versions of vary_theta_gy-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/vary_theta_gy-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the performance when we vary <span class="math inline">\(\mu\)</span>, the mean parameter of all the above effect sizes (this is called “directional pleiotropy” when <span class="math inline">\(\mu \neq 0\)</span>). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret – the median confounding effect is now no longer zero.</p>
 <p><img src="figure/index.Rmd/vary_mu-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_mu-1">
+Past versions of vary_mu-1.png
+</button>
+</p>
+<div id="fig-vary_mu-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/vary_mu-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the performance when we vary <span class="math inline">\(\theta_{GZ}\)</span>, the heritability of <span class="math inline">\(Z\)</span>, while keeping <span class="math inline">\(\psi_X\)</span> and <span class="math inline">\(\psi_Y\)</span> constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as <span class="math inline">\(\theta_{GZ}\)</span> increases.</p>
 <p><img src="figure/index.Rmd/vary_theta_gz-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gz-1">
+Past versions of vary_theta_gz-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gz-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/figure/index.Rmd/vary_theta_gz-1.png" target="_blank">89055ec</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2022-12-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>A few general observations:</p>
 <ul>
 <li>As expected, methods other than 2SLS Oracle are inflated under confounding &amp; do well with no confounding, with worse performance as confounding increases. 2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.</li>
@@ -680,6 +1009,33 @@ Start workflowr project.
 <li>IVW/Egger tend to lose power under confounding moreso than increasing FPR. On the other hand, 2SLS retains power but FPR spikes. Lasso &amp; Median are in-between. This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), while 2SLS stderr does not. Effect size estimates are the same for both methods.</li>
 <li>2SLS Oracle is generally the most powerful method except in a couple cases where 2SLS is more powerful for <span class="math inline">\(X_1\)</span>, and is calibrated except strangely when <span class="math inline">\(\gamma_{GZ}\)</span> is low. Not sure if these are just noisy results or represent things I need to fix.</li>
 </ul>
+</div>
+<div id="simulations-under-new-settings" class="section level3">
+<h3>Simulations under new settings</h3>
+<p>I performed some more simulations under settings that may be more realistic. The following changes were made as compared with the above simulations:</p>
+<ul>
+<li>The number of samples was increased from 20,000 to 50,000</li>
+<li>The number of SNPs was increased from 100 to 1000</li>
+<li>The sparsity parameters were increased from <span class="math inline">\(\phi_X=\phi_Y=\phi_Z=50\%\)</span> to <span class="math inline">\(\phi_X=70\%, \phi_Y=\phi_Z=90\%\)</span>; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. Intuitively, we expect greater sparsity of genotypic effects on <span class="math inline">\(Z\)</span> and <span class="math inline">\(Y\)</span> than on <span class="math inline">\(X\)</span> since the SNPs were specifically ascertained due to a strong observed association with <span class="math inline">\(X\)</span>.</li>
+<li>The defaults for <span class="math inline">\(\theta_{GX}\)</span>, <span class="math inline">\(\phi_X\)</span>, and <span class="math inline">\(\theta_{GY}\)</span> were increased from <span class="math inline">\(0.1\)</span> to <span class="math inline">\(0.2\)</span>. Meanwhile the default for <span class="math inline">\(\theta_{GZ}\)</span> was decreased to <span class="math inline">\(0.4\)</span> and <span class="math inline">\(\psi_Y\)</span> was kept at <span class="math inline">\(0.1\)</span>. This was done to obtain more balanced and realistic heritabilities, something like we might expect if <span class="math inline">\(X\)</span> were lipid measurements and <span class="math inline">\(Y\)</span> was some complex trait. The resulting heritabilities are <span class="math inline">\(h^2(X)=40\%\)</span>, <span class="math inline">\(h^2(Z)=40\%\)</span>, <span class="math inline">\(h^2(Y)=44.25\%\)</span>.</li>
+<li>As a result of the parameter changes, some of the values they varied between were changed.</li>
+<li>I didn’t bother fiddling with <span class="math inline">\(\theta_{GX}\)</span> or <span class="math inline">\(\mu\)</span> here as the effects should be similar.</li>
+<li>I now include Susie results in the plots.</li>
+</ul>
+<p>As we will soon see, compared to the initial simulations, most methods have substantially higher FPR and Power. Even 2SLS-Oracle is inflated, including in the no-pleiotropy setting. My interpretation of this is that there is weak instrument bias at play, since there are now 10 times as many SNPs but only 2 times the heritability. I probably need to re-run these in a two-sample setting, and/or with weak instrument filtering.</p>
+<p>One other interesting result is that Susie-SVD seems to have pretty good FPR control under these settings relative to other methods, at the cost of less power. Probably including <span class="math inline">\(G\)</span> has a big role in this.</p>
+<p>Here are the results under the default settings:</p>
+<p><img src="figure/index.Rmd/both_plei_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s a sanity check with no pleiotropy:</p>
+<p><img src="figure/index.Rmd/no_plei_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GX}\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability NOT mediated through <span class="math inline">\(Z\)</span>.</p>
+<p><img src="figure/index.Rmd/vary_theta_gx_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\psi_X\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability mediated through <span class="math inline">\(Z\)</span>.</p>
+<p><img src="figure/index.Rmd/vary_psi_x_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect size.</p>
+<p><img src="figure/index.Rmd/vary_psi_y_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic effect size.</p>
+<p><img src="figure/index.Rmd/vary_theta_gy_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
 <p>Some simulation to-do’s:</p>
 <ul>
 <li>Use real data parameters / parameter settings to be more realistic.</li>
