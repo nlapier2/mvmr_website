@@ -6,7 +6,14 @@ output:
     toc: false
 editor_options:
   chunk_output_type: console
+header-includes: 
+  - \usepackage{tikz}
+  - \usepackage{pgfplots}
 ---
+
+```{r packages, echo=FALSE}
+library("DiagrammeR")
+```
 
 Welcome to the MultiVariable Mendelian Randomization (MVMR) project website.
 Here we briefly describe the project and provide some simulation results.
@@ -32,7 +39,29 @@ Our method seeks to address this challenge by modeling potential confounders and
 
 We simulate according to the following DAG:
 
-![](../figs/mvmr_dag.jpg)
+```{r, echo=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = LR]
+
+  node [shape = circle]
+  G [label = 'G']
+  Z [label = 'Z']
+  X [label = 'X']
+  Y [label = 'Y']
+
+  # edge definitions with the node IDs
+  edge []
+  G -> X [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GX</SUB></FONT>>]
+  G -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GY</SUB></FONT>>]
+  G -> Z [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GZ</SUB></FONT>>]
+  X -> Z [dir=back; label=<\U03B8<FONT POINT-SIZE='8'><SUB>ZX</SUB></FONT>>]
+  Z -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>ZY</SUB></FONT>>]
+  X -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>XY</SUB></FONT>>]
+  }",
+  height = 350, width = 800)
+```
+
+<!-- ![](../figs/mvmr_dag.jpg) -->
 
 Here, G are the Genotypes, X are the exposure phenotypes, Y is the outcome phenotype, and Z are confounders.
 All except Y are expected to be multivariate. 
@@ -41,119 +70,138 @@ Let $M$ be the number of SNPs, $K$ be the number of exposures, and $J$ be the nu
 
 The structural equation model for this DAG is:
 
-$$Z = G\theta_z + \epsilon_z$$
-$$X = G\theta_x + Z\alpha_x + \epsilon_x$$
-$$Y = X\beta + G\theta_y + Z\alpha_y + \epsilon_y$$
+$$Z = G\theta_{GZ} + \epsilon_Z$$
+$$X = G\theta_{GX} + Z\theta_{ZX} + \epsilon_X$$
+$$Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y$$
 
 G is assumed fixed or is drawn from standard normal distributions. Define
 
-$$\psi_x = \theta_z * \alpha_x$$
-$$\psi_y = \theta_z * \alpha_y$$
-Then $\psi_x$ defines the heritability of X mediated through Z, 
-$\psi_y$ defines the confounding effect from G to Y that is correlated with X,
-and $\theta_y$ defines the confounding effect from G to Y that is not correlated with X.
+$$\psi_X = \theta_{GZ} * \theta_{ZX}$$
+$$\psi_Y = \theta_{GZ} * \theta_{ZY}$$
+Then $\psi_X$ defines the heritability of X mediated through Z, 
+$\psi_Y$ defines the confounding effect from G to Y that is correlated with X,
+and $\theta_{GY}$ defines the confounding effect from G to Y that is not correlated with X.
 
-All theta are drawn according to point-(multivariate)normal distributions,
+By default, $\theta_{XY}$ are fixed effects specified by the user, 
+which allows control over the strength of effects in the simulation.
+All other effects $theta_i$ (where $i$ is a stand-in for $GX$, $GY$, and so on) are drawn according to point-(multivarite-)normal distributions,
 
-$$\theta_i = f_i * \gamma^*_{gi}$$
+$$\theta_i = f_i * \gamma^*_{i},$$
 
-Where i is a stand-in for Z, X, or Y. f is the point-(multivariate)normal,
+where f is the point-(multivariate-)normal,
 
-$$f_i \sim \pi_{0,i} + \pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{gi})$$
+$$f_i \sim \pi_{0,i}\delta + \pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),$$
 
-Where d is J, K, or 1 (i.e. the dimensionality of the affected variable). Mu, the mean parameter, is set to 0 by default, but can be set to non-zero values to allow “directional pleiotropy”. Sigma_gi is currently taken to be a diagonal matrix, but could be generalized to allow correlated effects.
+where $\delta$ is the Dirac delta function and $d$ is the dimensionality of the effected variable, i.e. $J$ if the effect is on $Z$, $K$ for $X$, or $1$ for $Y$. 
+$\mu$, the mean parameter, is set to 0 by default, but can be set to non-zero values to allow “directional pleiotropy”. 
+$\Sigma_i$ is currently taken to be a diagonal matrix, but could be generalized to allow correlated effects.
 
-Pi_0 represents the amount of sparsity while Pi_1 represents the density. In practice this is achieved by first simulating the full multivariate normal, then multiplying each entry by Pi_1i, which is drawn separately for each entry according to
+$\pi_{0,i}$ represents the amount of sparsity while $\pi_{1,i}$ represents the density, and $\pi_{0,i} + \pi_{1,i} = 1$. 
+In practice this is achieved by first simulating the multivariate normal, then multiplying each entry by $\pi_{1,i}$, which is drawn separately for each entry according to
 
-$$\pi_{1,i} \sim Bernoulli(\phi_i)$$
+$$\pi_{1,i} \sim Bernoulli(\phi_i),$$
 
-Where phi is a parameter that controls the level of density, and i is a stand-in for Z, X, or Y.
+where $\phi_i$ is a parameter that controls the level of density. By default, the density of $\theta_{ZY}$ is set to 1 ($\phi_{ZY}=1$) because if some $Z_j$ does not affect $Y$ then it is not a confounder.
 
-Finally, gamma_gi represents the scaling parameter to achieve the desired R^2. G, Z, X, and Y are controlled to have unit variance (see simulation of noise below). For G to have the desired R^2 on Z, X, or Y, we need to adjust this parameter by the number of SNPs and the sparsity of the effects. Therefore, the per-SNP gamma is 
+Finally, $\gamma_i$ represents the scaling parameter to achieve the desired $R^2$. $G$, $Z$, $X$, and $Y$ are controlled to have unit variance (see simulation of noise below). For $G$ to have the desired $R^2$ (heritability) on $Z$, $X$, or $Y$, we need to adjust this parameter by the number of SNPs and the sparsity of the effects. Therefore, the per-SNP $\gamma_i^*$ is 
 
-$$\gamma^*_{gi} = \sqrt{\gamma_{gi} / M / \phi_i}$$
+$$\gamma^*_{i} = \sqrt{\gamma_{i} / M / \phi_i}$$
 
-
-We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X.
+<!-- We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X. -->
 
 The noise variances, epsilon, are designed so that Z, X, and Y have unit variance. So they are simulated according to
 
-$$\epsilon_z \sim \mathcal{N}_J(0, I_J) * \xi_z$$
-$$\epsilon_x \sim \mathcal{N}_K(0, I_K) * \xi_x$$
-$$\epsilon_y \sim \mathcal{N}(0, 1) * \xi_y$$
+$$\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z I_J)$$
+$$\epsilon_X \sim \mathcal{N}_K(0, \xi_Z I_K)$$
+$$\epsilon_Y \sim \mathcal{N}(0, \xi_Y)$$
 
-Where
+where
 
-$$\xi_z = \sqrt{1 - \gamma_{gz}}$$
-$$\xi_x = \sqrt{1 - \gamma_{gx} - \gamma_{zx}}$$
-$$\xi_y = \sqrt{1 - \gamma_{gy} - \gamma_{zy} - \sum_i \beta_i^2}$$
+$$\xi_Z = 1 - \gamma_{GZ}$$
+$$\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}$$
+$$\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} - \sum_i \theta_{XY,i}^2$$
+
+### Baseline Methods Assessed
+
+* "2SLS": vanilla two-stage least squares implemented by me. I first perform multiple regression of each $X_j$ on $G$, obtaining an estimate $\hat{\tilde{X}}$ of the genetic component of X, $\tilde{X}$. I then regress $Y$ on $\hat{\tilde{X}}$ (second-stage regression).
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+$$Y \sim \hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+* "2SLS Oracle": This is an augmented version of 2SLS where, in the second-stage regression, I include the true values of $G\theta_{GZ}$ (which is equal to the genetic component of Z, $\tilde{Z}$) and $G\theta_{GY}$ as covariates. This represents the ideal performance of 2SLS if the true confounders were known ("oracle" setting), though it may be beatable by putting appropriate sparse priors on the confounders.
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+$$Y \sim \hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+* SuSiE-SVD: This performs the same first-stage regression as 2SLS, then runs runs the SuSiE R package for the second-stage regression. Along with $\hat{\tilde{X}}$, we include the SNPs $G$ to attempt to control for uncorrelated pleiotropy as well as an estimate of the confounders $\hat{\tilde{Z}}$, produced by running truncated singular value decomposition (SVD) on $\hat{\tilde{X}}$, to attempt to control for correlated pleiotropy. We give a slightly incorrect value for the true number of confounders to SVD.
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+$$SVD(\hat{\tilde{X}}) \rightarrow \hat{\tilde{Z}} = G\hat{\theta}_{GZ}$$
+
+$$susieR::susie(Y \sim \hat{\tilde{X}} + G + \hat{\tilde{Z}}) \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+* Multivariate versions of four standard MR methods, implemented in the MendelianRandomization package: IVW, Egger, Median, and Lasso. For each of these, I first regress each $X_j$ and $Y$ on each genetic variant. The betas and standard errors from these per-variant regressions (mimicking summary statistics) are given to the methods as input.
+
+$$X_i \sim G_j \rightarrow \hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow \hat{\beta}_{yj}, \hat{s}^2_{yj}$$
+$$MendelianRandomization::MVMR\_IVW(\hat{\beta}, \hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue$$
 
 
 
 ### Simulation Results
 
-Here are some plots showing our simulation results.
-
-I currently evaluate the following methods:
-
-* "2SLS": vanilla two-stage least squares implemented by me.
-* "2SLS Oracle": 2SLS except I include the true confounders in the second stage regression (should be optimal).
-* "MVMR IVW": MendelianRandomization package implementation of multivariate IVW method.
-* "MVMR Egger": MendelianRandomization package implementation of multivariate Egger method.
-* "MVMR Median": MendelianRandomization package implementation of multivariate Median method.
-* "MVMR Lasso": MendelianRandomization package implementation of multivariate Lasso method.
+Here are some plots showing our simulation results. First, I'll briefly explain the parameter settings.
 
 The following parameters are fixed:
 
 * N = 20000 samples / individuals
 * M = 100 SNPs
 * K = 30 exposures / risk factors
-* First four exposures are true effects with beta = 0.05 / 0.1 / 0.2 / 0.3.
+* First four exposures are true effects with $\theta_{XY}$ = 0.05 / 0.1 / 0.2 / 0.3.
     This means that the variance explained of the outcome is 0.0025, 0.01, 0.04, 0.09.
-    The other 26 betas are null. I show the first four nulls in the plots below for illustrative purposes.
+    The other 26 effects are null. I show the first four nulls in the plots below for illustrative purposes.
 * J = 3 correlated confounding variables "Z"
 * 50% sparsity, i.e. of genotype effects on X/Y/Z are set to zero. The rest are drawn from normal distributions.
     In other words, the effects are point-normal. See "About" for details.
 
 There are five key parameters I vary in these simulations:
 
-* gx/gy/gz = variance of X/Y/Z explained by G; 
-* psi_x/psi_y = percent of X/Y explained by G through confounder Z;
-* mu = mean parameter of multivariate normal effect size draws
+* $\gamma_{GZ}$/$\gamma_{GY}$/$\gamma_{GZ}$ = variance of X/Y/Z explained by G; 
+* $\psi_{X}$/$\psi_{Y}$ = percent of X/Y explained by G through confounder Z;
+* $\mu$ = mean parameter of multivariate normal effect size draws
 
-The default settings of these are 0.1 (10%) for gx/gy/psi_x/psi_y and 0 for mu.
-The default setting for gz is 0.6, which is high, but this is to allow a wide range of psi_x and psi_y
-values, since psi_x and psi_y cannot be greater than gz.
+The default settings of these are 0.1 (10%) for $\gamma_{GZ}$/$\gamma_{GY}$/$\psi_{X}$/$\psi_{Y}$ and 0 for $\mu$.
+The default setting for $\gamma_{GZ}$ is 0.6, which is high, but this is to allow a wide range of $\psi_{X}$ and $\psi_{Y}$
+values, since $\psi_{X}$ and $\psi_{Y}$ cannot be greater than $\gamma_{GZ}$.
 
 Here are the results with those default settings:
 
 ![](../figs/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png)
 
-Here is a sanity check were I remove the confounding effects (gy=psi_x=psi_y=0), so all methods should do well:
+Here is a sanity check were I remove the confounding effects ($\gamma_{GY}=\psi_{X}=\psi_{Y}=0$), so all methods should do well:
 
 ![](../figs/no_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png)
 
-Back to the default settings, but now I increase the non-mediated heritability of X, gx, to 0.4:
+Back to the default settings, but now I increase the non-mediated heritability of X, $\gamma_{GZ}$, to 0.4:
 
 ![](../figs/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.png)
 
-Default settings except uncorrelated pleiotropy variance explained, gy, is increased to 0.4:
+Default settings except uncorrelated pleiotropy variance explained, $\gamma_{GY}$, is increased to 0.4:
 
 ![](../figs/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0.png)
 
-Default settings except correlated pleiotropy variance explained, psi_y, is increased to 0.4:
+Default settings except correlated pleiotropy variance explained, $\psi_{Y}$, is increased to 0.4:
 
 ![](../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0.png)
 
-Default settings except mediated heritability (through confounder Z) of X, psi_x, is increased to 0.4:
+Default settings except mediated heritability (through confounder Z) of X, $\psi_{X}$, is increased to 0.4:
 
 ![](../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0.png)
 
-Default settings except multivariate normal mean parameter, mu, is increased to 3.2:
+Default settings except multivariate normal mean parameter, $\mu$, is increased to 3.2:
 
 ![](../figs/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2.png)
 
-Default settings except heritability of confounder Z, gz, is decreased to 0.2:
+Default settings except heritability of confounder Z, $\gamma_{GZ}$, is decreased to 0.2:
 
 ![](../figs/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0.png)
 
@@ -165,12 +213,12 @@ A few general observations:
     2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.
 * Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods
     don't fully separate signal from noise, they are just more or less conservative than one another.
-* IVW/Egger tend to lose power under confounding moreso than increasing FPR (especially see the gy=0.4 plot).
+* IVW/Egger tend to lose power under confounding moreso than increasing FPR (especially see the $\gamma_{GY}=0.4$ plot).
     On the other hand, 2SLS retains power but FPR spikes. Lasso & Median are in-between.
     This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y),
     while 2SLS stderr does not. Beta estimates are the same for both methods.
 * 2SLS Oracle is generally the most powerful method except in a couple cases where
-    2SLS is more powerful for beta_1, and is calibrated except strangely when gz is low.
+    2SLS is more powerful for $X_1$, and is calibrated except strangely when $\gamma_{GZ}$ is low.
     Not sure if these are just noisy results or represent things I need to fix.
     
 Some simulation to-do's:
