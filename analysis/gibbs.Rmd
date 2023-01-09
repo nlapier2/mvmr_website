@@ -1,0 +1,228 @@
+---
+title: "Gibbs Sampler"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r packages, echo=FALSE}
+library("DiagrammeR")
+```
+
+```{r dag, echo=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = LR]
+
+  node [shape = circle]
+  G [label = 'G']
+  Z [label = 'Z']
+  X [label = 'X']
+  Y [label = 'Y']
+
+  # edge definitions with the node IDs
+  edge []
+  G -> X [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GX</SUB></FONT>>]
+  G -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GY</SUB></FONT>>]
+  G -> Z [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GZ</SUB></FONT>>]
+  X -> Z [dir=back; label=<\U03B8<FONT POINT-SIZE='8'><SUB>ZX</SUB></FONT>>]
+  Z -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>ZY</SUB></FONT>>]
+  X -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>XY</SUB></FONT>>]
+  }",
+  height = 350, width = 800)
+```
+
+Continuing from the problem description on the [home page](index.html), we will use the same DAG with the SEM:
+
+$$Z = G\theta_{GZ} + \epsilon_Z$$
+
+$$X = G\theta_{GX} + Z\theta_{ZX} + \epsilon_X$$
+
+$$Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y$$
+
+Again, our goal is to estimate $\theta_{XY}$, which can be accomplished easily in a regression-based framework if we know the unknown confounding variables $\tilde{Z} = G * \theta_{GZ}$ (or only $\theta_{GZ}$ if we know $G$, or alternatively $\psi_Y = \theta_{GZ} * \theta_{ZY}$) and $\theta_{GY}$.
+
+We explained why a sample "one-stage" factor analysis (FA) of $X$ or $\tilde{X}$ will not adequately capture $\theta_{GZ}$ -- because the latter also depends on $Y$. 
+Instead, we can turn to a probabilistic framework that attempts to infer all latent parameters.
+
+
+## Gibbs Sampler
+
+The simplest approach to this problem may be to use a Gibbs sampler.
+To implement this algorithm, we need to derive the distribution of each parameter conditioned on all other parameters and variables.
+For simplicity, I will assume for now that all variables are normally-distributed, that all direct $G \rightarrow X$ effects are uncorrelated, $G$ are uncorrelated, $X$ do not affect each other, etc. 
+Then each effect can be modeled as a univariate normal distribution. 
+For notation, I will denote the effect of the $i$-th SNP on the $j$-th exposure variable as $\theta_{GX,ij}$, and likewise for all other pairs of variables. 
+I will use $t$ to denote the timestep, and $t-1$ to denote the previous timestep, so we would update the preceeding variable from $\theta_{GX,ij}^{t-1} \sim \mathcal{N}(\mu_{GX}^{t-1}, \sigma_{GX}^{t-1})$ to $\theta_{GX,ij}^t \sim \mathcal{N}(\mu_{GX}^t, \sigma_{GX}^t)$.
+I will use $*$ to indicate that all variables for that row or column are used, and $-j$ to indicate every variable except $j$, so for instance $\theta_{GX,*-j}$ means the effects of all SNPs on all exposures except $X_j$.
+
+For most of the derivations to follow, I will use Bayes' Theorem to obtain probabilistic expressions (the likelihood and prior) whose distributions we know from the SEM.
+Then, using conjugacy, I obtain closed-form parameter values for the posterior distribution, given the likelihood and prior from Bayes' Theorem.
+
+I will now derive the conditional distributions of each of the latent effect sizes.
+Note that I am still working on making these more polished and readable -- apologies for any sloppiness.
+
+
+### Theta_GZ
+
+The hardest effect size to infer is $\theta_{GZ}$, as its value affects both $X$ and $Y$, while all other effect sizes affect only one or the other. For $\theta_{GZ,ij}$, we can write the update step for time $t$ as
+
+$$
+\begin{align}
+P(\theta_{GZ,ij}^t | G,X,Y,\theta_{-GZ}^{t-1}) 
+&\propto P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t | G,X,\theta_{-GZ}^{t-1}) \\
+&= P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t | G, \theta_{-GZ}^{t-1}) \\
+&= P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t)
+\end{align}
+$$
+
+We know from the SEM that
+
+$$P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) = \mathcal{N}(Y; X\theta_{XY} + G\theta_{GY} + G_{-i} \theta_{GZ,-i-j}\theta_{ZY,-j} + G_i \theta_{GZ,ij}\theta_{ZY,j}, \xi_Y)$$
+$$P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) = \mathcal{N}(X; G\theta_{GX} + G_i\theta_{GZ,ij}\theta_{ZX,*j} + G_{-i}\theta_{GZ,-i-j}\theta_{ZX,*-j}, \xi_X)$$
+Then we can write
+
+$$P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t) = \mathcal{N}(\theta_{GZ,ij}^t; \mu_{GZ}^{t*},\sigma_{GZ}^{t*})$$
+
+where we use $t*$ to indicate that this is an intermediate computation in the update step, and
+
+$$\sigma_{GZ}^{t*} = ([\sigma_{GZ}^{t-1}]^{-1} + [G_i\theta_{ZX,*j}]' \xi_X^{-1} [G_i\theta_{ZX,*j}])^{-1}$$
+
+$$\mu_{GZ}^{t*} = \sigma_{GZ}^{t*} ([G_i\theta_{ZX,*j}]' \xi_X^{-1} (X - G\theta_{GX} - G_{-i}\theta_{GZ,-i-j}\theta_{ZX,*-j}) + [\sigma_{GZ}^{t-1}]^{-1} \mu_{GZ}^{t-1})$$
+
+Using this as the prior for the likelihood $P(Y|...)$ we can now write the final update step as
+
+$$P(\theta_{GZ,ij}^t | G,X,Y,\theta_{-GZ}^{t-1})  = \mathcal{N}(\theta_{GZ,ij}^t; \mu_{GZ}^t,\sigma_{GZ}^t)$$
+
+where
+
+$$\sigma_{GZ}^t = ([\sigma_{GZ}^{t*}]^{-1} + [G_i\theta_{ZY,*j}]' \xi_Y^{-1} [G_i\theta_{ZY,*j}])^{-1}$$
+
+$$\mu_{GZ}^t = \sigma_{GZ}^t ([G_i\theta_{ZY,*j}]' \xi_Y^{-1} (Y - X \theta_{XY} - G\theta_{GY} - G_{-i}\theta_{GZ,-i-j}\theta_{ZY,*-j}) + [\sigma_{GZ}^{t*}]^{-1} \mu_{GZ}^{t*})$$
+
+
+The problem I have encountered with this so far is that the dimensions don't work out -- I am looking for scalar mean and variance parameters but since a change in $\theta_{GZ}$ affects all $X$, I get multivariate parameters for $\sigma_{GZ}^{t*}$ and $\mu_{GZ}^{t*}$ when there are multiple exposures.
+I am still thinking through the best way to deal with this.
+One solution is that, even though I intend all $\theta_{GZ,ij}$ to be univariate normal, I may have to update them all at once -- a matrix normal update.
+Or perhaps I can try to update $\psi_X$ and $\psi_Y$ instead.
+
+
+### Theta_GY
+
+For $\theta_{GY,i}$, we can write the update step for time $t$ as
+
+$$
+\begin{align}
+P(\theta_{GY,i}^t | G,X,Y,\theta_{-GY}^{t-1}) 
+&\propto P(Y|G,X,\theta_{GY,i}^t,\theta_{-GY}^{t-1}) P(\theta_{GY,i}^t | G,X,\theta_{-GY}^{t-1}) \\
+&= P(Y|G,X,\theta_{GY,i}^t,\theta_{-GY}^{t-1}) P(\theta_{GY,i}^t) \\
+&= \mathcal{N}(\theta_{GY,i}^t; \mu_{GY}^t, \sigma_{GY}^t)
+\end{align}
+$$
+where
+
+$$\sigma_{GY}^t = ([\sigma_{GY}^{t-1}]^{-1} + G_i' \xi_Y^{-1} G_i)^{-1}$$
+$$\mu_{GY}^t = \sigma_{GY}^t (G_i' \xi_Y^{-1} (Y - X\theta_{XY} - G\theta_{GZ}\theta_{ZY} - G_{-i}\theta_{GY,-i}) + [\sigma_{GY}^{t-1}]^{-1} \mu_{GY}^{t-1})$$
+
+### Theta_ZY
+
+For $\theta_{ZY,i}$, we can write the update step for time $t$ as
+
+$$
+\begin{align}
+P(\theta_{ZY,i}^t | G,X,Y,\theta_{-ZY}^{t-1}) 
+&\propto P(Y|G,X,\theta_{ZY,i}^t,\theta_{-ZY}^{t-1}) P(\theta_{ZY,ij}^t | G,X,\theta_{-ZY}^{t-1}) \\
+&= P(Y|G,X,\theta_{ZY,i}^t,\theta_{-ZY}^{t-1}) P(\theta_{ZY,i}^t) \\
+&= \mathcal{N}(\theta_{ZY,i}^t; \mu_{ZY}^t, \sigma_{ZY}^t)
+\end{align}
+$$
+
+where
+
+$$\sigma_{ZY}^t = ([\sigma_{ZY}^{t-1}]^{-1} + [G_i \theta_{GZ,*i}]' \xi_Y^{-1} [G_i \theta_{GZ,*i}])^{-1}$$
+
+$$\mu_{ZY}^t = \sigma_{ZY}^t ([G_i \theta_{GZ,*i}]' \xi_Y^{-1} (Y - X\theta_{XY} - G\theta_{GY} - G\theta_{GZ,*-i}\theta_{ZY,-i}) + [\sigma_{ZY}^{t-1}]^{-1} \mu_{ZY}^{t-1})$$
+
+
+### Theta_XY
+
+For $\theta_{XY,i}$, we can write the update step for time $t$ as
+
+$$
+\begin{align}
+P(\theta_{XY,i}^t | G,X,Y,\theta_{-XY}^{t-1}) 
+&\propto P(Y|G,X,\theta_{XY,i}^t,\theta_{-XY}^{t-1}) P(\theta_{XY,ij}^t | G,X,\theta_{-XY}^{t-1}) \\
+&= P(Y|G,X,\theta_{XY,i}^t,\theta_{-XY}^{t-1}) P(\theta_{XY,i}^t) \\
+&= \mathcal{N}(\theta_{XY,i}^t; \mu_{XY}^t, \sigma_{XY}^t)
+\end{align}
+$$
+
+where
+
+$$\sigma_{XY}^t = ([\sigma_{XY}^{t-1}]^{-1} + X_i' \xi_Y^{-1} X_i)^{-1}$$
+
+$$\mu_{XY}^t = \sigma_{XY}^t (X_i' \xi_Y^{-1} (Y - X_{-i}\theta_{XY,-i} - G\theta_{GY} - G\theta_{GZ}\theta_{ZY}) + [\sigma_{XY}^{t-1}]^{-1} \mu_{XY}^{t-1})$$
+
+
+### Theta_GX
+
+For $\theta_{GX,ij}$, we can write the update step for time $t$ as
+
+$$
+\begin{align}
+P(\theta_{GX,ij}^t | G,X,Y,\theta_{-GX}^{t-1}) 
+&= P(\theta_{GX,ij}^t | G,X_j,\theta_{-GX}^{t-1}) \\
+&\propto P(X_j|G,\theta_{GX,ij}^t,\theta_{-GX}^{t-1}) P(\theta_{GX,ij}^t | G,\theta_{-GX}^{t-1}) \\
+&\propto P(X_j|G,\theta_{GX,ij}^t,\theta_{-GX}^{t-1}) P(\theta_{GX,ij}^t) \\
+&= \mathcal{N}(\theta_{GX,ij}^t; \mu_{GX}^t, \sigma_{GX}^t)
+\end{align}
+$$
+where
+
+$$\sigma_{GX}^t = ([\sigma_{GX}^{t-1}]^{-1} + G_i' \xi_{X_j}^{-1} G_i)^{-1}$$
+
+$$\mu_{GX}^t = \sigma_{GX}^t (G_i' \xi_{X_j}^{-1} (X - G\theta_{GZ}\theta_{ZX,*j} - G_{-i}\theta_{GX,-ij}) + [\sigma_{GX}^{t-1}]^{-1} \mu_{GX}^{t-1})$$
+
+
+### Theta_ZX
+
+For $\theta_{ZX,ij}$, we can write the update step for time $t$ as
+
+$$
+\begin{align}
+P(\theta_{ZX,ij}^t | G,X,Y,\theta_{-ZX}^{t-1}) 
+&= P(\theta_{ZX,ij}^t | G,X_j,\theta_{-ZX}^{t-1}) \\
+&\propto P(X_j|G,\theta_{ZX,ij}^t,\theta_{-ZX}^{t-1}) P(\theta_{ZX,ij}^t | G,\theta_{-ZX}^{t-1}) \\
+&\propto P(X_j|G,\theta_{ZX,ij}^t,\theta_{-ZX}^{t-1}) P(\theta_{ZX,ij}^t) \\
+&= \mathcal{N}(\theta_{ZX,ij}^t; \mu_{ZX}^t, \sigma_{ZX}^t)
+\end{align}
+$$
+
+where
+
+$$\sigma_{ZX}^t = ([\sigma_{ZX}^{t-1}]^{-1} + [G\theta_{GZ,*i}]' \xi_{X_j}^{-1} [G\theta_{GZ,*i}])^{-1}$$
+
+$$\mu_{ZX}^t = \sigma_{ZX}^t ([G\theta_{GZ,*i}]' \xi_{X_j}^{-1} (X - G\theta_{GZ,*-i}\theta_{ZX,-ij} - G\theta_{GX,*j}) + [\sigma_{GZ}^{t-1}]^{-1} \mu_{GZ}^{t-1})$$
+
+
+## Results
+
+The model seems to be working, because the parameter values converge to the correct values if you fix the other parameters to their true values.
+The parameter estimates also stay close to the true value if you initialize them to the true values and then let them vary freely.
+
+However, when initialized randomly and allowed to fit freely, the parameters do not converge to the true values.
+They converge with little variation on incorrect values.
+This probably means that there are multiple local optima and an incorrect local optimum is being converged towards.
+I am not sure if the problem is identifiable in general without certain sparsity assumptions.
+
+I am not doing anything special to learn priors (variables are initialized by drawing from standard normals), so that could help too.
+Also, even though the effects are sparse, I am not explicitly modeling/learning sparsity.
+
+
+## Next steps
+
+* Do something intelligent to learn priors
+* Allow sparse priors -- ash?
+* Switch to coordinate-ascent variational inference (CAVI) or some other VI

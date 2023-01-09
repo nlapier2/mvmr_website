@@ -10,111 +10,6 @@ editor_options:
 
 ```{r packages, echo=FALSE}
 library("DiagrammeR")
-library("ggplot2")
-library("ggpubr")
-
-# colorblind-friendly palette
-cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
-```
-
-```{r plotcode, echo=FALSE}
-# Code for plots of simulation results
-group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.1,
-                          methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd')) {
-  method_labels = c()
-  beta_labels = c()
-  all_pos_rates = c()
-  
-  for(m in methods) {
-    fname = paste0(dirname, prefix, m, '.txt')
-    res = na.omit(read.table(fname))
-    num_cols = dim(res)[2]
-    if(m == 'susie_svd' || m == 'zuber') {
-      num_betas = num_cols 
-    } else {
-      num_betas = num_cols / 3
-    }
-    # compute rates of (true or false) positives
-    for (i in 1:n_x_show) {
-      if(m == 'susie_svd' || m == 'zuber') {
-        posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
-      } else {
-        posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
-      }
-      method_labels = c(method_labels, m)
-      beta_labels = c(beta_labels, as.character(i))
-      all_pos_rates = c(all_pos_rates, posrate)
-    }
-  }
-  
-  data = data.frame(method_labels, beta_labels, all_pos_rates)
-  ggplot(data, aes(fill=method_labels, y=all_pos_rates, x=beta_labels)) +
-    geom_bar(position="dodge", stat="identity") + 
-    geom_hline(yintercept=0.05, linetype="dashed", color = "black") +
-    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
-    xlab('Exposures') + ylab('Positive Rate') + labs(fill = "Method") + ylim(0, 1)
-}
-
-
-param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_res_', 
-                          thresh = 0.05, pip_thresh = 0.1, 
-                          methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd')) {
-  all_method_labels = c()
-  all_param_vals = c()
-  all_fpr = c()
-  all_power = c()
-
-  for(i in 1:length(dirvec)) {
-    dirname = dirvec[i]
-    thisval = param_vals[i]
-    for(m in methods) {
-      fpr = 0
-      power = 0
-      fname = paste0(dirname, prefix, m, '.txt')
-      res = na.omit(read.table(fname))
-      num_cols = dim(res)[2]
-      if(m == 'susie_svd' || m == 'zuber') {
-        num_betas = num_cols 
-      } else {
-        num_betas = num_cols / 3
-      }
-      # compute rates of (true or false) positives
-      for (i in 1:num_betas) {
-        if(m == 'susie_svd' || m == 'zuber') {
-          posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
-        } else {
-          posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
-        }
-        if(i %in% truepos) {
-          power = power + posrate
-        } else {
-          fpr = fpr + posrate
-        }
-      }
-      power = power / length(truepos)
-      fpr = fpr / (num_betas - length(truepos))
-      all_method_labels = c(all_method_labels, m)
-      all_param_vals = c(all_param_vals, thisval)
-      all_power = c(all_power, power)
-      all_fpr = c(all_fpr, fpr)
-    }
-  }
-  
-  data_fpr = data.frame(all_method_labels, all_param_vals, all_fpr)
-  data_power = data.frame(all_method_labels, all_param_vals, all_power)
-  fpr_plot = ggplot(data_fpr, 
-    aes(group=all_method_labels, color=all_method_labels, y=all_fpr, x=all_param_vals)) +
-    geom_line(linewidth=2) + geom_point(size=4) + 
-    geom_hline(yintercept=0.05, linetype="dashed", color = "black") +
-    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
-    xlab(param_name) + ylab('False Positive Rate') + labs(fill = "Method") + ylim(0, 1)
-  power_plot = ggplot(data_power, 
-    aes(group=all_method_labels, color=all_method_labels, y=all_power, x=all_param_vals)) +
-    geom_line(linewidth=2) + geom_point(size=4) + 
-    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
-    xlab(param_name) + ylab('Power') + labs(fill = "Method") + ylim(0, 1)
-  ggarrange(fpr_plot, power_plot, nrow=1, ncol=2, common.legend = TRUE, legend="bottom")
-}
 ```
 
 Welcome to the MultiVariable Mendelian Randomization (MVMR) project website.
@@ -123,22 +18,6 @@ In the future we will also include instructions for running our software.
 
 
 ### Project description
-
-In MVMR, we wish to determine which "exposure" phenotypes X affect an "outcome" phenotype Y given genotypes G that affect X. 
-X might be something like metabolites, gene expression, blood cell traits, etc.
-Y could be a disease or another cellular phenotype.
-An example would be the classic question of whether HDL, LDL, and/or triglycerides (X) affect cardiovascular disease (CVD) risk (Y).
-However, if the genetic variants for X affect Y through pathways other than X, this can lead to false positive conclusions. 
-Suppose Z represents some gene whose expression level modulates both HDL level and CVD risk. 
-Then even if HDL doesn't affect CVD risk, we may still find a false positive with standard MVMR methods.
-This is called "confounding".
-Our method seeks to address this challenge by modeling potential confounders and adjusting for this unwanted signal in the data.
-
-
-
-### Simulation description
-
-We simulate according to the following DAG:
 
 ```{r dag, echo=FALSE}
 DiagrammeR::grViz("digraph {
@@ -162,337 +41,62 @@ DiagrammeR::grViz("digraph {
   height = 350, width = 800)
 ```
 
-<!-- ![](../figs/mvmr_dag.jpg) -->
+In MVMR, we wish to determine which "exposure" phenotype(s) $X$ affect an "outcome" phenotype Y given genotypes $G$ that affect $X$. 
+$X$ might be something like metabolites, gene expression, blood cell traits, etc.
+$Y$ could be a disease or another cellular phenotype.
+An example would be the classic question of whether HDL, LDL, and/or triglycerides ($X$) affect cardiovascular disease (CVD) risk ($Y$). 
 
-Here, G are the Genotypes, X are the exposure phenotypes, Y is the outcome phenotype, and Z are confounders.
-All except Y are expected to be multivariate. 
-The edge variables signify effects between these variables.
-Let $M$ be the number of SNPs, $K$ be the number of exposures, and $J$ be the number of confounders.
+However, if the genetic variants for $X$ affect $Y$ through pathways other than $X$, this can lead to false positive conclusions. 
+Suppose $Z$ represents some gene whose expression level modulates both HDL level and CVD risk. 
+Then even if HDL doesn't affect CVD risk, we may still find a false positive with standard MVMR methods.
+This is called "confounding".
+Specifically, when $Z$ is a phenotype caused by $G$ (as opposed to something like population stratification), this is called "(horizontal) pleiotropy".
 
-The structural equation model for this DAG is:
+This model is shown in the "Directed Acyclic Graph (DAG)" above.
+The nodes represent the variables and the labels on the edges represent the effect size of one variable on another.
+In the DAG above, the pathway from $G \rightarrow Z \rightarrow Y$ causes confounding, as does the direct path $G \rightarrow Y$, with the effect of this confounding controlled by the values $\theta_{GZ} * \theta_{ZY}$ and $\theta_{GY}$. 
+The effect $\theta_{GZ} * \theta_{ZY}$ causes what is known as "correlated pleiotropy" since it is correlated with the exposures $X$ (since $\theta_{GZ}$ affects $X$), while the direct effect $\theta_{GY}$ is called "uncorrelated pleiotropy" since it is not correlated with $X$.
+
+The causal model for the data given this DAG can be represented by a "Structural Equation Model (SEM)", which shows how each variable functionally affects another. The SEM for this DAG is
 
 $$Z = G\theta_{GZ} + \epsilon_Z$$
+
 $$X = G\theta_{GX} + Z\theta_{ZX} + \epsilon_X$$
+
 $$Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y$$
 
-G is assumed fixed or is drawn from standard normal distributions. Define
+Our challenge is to estimate $\theta_{XY}$ despite this confounding. Our method seeks to address this challenge by modeling potential confounders and adjusting for this unwanted signal in the data.
 
-$$\psi_X = \theta_{GZ} * \theta_{ZX}$$
-$$\psi_Y = \theta_{GZ} * \theta_{ZY}$$
-Then $\psi_X$ defines the heritability of X mediated through Z, 
-$\psi_Y$ defines the confounding effect from G to Y that is correlated with X,
-and $\theta_{GY}$ defines the confounding effect from G to Y that is not correlated with X.
 
-By default, $\theta_{XY}$ are fixed effects specified by the user, 
-which allows control over the strength of effects in the simulation.
-All other effects $theta_i$ (where $i$ is a stand-in for $GX$, $GY$, and so on) are drawn according to point-(multivarite-)normal distributions,
+### Methods and Results
 
-$$\theta_i = f_i * \gamma^*_{i},$$
+To evaluate existing approaches, I ran some [simulations](simulations.html) on data simulated from the SEM above. 
+As expected, existing methods had either high False Positive Rates (FPRs) or very low power due to the confounding. 
 
-where f is the point-(multivariate-)normal,
+How do we address this problem? The easiest thing would be if we already knew the true values of $\tilde{Z}$ (where $\tilde{Z} = G\theta_{GZ}$, ignoring the noise term) and $\theta_{GY}$. 
+Then we could control for the confounding directly. 
+Indeed, my [simulations](simulations.html) show that this "oracle" approach combined with the standard "two-stage least squares (2SLS)" estimation procedure controles FPR and maintains high power under arbitrarily strong confounding.
 
-$$f_i \sim \pi_{0,i}\delta + \pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),$$
+This is a good sanity check, but in the real world we will not know $\tilde{Z}$ or $\theta_{GY}$. 
+How do we estimate them? Suppose for now that we have individual-level data available.
+<!-- We leave aside estimating $\theta_{GY}$ for now, as this is generally an easier problem -- for example, "MR-Egger" is an existing solution to adjust for uncorrelated pleiotropy. -->
+Let's start by focusing on $\tilde{Z}$.
+In this case, since we already know $G$, the challenge is really to estimate $\theta_{GZ}$.
+(An alternative that also works is to learn $\psi_X = \theta_{GZ} * \theta_{ZX}$).
 
-where $\delta$ is the Dirac delta function and $d$ is the dimensionality of the effected variable, i.e. $J$ if the effect is on $Z$, $K$ for $X$, or $1$ for $Y$. 
-$\mu$, the mean parameter, is set to 0 by default, but can be set to non-zero values to allow “directional pleiotropy”. 
-$\Sigma_i$ is currently taken to be a diagonal matrix, but could be generalized to allow correlated effects.
+One straightforward approach is to apply truncated singular value decomposition (SVD), or any other standard factor analysis (FA) method, to $\tilde{X}$. 
+From our DAG / SEM, we have that $\tilde{X} = G * (\theta_{GX} + \theta_{GZ} * \theta_{ZX})$. 
+We assume that each $\tilde{Z}$ affects several exposures. 
+So our hope is that the latent factors will pick up on these factors affecting multiple variables.
 
-$\pi_{0,i}$ represents the amount of sparsity while $\pi_{1,i}$ represents the density, and $\pi_{0,i} + \pi_{1,i} = 1$. 
-In practice this is achieved by first simulating the multivariate normal, then multiplying each entry by $\pi_{1,i}$, which is drawn separately for each entry according to
+However, these "one-stage" approaches (FA on $X$ without accounting for $Y$) are unlikely to work satisfactorily. 
+One reason is that $\theta_{GZ}$, our target, is NOT independent of $Y$, since $Z$ affects $Y$ (by definition, since $Z$ is a confounder). 
+Therefore, not accounting for $Y$ necessarily limits how well one can approximate $\theta_{GZ}$.
 
-$$\pi_{1,i} \sim Bernoulli(\phi_i),$$
+My [Gibbs sampler page](gibbs.html) shows the conditional distribution of $\theta_{GZ}$ given all other variables, assuming that they are all normally-distributed. 
+This explicitly shows how $\theta_{GZ}$ depends on both X and Y. 
+However, there are currently some limitations for the multiple-exposure case that I am working through, and I am not currently accounting for sparsity or non-normal unimodal distributions, like ash does.
 
-where $\phi_i$ is a parameter that controls the level of density. By default, the density of $\theta_{ZY}$ is set to 1 ($\phi_{ZY}=1$) because if some $Z_j$ does not affect $Y$ then it is not a confounder.
-
-Finally, $\gamma_i$ represents the scaling parameter to achieve the desired $R^2$. $G$, $Z$, $X$, and $Y$ are controlled to have unit variance (see simulation of noise below). For $G$ to have the desired $R^2$ (heritability) on $Z$, $X$, or $Y$, we need to adjust this parameter by the number of SNPs and the sparsity of the effects. Therefore, the per-SNP $\gamma_i^*$ is 
-
-$$\gamma^*_{i} = \sqrt{\gamma_{i} / M / \phi_i}$$
-
-<!-- We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X. -->
-
-The noise variances, epsilon, are designed so that Z, X, and Y have unit variance. So they are simulated according to
-
-$$\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z I_J)$$
-$$\epsilon_X \sim \mathcal{N}_K(0, \xi_Z I_K)$$
-$$\epsilon_Y \sim \mathcal{N}(0, \xi_Y)$$
-
-where
-
-$$\xi_Z = 1 - \gamma_{GZ}$$
-$$\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}$$
-$$\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} - \sum_i \theta_{XY,i}^2$$
-
-### Baseline Methods Assessed
-
-* "2SLS": vanilla two-stage least squares implemented by me. I first perform multiple regression of each $X_j$ on $G$, obtaining an estimate $\hat{\tilde{X}}$ of the genetic component of X, $\tilde{X}$. I then regress $Y$ on $\hat{\tilde{X}}$ (second-stage regression).
-
-$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
-$$Y \sim \hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue$$
-
-* "2SLS Oracle": This is an augmented version of 2SLS where, in the second-stage regression, I include the true values of $G\theta_{GZ}$ (which is equal to the genetic component of Z, $\tilde{Z}$) and $G\theta_{GY}$ as covariates. This represents the ideal performance of 2SLS if the true confounders were known ("oracle" setting), though it may be beatable by putting appropriate sparse priors on the confounders.
-
-$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
-$$Y \sim \hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow \hat{\theta}_{XY}, pvalue$$
-
-* SuSiE-SVD: This performs the same first-stage regression as 2SLS, then runs runs the SuSiE R package for the second-stage regression. Along with $\hat{\tilde{X}}$, we include the SNPs $G$ to attempt to control for uncorrelated pleiotropy as well as an estimate of the confounders $\hat{\tilde{Z}}$, produced by running truncated singular value decomposition (SVD) on $\hat{\tilde{X}}$, to attempt to control for correlated pleiotropy. We give a slightly incorrect value for the true number of confounders to SVD.
-
-$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
-$$SVD(\hat{\tilde{X}}) \rightarrow \hat{\tilde{Z}} = G\hat{\theta}_{GZ}$$
-
-$$susieR::susie(Y \sim \hat{\tilde{X}} + G + \hat{\tilde{Z}}) \rightarrow \hat{\theta}_{XY}, pvalue$$
-
-* Multivariate versions of four standard MR methods, implemented in the MendelianRandomization package: IVW, Egger, Median, and Lasso. For each of these, I first regress each $X_j$ and $Y$ on each genetic variant. The betas and standard errors from these per-variant regressions (mimicking summary statistics) are given to the methods as input.
-
-$$X_i \sim G_j \rightarrow \hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow \hat{\beta}_{yj}, \hat{s}^2_{yj}$$
-$$MendelianRandomization::MVMR\_IVW(\hat{\beta}, \hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue$$
-
-
-
-### Simulation Results
-
-Here are some plots showing our simulation results. First, I'll briefly explain the parameter settings.
-
-The following parameters are fixed:
-
-* N = 20000 samples / individuals
-* M = 100 SNPs
-* K = 30 exposures / risk factors
-* First four exposures are true effects with $\theta_{XY}$ = 0.05 / 0.1 / 0.2 / 0.3.
-    This means that the variance explained of the outcome is 0.0025, 0.01, 0.04, 0.09.
-    The other 26 effects are null. I show the first four nulls in the bar plots below for illustrative purposes.
-* J = 3 correlated confounding variables "Z"
-* 50% sparsity, i.e. of genotype effects on X/Y/Z are set to zero. The rest are drawn from normal distributions.
-    In other words, the effects are point-normal. See "About" for details.
-
-There are five key parameters I vary in these simulations:
-
-* $\gamma_{GZ}$/$\gamma_{GY}$/$\gamma_{GZ}$ = variance of X/Y/Z explained by G; 
-* $\psi_{X}$/$\psi_{Y}$ = percent of X/Y explained by G through confounder Z;
-* $\mu$ = mean parameter of multivariate normal effect size draws
-
-The default settings of these are 0.1 (10%) for $\gamma_{GZ}$/$\gamma_{GY}$/$\psi_{X}$/$\psi_{Y}$ and 0 for $\mu$.
-The default setting for $\gamma_{GZ}$ is 0.6, which is high, but this is to allow a wide range of $\psi_{X}$ and $\psi_{Y}$
-values, since $\psi_{X}$ and $\psi_{Y}$ cannot be greater than $\gamma_{GZ}$.
-
-
-I show two types of plots:
-
-* Bar plots, showing results for a single parameter setting, with Positive Rate (FPR/Power) on the y-axis and the index of the exposure on the x-axis. The first four exposures are true positives (so y-axis is empirical power) while the rest are null (so y-axis is FPR); only the first four nulls are shown for brevity.
-* Line plots, showing results as one of the parameters is varied. FPR plots show results averaged over the four true effects while Power plots show results averaged over the null effects. FPR/Power is on the y-axis and the parameter value is on the x-axis.
-
-
-
-Here are the results with the default settings. We see that all methods except 2SLS-Oracle are inflated, with 2SLS-Oracle being the most powerful. Apart from 2SLS-Oracle, there is a clear order among the other methods in terms of both FPR and Power, with 2SLS > MVMR Lasso > MVMR Median > MVMR IVW/Egger.
-
-```{r both_plei, echo=FALSE, fig.width=12}
-group_barchart('data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-As a sanity check, the plot below shows results in simulations with no confounding. As expected, all methods perform well.
-
-```{r no_plei, echo=FALSE, fig.width=12}
-group_barchart('data/results/no_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$. As expected, power increases as the heritability of $X$ increases. Interesetingly, so does the FPR (except for 2SLS-Oracle).
-
-```{r vary_theta_gx, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.05_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.2_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gx', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\psi_X$, the part of $X$'s heritability mediated through $Z$. This does not noticeably increase FPR (or lower power) for most methods, since it's not actually confounding. Interestingly, it seems to actually decrease FPR for some methods.
-
-```{r vary_psi_x, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.05_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.2_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'psi_x', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-                            methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\psi_Y$, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates.
-
-```{r vary_psi_y, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.05_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.2_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0/')
-param_lineplot(this_dirvec, 'psi_y', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-                            methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GY}$, the uncorrelated pleiotropic effect size. We see a similar trend to the $\phi_{GY}$ plot, except with a much more pronounced power decrease for IVW/Egger.
-
-```{r vary_theta_gy, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.05_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.2_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gy', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\mu$, the mean parameter of all the above effect sizes (this is called "directional pleiotropy" when $\mu \neq 0$). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret -- the median confounding effect is now no longer zero.
-
-```{r vary_mu, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.2/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.4/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.8/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_1.6/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2/')
-param_lineplot(this_dirvec, 'mu', c(0, 0.2, 0.4, 0.8, 1.6, 3.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```  
-
-
-
-Here's the performance when we vary $\theta_{GZ}$, the heritability of $Z$, while keeping $\psi_X$ and $\psi_Y$ constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as $\theta_{GZ}$ increases.
-
-```{r vary_theta_gz, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.4_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.8_psix_0.1_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gz', c(0.2, 0.4, 0.6, 0.8), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```     
-
-
-
-
-A few general observations:
-
-* As expected, methods other than 2SLS Oracle are inflated under confounding & do well with no confounding,
-    with worse performance as confounding increases.
-    2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.
-* Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods
-    don't fully separate signal from noise, they are just more or less conservative than one another.
-* IVW/Egger tend to lose power under confounding moreso than increasing FPR.
-    On the other hand, 2SLS retains power but FPR spikes. Lasso & Median are in-between.
-    This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y),
-    while 2SLS stderr does not. Effect size estimates are the same for both methods.
-* 2SLS Oracle is generally the most powerful method except in a couple cases where
-    2SLS is more powerful for $X_1$, and is calibrated except strangely when $\gamma_{GZ}$ is low.
-    Not sure if these are just noisy results or represent things I need to fix.
-    
-    
-    
-### Simulations under new settings
-
-I performed some more simulations under settings that may be more realistic.
-The following changes were made as compared with the above simulations:
-
-* The number of samples was increased from 20,000 to 50,000
-* The number of SNPs was increased from 100 to 1000
-* The sparsity parameters were increased from $\phi_X=\phi_Y=\phi_Z=50\%$ to $\phi_X=70\%, \phi_Y=\phi_Z=90\%$; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. Intuitively, we expect greater sparsity of genotypic effects on $Z$ and $Y$ than on $X$ since the SNPs were specifically ascertained due to a strong observed association with $X$.
-* The defaults for $\theta_{GX}$, $\phi_X$, and $\theta_{GY}$ were increased from $0.1$ to $0.2$.
-  Meanwhile the default for $\theta_{GZ}$ was decreased to $0.4$ and $\psi_Y$ was kept at $0.1$.
-  This was done to obtain more balanced and realistic heritabilities, something like we might expect
-    if $X$ were lipid measurements and $Y$ was some complex trait.
-  The resulting heritabilities are $h^2(X)=40\%$, $h^2(Z)=40\%$, $h^2(Y)=44.25\%$.
-* As a result of the parameter changes, some of the values they varied between were changed.
-* I didn't bother fiddling with $\theta_{GX}$ or $\mu$ here as the effects should be similar.
-* I now include Susie results in the plots.
-
-
-As we will soon see, compared to the initial simulations, most methods have substantially higher FPR and Power. 
-Even 2SLS-Oracle is inflated, including in the no-pleiotropy setting. 
-My interpretation of this is that there is weak instrument bias at play, since there are now 10 times as many SNPs but only 2 times the heritability.
-I probably need to re-run these in a two-sample setting, and/or with weak instrument filtering.
-
-One other interesting result is that Susie-SVD seems to have pretty good FPR control under these settings relative to other methods, at the cost of less power. Probably including $G$ has a big role in this.
-
-
-
-Here are the results under the default settings:
-
-```{r both_plei_new, echo=FALSE, fig.width=12}
-group_barchart('data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-
-Here's a sanity check with no pleiotropy:
-
-```{r no_plei_new, echo=FALSE, fig.width=12}
-group_barchart('data/results_new_setting/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$.
-
-```{r vary_theta_gx_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.1_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/array_gx_0.4_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gx', c(0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-
-Here's the performance when we vary $\psi_X$, the part of $X$'s heritability mediated through $Z$.
-
-```{r vary_psi_x_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.1_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'psi_x', c(0.1, 0.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-
-Here's the performance when we vary $\psi_Y$, the correlated pleiotropic effect size.
-
-```{r vary_psi_y_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.05_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/array_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.2_mu_0/')
-param_lineplot(this_dirvec, 'psi_y', c(0.05, 0.1, 0.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GY}$, the uncorrelated pleiotropic effect size.
-
-```{r vary_theta_gy_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.2_gy_0.1_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/array_gx_0.2_gy_0.4_gz_0.4_psix_0.2_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gy', c(0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-    
-    
-Some simulation to-do's:
-
-* Use real data parameters / parameter settings to be more realistic.
-* Use real UK Biobank genotypes.
-* Line plots showing changes in power/FPR as parameters are adjusted,
-    rather than static barplot for single parameter setting,
+For summary statistics, where $G$ is not available, we will probably have to perform FA on the betas and stderrs for $X$ and $Y$. 
+One starting point is to assume that the direct effects of any given SNP on the exposures are independent, so that the betas for each exposure are only correlated due to the unobserved factors. 
+We could explore extensions to existing Bayesian frameworks like RUV-Bayes, Flash, or Mash.
