@@ -299,7 +299,9 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -308,7 +310,9 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -317,17 +321,27 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-01-09
+<strong>Last updated:</strong> 2023-01-18
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>mvmr_website/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>mvmr_website/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -336,109 +350,152 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221205code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20221205)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221205code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221205)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20221205code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20221205code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20221205)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20221205)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef7f6cbc259f785033b6de4cde214e8d04a37af70targetblankf7f6cbca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/f7f6cbc259f785033b6de4cde214e8d04a37af70" target="_blank">f7f6cbc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreeb890f047f5314ace4412ce8c2644f7dcbee0cb52targetblankb890f04a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/nlapier2/mvmr_website/tree/b890f047f5314ace4412ce8c2644f7dcbee0cb52" target="_blank">b890f04</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef7f6cbc259f785033b6de4cde214e8d04a37af70targetblankf7f6cbca" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreeb890f047f5314ace4412ce8c2644f7dcbee0cb52targetblankb890f04a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/f7f6cbc259f785033b6de4cde214e8d04a37af70" target="_blank">f7f6cbc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/nlapier2/mvmr_website/tree/b890f047f5314ace4412ce8c2644f7dcbee0cb52" target="_blank">b890f04</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .RData
-    Ignored:    .Rhistory
-
-Untracked files:
-    Untracked:  analysis/gibbs.Rmd
-    Untracked:  analysis/simulations.Rmd
-
 Unstaged changes:
-    Modified:   analysis/_site.yml
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/gibbs.Rmd
+    Modified:   analysis/simulations.Rmd
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -447,153 +504,394 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/gibbs.Rmd</code>) and HTML
+(<code>docs/gibbs.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/analysis/gibbs.Rmd" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+<td>
+rearranged website, added simulation and gibbs tabs, added more project
+description
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/gibbs.html" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+<td>
+rearranged website, added simulation and gibbs tabs, added more project
+description
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
 <div id="htmlwidget-e3d5eff22888eb7ba78a" style="width:800px;height:350px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-e3d5eff22888eb7ba78a">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = LR]\n\n  node [shape = circle]\n  G [label = \"G\"]\n  Z [label = \"Z\"]\n  X [label = \"X\"]\n  Y [label = \"Y\"]\n\n  # edge definitions with the node IDs\n  edge []\n  G -> X [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GX<\/SUB><\/FONT>>]\n  G -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GY<\/SUB><\/FONT>>]\n  G -> Z [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GZ<\/SUB><\/FONT>>]\n  X -> Z [dir=back; label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZX<\/SUB><\/FONT>>]\n  Z -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZY<\/SUB><\/FONT>>]\n  X -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>XY<\/SUB><\/FONT>>]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-<p>Continuing from the problem description on the <a href="index.html">home page</a>, we will use the same DAG with the SEM:</p>
-<p><span class="math display">\[Z = G\theta_{GZ} + \epsilon_Z\]</span></p>
-<p><span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} + \epsilon_X\]</span></p>
-<p><span class="math display">\[Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y\]</span></p>
-<p>Again, our goal is to estimate <span class="math inline">\(\theta_{XY}\)</span>, which can be accomplished easily in a regression-based framework if we know the unknown confounding variables <span class="math inline">\(\tilde{Z} = G * \theta_{GZ}\)</span> (or only <span class="math inline">\(\theta_{GZ}\)</span> if we know <span class="math inline">\(G\)</span>, or alternatively <span class="math inline">\(\psi_Y = \theta_{GZ} * \theta_{ZY}\)</span>) and <span class="math inline">\(\theta_{GY}\)</span>.</p>
-<p>We explained why a sample “one-stage” factor analysis (FA) of <span class="math inline">\(X\)</span> or <span class="math inline">\(\tilde{X}\)</span> will not adequately capture <span class="math inline">\(\theta_{GZ}\)</span> – because the latter also depends on <span class="math inline">\(Y\)</span>. Instead, we can turn to a probabilistic framework that attempts to infer all latent parameters.</p>
+<p>Continuing from the problem description on the <a
+href="index.html">home page</a>, we will use the same DAG with the
+SEM:</p>
+<p><span class="math display">\[Z = G\theta_{GZ} +
+\epsilon_Z\]</span></p>
+<p><span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} +
+\epsilon_X\]</span></p>
+<p><span class="math display">\[Y = X\theta_{XY} + G\theta_{GY} +
+Z\theta_{ZY} + \epsilon_Y\]</span></p>
+<p>Again, our goal is to estimate <span
+class="math inline">\(\theta_{XY}\)</span>, which can be accomplished
+easily in a regression-based framework if we know the unknown
+confounding variables <span class="math inline">\(\tilde{Z} = G *
+\theta_{GZ}\)</span> (or only <span
+class="math inline">\(\theta_{GZ}\)</span> if we know <span
+class="math inline">\(G\)</span>, or alternatively <span
+class="math inline">\(\psi_Y = \theta_{GZ} * \theta_{ZY}\)</span>) and
+<span class="math inline">\(\theta_{GY}\)</span>.</p>
+<p>We explained why a sample “one-stage” factor analysis (FA) of <span
+class="math inline">\(X\)</span> or <span
+class="math inline">\(\tilde{X}\)</span> will not adequately capture
+<span class="math inline">\(\theta_{GZ}\)</span> – because the latter
+also depends on <span class="math inline">\(Y\)</span>. Instead, we can
+turn to a probabilistic framework that attempts to infer all latent
+parameters.</p>
 <div id="gibbs-sampler" class="section level2">
 <h2>Gibbs Sampler</h2>
-<p>The simplest approach to this problem may be to use a Gibbs sampler. To implement this algorithm, we need to derive the distribution of each parameter conditioned on all other parameters and variables. For simplicity, I will assume for now that all variables are normally-distributed, that all direct <span class="math inline">\(G \rightarrow X\)</span> effects are uncorrelated, <span class="math inline">\(G\)</span> are uncorrelated, <span class="math inline">\(X\)</span> do not affect each other, etc. Then each effect can be modeled as a univariate normal distribution. For notation, I will denote the effect of the <span class="math inline">\(i\)</span>-th SNP on the <span class="math inline">\(j\)</span>-th exposure variable as <span class="math inline">\(\theta_{GX,ij}\)</span>, and likewise for all other pairs of variables. I will use <span class="math inline">\(t\)</span> to denote the timestep, and <span class="math inline">\(t-1\)</span> to denote the previous timestep, so we would update the preceeding variable from <span class="math inline">\(\theta_{GX,ij}^{t-1} \sim \mathcal{N}(\mu_{GX}^{t-1}, \sigma_{GX}^{t-1})\)</span> to <span class="math inline">\(\theta_{GX,ij}^t \sim \mathcal{N}(\mu_{GX}^t, \sigma_{GX}^t)\)</span>. I will use <span class="math inline">\(*\)</span> to indicate that all variables for that row or column are used, and <span class="math inline">\(-j\)</span> to indicate every variable except <span class="math inline">\(j\)</span>, so for instance <span class="math inline">\(\theta_{GX,*-j}\)</span> means the effects of all SNPs on all exposures except <span class="math inline">\(X_j\)</span>.</p>
-<p>For most of the derivations to follow, I will use Bayes’ Theorem to obtain probabilistic expressions (the likelihood and prior) whose distributions we know from the SEM. Then, using conjugacy, I obtain closed-form parameter values for the posterior distribution, given the likelihood and prior from Bayes’ Theorem.</p>
-<p>I will now derive the conditional distributions of each of the latent effect sizes. Note that I am still working on making these more polished and readable – apologies for any sloppiness.</p>
+<p>The simplest approach to this problem may be to use a Gibbs sampler.
+To implement this algorithm, we need to derive the distribution of each
+parameter conditioned on all other parameters and variables. For
+simplicity, I will assume for now that all variables are
+normally-distributed, that all direct <span class="math inline">\(G
+\rightarrow X\)</span> effects are uncorrelated, <span
+class="math inline">\(G\)</span> are uncorrelated, <span
+class="math inline">\(X\)</span> do not affect each other, etc. Then
+each effect can be modeled as a univariate normal distribution. For
+notation, I will denote the effect of the <span
+class="math inline">\(i\)</span>-th SNP on the <span
+class="math inline">\(j\)</span>-th exposure variable as <span
+class="math inline">\(\theta_{GX,ij}\)</span>, and likewise for all
+other pairs of variables. I will use <span
+class="math inline">\(t\)</span> to denote the timestep, and <span
+class="math inline">\(t-1\)</span> to denote the previous timestep, so
+we would update the preceeding variable from <span
+class="math inline">\(\theta_{GX,ij}^{t-1} \sim
+\mathcal{N}(\mu_{GX}^{t-1}, \sigma_{GX}^{t-1})\)</span> to <span
+class="math inline">\(\theta_{GX,ij}^t \sim \mathcal{N}(\mu_{GX}^t,
+\sigma_{GX}^t)\)</span>. I will use <span
+class="math inline">\(*\)</span> to indicate that all variables for that
+row or column are used, and <span class="math inline">\(-j\)</span> to
+indicate every variable except <span class="math inline">\(j\)</span>,
+so for instance <span class="math inline">\(\theta_{GX,*-j}\)</span>
+means the effects of all SNPs on all exposures except <span
+class="math inline">\(X_j\)</span>.</p>
+<p>For most of the derivations to follow, I will use Bayes’ Theorem to
+obtain probabilistic expressions (the likelihood and prior) whose
+distributions we know from the SEM. Then, using conjugacy, I obtain
+closed-form parameter values for the posterior distribution, given the
+likelihood and prior from Bayes’ Theorem.</p>
+<p>I will now derive the conditional distributions of each of the latent
+effect sizes. Note that I am still working on making these more polished
+and readable – apologies for any sloppiness.</p>
 <div id="theta_gz" class="section level3">
 <h3>Theta_GZ</h3>
-<p>The hardest effect size to infer is <span class="math inline">\(\theta_{GZ}\)</span>, as its value affects both <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, while all other effect sizes affect only one or the other. For <span class="math inline">\(\theta_{GZ,ij}\)</span>, we can write the update step for time <span class="math inline">\(t\)</span> as</p>
+<p>The hardest effect size to infer is <span
+class="math inline">\(\theta_{GZ}\)</span>, as its value affects both
+<span class="math inline">\(X\)</span> and <span
+class="math inline">\(Y\)</span>, while all other effect sizes affect
+only one or the other. For <span
+class="math inline">\(\theta_{GZ,ij}\)</span>, we can write the update
+step for time <span class="math inline">\(t\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{GZ,ij}^t | G,X,Y,\theta_{-GZ}^{t-1}) 
-&amp;\propto P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t | G,X,\theta_{-GZ}^{t-1}) \\
-&amp;= P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t | G, \theta_{-GZ}^{t-1}) \\
-&amp;= P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t)
+P(\theta_{GZ,ij}^t | G,X,Y,\theta_{-GZ}^{t-1})
+&amp;\propto P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1})
+P(\theta_{GZ,ij}^t | G,X,\theta_{-GZ}^{t-1}) \\
+&amp;= P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1})
+P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t | G,
+\theta_{-GZ}^{t-1}) \\
+&amp;= P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1})
+P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t)
 \end{align}
 \]</span></p>
 <p>We know from the SEM that</p>
-<p><span class="math display">\[P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) = \mathcal{N}(Y; X\theta_{XY} + G\theta_{GY} + G_{-i} \theta_{GZ,-i-j}\theta_{ZY,-j} + G_i \theta_{GZ,ij}\theta_{ZY,j}, \xi_Y)\]</span> <span class="math display">\[P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) = \mathcal{N}(X; G\theta_{GX} + G_i\theta_{GZ,ij}\theta_{ZX,*j} + G_{-i}\theta_{GZ,-i-j}\theta_{ZX,*-j}, \xi_X)\]</span> Then we can write</p>
-<p><span class="math display">\[P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) P(\theta_{GZ,ij}^t) = \mathcal{N}(\theta_{GZ,ij}^t; \mu_{GZ}^{t*},\sigma_{GZ}^{t*})\]</span></p>
-<p>where we use <span class="math inline">\(t*\)</span> to indicate that this is an intermediate computation in the update step, and</p>
-<p><span class="math display">\[\sigma_{GZ}^{t*} = ([\sigma_{GZ}^{t-1}]^{-1} + [G_i\theta_{ZX,*j}]&#39; \xi_X^{-1} [G_i\theta_{ZX,*j}])^{-1}\]</span></p>
-<p><span class="math display">\[\mu_{GZ}^{t*} = \sigma_{GZ}^{t*} ([G_i\theta_{ZX,*j}]&#39; \xi_X^{-1} (X - G\theta_{GX} - G_{-i}\theta_{GZ,-i-j}\theta_{ZX,*-j}) + [\sigma_{GZ}^{t-1}]^{-1} \mu_{GZ}^{t-1})\]</span></p>
-<p>Using this as the prior for the likelihood <span class="math inline">\(P(Y|...)\)</span> we can now write the final update step as</p>
-<p><span class="math display">\[P(\theta_{GZ,ij}^t | G,X,Y,\theta_{-GZ}^{t-1})  = \mathcal{N}(\theta_{GZ,ij}^t; \mu_{GZ}^t,\sigma_{GZ}^t)\]</span></p>
+<p><span
+class="math display">\[P(Y|G,X,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) =
+\mathcal{N}(Y; X\theta_{XY} + G\theta_{GY} + G_{-i}
+\theta_{GZ,-i-j}\theta_{ZY,-j} + G_i \theta_{GZ,ij}\theta_{ZY,j},
+\xi_Y)\]</span> <span
+class="math display">\[P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1}) =
+\mathcal{N}(X; G\theta_{GX} + G_i\theta_{GZ,ij}\theta_{ZX,*j} +
+G_{-i}\theta_{GZ,-i-j}\theta_{ZX,*-j}, \xi_X)\]</span> Then we can
+write</p>
+<p><span
+class="math display">\[P(X|G,\theta_{GZ,ij}^t,\theta_{-GZ}^{t-1})
+P(\theta_{GZ,ij}^t) = \mathcal{N}(\theta_{GZ,ij}^t;
+\mu_{GZ}^{t*},\sigma_{GZ}^{t*})\]</span></p>
+<p>where we use <span class="math inline">\(t*\)</span> to indicate that
+this is an intermediate computation in the update step, and</p>
+<p><span class="math display">\[\sigma_{GZ}^{t*} =
+([\sigma_{GZ}^{t-1}]^{-1} + [G_i\theta_{ZX,*j}]&#39; \xi_X^{-1}
+[G_i\theta_{ZX,*j}])^{-1}\]</span></p>
+<p><span class="math display">\[\mu_{GZ}^{t*} = \sigma_{GZ}^{t*}
+([G_i\theta_{ZX,*j}]&#39; \xi_X^{-1} (X - G\theta_{GX} -
+G_{-i}\theta_{GZ,-i-j}\theta_{ZX,*-j}) + [\sigma_{GZ}^{t-1}]^{-1}
+\mu_{GZ}^{t-1})\]</span></p>
+<p>Using this as the prior for the likelihood <span
+class="math inline">\(P(Y|...)\)</span> we can now write the final
+update step as</p>
+<p><span class="math display">\[P(\theta_{GZ,ij}^t |
+G,X,Y,\theta_{-GZ}^{t-1})  = \mathcal{N}(\theta_{GZ,ij}^t;
+\mu_{GZ}^t,\sigma_{GZ}^t)\]</span></p>
 <p>where</p>
-<p><span class="math display">\[\sigma_{GZ}^t = ([\sigma_{GZ}^{t*}]^{-1} + [G_i\theta_{ZY,*j}]&#39; \xi_Y^{-1} [G_i\theta_{ZY,*j}])^{-1}\]</span></p>
-<p><span class="math display">\[\mu_{GZ}^t = \sigma_{GZ}^t ([G_i\theta_{ZY,*j}]&#39; \xi_Y^{-1} (Y - X \theta_{XY} - G\theta_{GY} - G_{-i}\theta_{GZ,-i-j}\theta_{ZY,*-j}) + [\sigma_{GZ}^{t*}]^{-1} \mu_{GZ}^{t*})\]</span></p>
-<p>The problem I have encountered with this so far is that the dimensions don’t work out – I am looking for scalar mean and variance parameters but since a change in <span class="math inline">\(\theta_{GZ}\)</span> affects all <span class="math inline">\(X\)</span>, I get multivariate parameters for <span class="math inline">\(\sigma_{GZ}^{t*}\)</span> and <span class="math inline">\(\mu_{GZ}^{t*}\)</span> when there are multiple exposures. I am still thinking through the best way to deal with this. One solution is that, even though I intend all <span class="math inline">\(\theta_{GZ,ij}\)</span> to be univariate normal, I may have to update them all at once – a matrix normal update. Or perhaps I can try to update <span class="math inline">\(\psi_X\)</span> and <span class="math inline">\(\psi_Y\)</span> instead.</p>
+<p><span class="math display">\[\sigma_{GZ}^t = ([\sigma_{GZ}^{t*}]^{-1}
++ [G_i\theta_{ZY,*j}]&#39; \xi_Y^{-1}
+[G_i\theta_{ZY,*j}])^{-1}\]</span></p>
+<p><span class="math display">\[\mu_{GZ}^t = \sigma_{GZ}^t
+([G_i\theta_{ZY,*j}]&#39; \xi_Y^{-1} (Y - X \theta_{XY} - G\theta_{GY} -
+G_{-i}\theta_{GZ,-i-j}\theta_{ZY,*-j}) + [\sigma_{GZ}^{t*}]^{-1}
+\mu_{GZ}^{t*})\]</span></p>
+<p>The problem I have encountered with this so far is that the
+dimensions don’t work out – I am looking for scalar mean and variance
+parameters but since a change in <span
+class="math inline">\(\theta_{GZ}\)</span> affects all <span
+class="math inline">\(X\)</span>, I get multivariate parameters for
+<span class="math inline">\(\sigma_{GZ}^{t*}\)</span> and <span
+class="math inline">\(\mu_{GZ}^{t*}\)</span> when there are multiple
+exposures. I am still thinking through the best way to deal with this.
+One solution is that, even though I intend all <span
+class="math inline">\(\theta_{GZ,ij}\)</span> to be univariate normal, I
+may have to update them all at once – a matrix normal update. Or perhaps
+I can try to update <span class="math inline">\(\psi_X\)</span> and
+<span class="math inline">\(\psi_Y\)</span> instead.</p>
 </div>
 <div id="theta_gy" class="section level3">
 <h3>Theta_GY</h3>
-<p>For <span class="math inline">\(\theta_{GY,i}\)</span>, we can write the update step for time <span class="math inline">\(t\)</span> as</p>
+<p>For <span class="math inline">\(\theta_{GY,i}\)</span>, we can write
+the update step for time <span class="math inline">\(t\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{GY,i}^t | G,X,Y,\theta_{-GY}^{t-1}) 
-&amp;\propto P(Y|G,X,\theta_{GY,i}^t,\theta_{-GY}^{t-1}) P(\theta_{GY,i}^t | G,X,\theta_{-GY}^{t-1}) \\
+P(\theta_{GY,i}^t | G,X,Y,\theta_{-GY}^{t-1})
+&amp;\propto P(Y|G,X,\theta_{GY,i}^t,\theta_{-GY}^{t-1})
+P(\theta_{GY,i}^t | G,X,\theta_{-GY}^{t-1}) \\
 &amp;= P(Y|G,X,\theta_{GY,i}^t,\theta_{-GY}^{t-1}) P(\theta_{GY,i}^t) \\
 &amp;= \mathcal{N}(\theta_{GY,i}^t; \mu_{GY}^t, \sigma_{GY}^t)
 \end{align}
 \]</span> where</p>
-<p><span class="math display">\[\sigma_{GY}^t = ([\sigma_{GY}^{t-1}]^{-1} + G_i&#39; \xi_Y^{-1} G_i)^{-1}\]</span> <span class="math display">\[\mu_{GY}^t = \sigma_{GY}^t (G_i&#39; \xi_Y^{-1} (Y - X\theta_{XY} - G\theta_{GZ}\theta_{ZY} - G_{-i}\theta_{GY,-i}) + [\sigma_{GY}^{t-1}]^{-1} \mu_{GY}^{t-1})\]</span></p>
+<p><span class="math display">\[\sigma_{GY}^t =
+([\sigma_{GY}^{t-1}]^{-1} + G_i&#39; \xi_Y^{-1} G_i)^{-1}\]</span> <span
+class="math display">\[\mu_{GY}^t = \sigma_{GY}^t (G_i&#39; \xi_Y^{-1}
+(Y - X\theta_{XY} - G\theta_{GZ}\theta_{ZY} - G_{-i}\theta_{GY,-i}) +
+[\sigma_{GY}^{t-1}]^{-1} \mu_{GY}^{t-1})\]</span></p>
 </div>
 <div id="theta_zy" class="section level3">
 <h3>Theta_ZY</h3>
-<p>For <span class="math inline">\(\theta_{ZY,i}\)</span>, we can write the update step for time <span class="math inline">\(t\)</span> as</p>
+<p>For <span class="math inline">\(\theta_{ZY,i}\)</span>, we can write
+the update step for time <span class="math inline">\(t\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{ZY,i}^t | G,X,Y,\theta_{-ZY}^{t-1}) 
-&amp;\propto P(Y|G,X,\theta_{ZY,i}^t,\theta_{-ZY}^{t-1}) P(\theta_{ZY,ij}^t | G,X,\theta_{-ZY}^{t-1}) \\
+P(\theta_{ZY,i}^t | G,X,Y,\theta_{-ZY}^{t-1})
+&amp;\propto P(Y|G,X,\theta_{ZY,i}^t,\theta_{-ZY}^{t-1})
+P(\theta_{ZY,ij}^t | G,X,\theta_{-ZY}^{t-1}) \\
 &amp;= P(Y|G,X,\theta_{ZY,i}^t,\theta_{-ZY}^{t-1}) P(\theta_{ZY,i}^t) \\
 &amp;= \mathcal{N}(\theta_{ZY,i}^t; \mu_{ZY}^t, \sigma_{ZY}^t)
 \end{align}
 \]</span></p>
 <p>where</p>
-<p><span class="math display">\[\sigma_{ZY}^t = ([\sigma_{ZY}^{t-1}]^{-1} + [G_i \theta_{GZ,*i}]&#39; \xi_Y^{-1} [G_i \theta_{GZ,*i}])^{-1}\]</span></p>
-<p><span class="math display">\[\mu_{ZY}^t = \sigma_{ZY}^t ([G_i \theta_{GZ,*i}]&#39; \xi_Y^{-1} (Y - X\theta_{XY} - G\theta_{GY} - G\theta_{GZ,*-i}\theta_{ZY,-i}) + [\sigma_{ZY}^{t-1}]^{-1} \mu_{ZY}^{t-1})\]</span></p>
+<p><span class="math display">\[\sigma_{ZY}^t =
+([\sigma_{ZY}^{t-1}]^{-1} + [G_i \theta_{GZ,*i}]&#39; \xi_Y^{-1} [G_i
+\theta_{GZ,*i}])^{-1}\]</span></p>
+<p><span class="math display">\[\mu_{ZY}^t = \sigma_{ZY}^t ([G_i
+\theta_{GZ,*i}]&#39; \xi_Y^{-1} (Y - X\theta_{XY} - G\theta_{GY} -
+G\theta_{GZ,*-i}\theta_{ZY,-i}) + [\sigma_{ZY}^{t-1}]^{-1}
+\mu_{ZY}^{t-1})\]</span></p>
 </div>
 <div id="theta_xy" class="section level3">
 <h3>Theta_XY</h3>
-<p>For <span class="math inline">\(\theta_{XY,i}\)</span>, we can write the update step for time <span class="math inline">\(t\)</span> as</p>
+<p>For <span class="math inline">\(\theta_{XY,i}\)</span>, we can write
+the update step for time <span class="math inline">\(t\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{XY,i}^t | G,X,Y,\theta_{-XY}^{t-1}) 
-&amp;\propto P(Y|G,X,\theta_{XY,i}^t,\theta_{-XY}^{t-1}) P(\theta_{XY,ij}^t | G,X,\theta_{-XY}^{t-1}) \\
+P(\theta_{XY,i}^t | G,X,Y,\theta_{-XY}^{t-1})
+&amp;\propto P(Y|G,X,\theta_{XY,i}^t,\theta_{-XY}^{t-1})
+P(\theta_{XY,ij}^t | G,X,\theta_{-XY}^{t-1}) \\
 &amp;= P(Y|G,X,\theta_{XY,i}^t,\theta_{-XY}^{t-1}) P(\theta_{XY,i}^t) \\
 &amp;= \mathcal{N}(\theta_{XY,i}^t; \mu_{XY}^t, \sigma_{XY}^t)
 \end{align}
 \]</span></p>
 <p>where</p>
-<p><span class="math display">\[\sigma_{XY}^t = ([\sigma_{XY}^{t-1}]^{-1} + X_i&#39; \xi_Y^{-1} X_i)^{-1}\]</span></p>
-<p><span class="math display">\[\mu_{XY}^t = \sigma_{XY}^t (X_i&#39; \xi_Y^{-1} (Y - X_{-i}\theta_{XY,-i} - G\theta_{GY} - G\theta_{GZ}\theta_{ZY}) + [\sigma_{XY}^{t-1}]^{-1} \mu_{XY}^{t-1})\]</span></p>
+<p><span class="math display">\[\sigma_{XY}^t =
+([\sigma_{XY}^{t-1}]^{-1} + X_i&#39; \xi_Y^{-1} X_i)^{-1}\]</span></p>
+<p><span class="math display">\[\mu_{XY}^t = \sigma_{XY}^t (X_i&#39;
+\xi_Y^{-1} (Y - X_{-i}\theta_{XY,-i} - G\theta_{GY} -
+G\theta_{GZ}\theta_{ZY}) + [\sigma_{XY}^{t-1}]^{-1}
+\mu_{XY}^{t-1})\]</span></p>
 </div>
 <div id="theta_gx" class="section level3">
 <h3>Theta_GX</h3>
-<p>For <span class="math inline">\(\theta_{GX,ij}\)</span>, we can write the update step for time <span class="math inline">\(t\)</span> as</p>
+<p>For <span class="math inline">\(\theta_{GX,ij}\)</span>, we can write
+the update step for time <span class="math inline">\(t\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{GX,ij}^t | G,X,Y,\theta_{-GX}^{t-1}) 
+P(\theta_{GX,ij}^t | G,X,Y,\theta_{-GX}^{t-1})
 &amp;= P(\theta_{GX,ij}^t | G,X_j,\theta_{-GX}^{t-1}) \\
-&amp;\propto P(X_j|G,\theta_{GX,ij}^t,\theta_{-GX}^{t-1}) P(\theta_{GX,ij}^t | G,\theta_{-GX}^{t-1}) \\
-&amp;\propto P(X_j|G,\theta_{GX,ij}^t,\theta_{-GX}^{t-1}) P(\theta_{GX,ij}^t) \\
+&amp;\propto P(X_j|G,\theta_{GX,ij}^t,\theta_{-GX}^{t-1})
+P(\theta_{GX,ij}^t | G,\theta_{-GX}^{t-1}) \\
+&amp;\propto P(X_j|G,\theta_{GX,ij}^t,\theta_{-GX}^{t-1})
+P(\theta_{GX,ij}^t) \\
 &amp;= \mathcal{N}(\theta_{GX,ij}^t; \mu_{GX}^t, \sigma_{GX}^t)
 \end{align}
 \]</span> where</p>
-<p><span class="math display">\[\sigma_{GX}^t = ([\sigma_{GX}^{t-1}]^{-1} + G_i&#39; \xi_{X_j}^{-1} G_i)^{-1}\]</span></p>
-<p><span class="math display">\[\mu_{GX}^t = \sigma_{GX}^t (G_i&#39; \xi_{X_j}^{-1} (X - G\theta_{GZ}\theta_{ZX,*j} - G_{-i}\theta_{GX,-ij}) + [\sigma_{GX}^{t-1}]^{-1} \mu_{GX}^{t-1})\]</span></p>
+<p><span class="math display">\[\sigma_{GX}^t =
+([\sigma_{GX}^{t-1}]^{-1} + G_i&#39; \xi_{X_j}^{-1}
+G_i)^{-1}\]</span></p>
+<p><span class="math display">\[\mu_{GX}^t = \sigma_{GX}^t (G_i&#39;
+\xi_{X_j}^{-1} (X - G\theta_{GZ}\theta_{ZX,*j} - G_{-i}\theta_{GX,-ij})
++ [\sigma_{GX}^{t-1}]^{-1} \mu_{GX}^{t-1})\]</span></p>
 </div>
 <div id="theta_zx" class="section level3">
 <h3>Theta_ZX</h3>
-<p>For <span class="math inline">\(\theta_{ZX,ij}\)</span>, we can write the update step for time <span class="math inline">\(t\)</span> as</p>
+<p>For <span class="math inline">\(\theta_{ZX,ij}\)</span>, we can write
+the update step for time <span class="math inline">\(t\)</span> as</p>
 <p><span class="math display">\[
 \begin{align}
-P(\theta_{ZX,ij}^t | G,X,Y,\theta_{-ZX}^{t-1}) 
+P(\theta_{ZX,ij}^t | G,X,Y,\theta_{-ZX}^{t-1})
 &amp;= P(\theta_{ZX,ij}^t | G,X_j,\theta_{-ZX}^{t-1}) \\
-&amp;\propto P(X_j|G,\theta_{ZX,ij}^t,\theta_{-ZX}^{t-1}) P(\theta_{ZX,ij}^t | G,\theta_{-ZX}^{t-1}) \\
-&amp;\propto P(X_j|G,\theta_{ZX,ij}^t,\theta_{-ZX}^{t-1}) P(\theta_{ZX,ij}^t) \\
+&amp;\propto P(X_j|G,\theta_{ZX,ij}^t,\theta_{-ZX}^{t-1})
+P(\theta_{ZX,ij}^t | G,\theta_{-ZX}^{t-1}) \\
+&amp;\propto P(X_j|G,\theta_{ZX,ij}^t,\theta_{-ZX}^{t-1})
+P(\theta_{ZX,ij}^t) \\
 &amp;= \mathcal{N}(\theta_{ZX,ij}^t; \mu_{ZX}^t, \sigma_{ZX}^t)
 \end{align}
 \]</span></p>
 <p>where</p>
-<p><span class="math display">\[\sigma_{ZX}^t = ([\sigma_{ZX}^{t-1}]^{-1} + [G\theta_{GZ,*i}]&#39; \xi_{X_j}^{-1} [G\theta_{GZ,*i}])^{-1}\]</span></p>
-<p><span class="math display">\[\mu_{ZX}^t = \sigma_{ZX}^t ([G\theta_{GZ,*i}]&#39; \xi_{X_j}^{-1} (X - G\theta_{GZ,*-i}\theta_{ZX,-ij} - G\theta_{GX,*j}) + [\sigma_{GZ}^{t-1}]^{-1} \mu_{GZ}^{t-1})\]</span></p>
+<p><span class="math display">\[\sigma_{ZX}^t =
+([\sigma_{ZX}^{t-1}]^{-1} + [G\theta_{GZ,*i}]&#39; \xi_{X_j}^{-1}
+[G\theta_{GZ,*i}])^{-1}\]</span></p>
+<p><span class="math display">\[\mu_{ZX}^t = \sigma_{ZX}^t
+([G\theta_{GZ,*i}]&#39; \xi_{X_j}^{-1} (X -
+G\theta_{GZ,*-i}\theta_{ZX,-ij} - G\theta_{GX,*j}) +
+[\sigma_{GZ}^{t-1}]^{-1} \mu_{GZ}^{t-1})\]</span></p>
 </div>
 </div>
 <div id="results" class="section level2">
 <h2>Results</h2>
-<p>The model seems to be working, because the parameter values converge to the correct values if you fix the other parameters to their true values. The parameter estimates also stay close to the true value if you initialize them to the true values and then let them vary freely.</p>
-<p>However, when initialized randomly and allowed to fit freely, the parameters do not converge to the true values. They converge with little variation on incorrect values. This probably means that there are multiple local optima and an incorrect local optimum is being converged towards. I am not sure if the problem is identifiable in general without certain sparsity assumptions.</p>
-<p>I am not doing anything special to learn priors (variables are initialized by drawing from standard normals), so that could help too. Also, even though the effects are sparse, I am not explicitly modeling/learning sparsity.</p>
+<p>The model seems to be working, because the parameter values converge
+to the correct values if you fix the other parameters to their true
+values. The parameter estimates also stay close to the true value if you
+initialize them to the true values and then let them vary freely.</p>
+<p>However, when initialized randomly and allowed to fit freely, the
+parameters do not always (or often) converge to the true values. This
+probably means that there are multiple local optima and an incorrect
+local optimum is being converged towards. I am not sure if the problem
+is identifiable in general without some sparsity assumptions.</p>
+<p>I did a brief evaluation using similar settings to those on my <a
+href="simulations.html">simulation page</a>, except with only three
+exposures, one confounder, and ten SNPs for computational simplicity.
+Parameter estimates and standard errors were evaluated by running the
+Gibbs sampler 100 times for each simulated dataset. The Gibbs sampler
+performed similarly to vanilla two-stage least squares (2SLS), with high
+power but also high false positive rates. Unlike 2SLS, the average
+estimate for the true beta was slightly deflated. The average estimates
+for the two null variables were quite low – close to zero (as hoped
+for).</p>
+<p>Here are the raw results:</p>
+<pre class="r"><code>&#39;[nlapier2@midway3-login4 mvmr]$ Rscript eval_gibbs.R zzz/job_ 500
+[1] &quot;Average Estimates for Betas: &quot;
+[1]  0.175783706  0.010265478 -0.006009028
+[1] &quot;Standard Deviations of Betas: &quot;
+[1] 0.1787916 0.1738269 0.1816420
+[1] &quot;Average StdErrors for Betas: &quot;
+[1] 0.009712744 0.009482090 0.009499430
+[1] &quot;Positive rate for exposures: &quot;
+[1] 0.966 0.834 0.860
+[1] &quot;Bonferroni-corrected positive rate for exposures: &quot;
+[1] 0.958 0.796 0.826&#39;</code></pre>
+<p>This gives some next steps to work on. First, intelligently learning
+priors is important – variables are currently initialized by drawing
+from standard normals. Second, sparsity is likely crucial to
+identifiability of the model. Third, as discussed above, there are
+issues learning <span class="math inline">\(\theta_{GZ}\)</span>.
+Finally, it would be ideal to have flexibility beyond
+normally-distributed variables. So this all points to intelligently
+learning ash priors via variational inference.</p>
+<p>Also, speed is currently an issue. This may be more specific to my
+current Gibbs sampler model, e.g. running many chains to get the
+standard error. I implemented some momentum to help speed up slow
+convergence that I observed, but it’s still slow.</p>
 </div>
 <div id="next-steps" class="section level2">
 <h2>Next steps</h2>
 <ul>
-<li>Do something intelligent to learn priors</li>
-<li>Allow sparse priors – ash?</li>
-<li>Switch to coordinate-ascent variational inference (CAVI) or some other VI</li>
+<li>Intelligently learning priors, possibly sparse priors such as
+ash</li>
+<li>Switch to coordinate-ascent variational inference (CAVI) or some
+other VI</li>
 </ul>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.1.2 (2021-11-01)
+<pre><code>R version 4.2.1 (2022-06-23)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur 10.16
+Running under: macOS Big Sur ... 10.16
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -605,18 +903,18 @@ other attached packages:
 [1] DiagrammeR_1.0.9 workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8         RColorBrewer_1.1-2 bslib_0.4.0        jquerylib_0.1.4   
- [5] compiler_4.1.2     pillar_1.7.0       later_1.3.0        git2r_0.30.1      
- [9] tools_4.1.2        getPass_0.2-2      digest_0.6.29      jsonlite_1.8.0    
-[13] evaluate_0.15      tibble_3.1.6       lifecycle_1.0.3    pkgconfig_2.0.3   
-[17] rlang_1.0.6        cli_3.5.0          rstudioapi_0.13    yaml_2.3.5        
-[21] xfun_0.32          fastmap_1.1.0      httr_1.4.2         stringr_1.4.0     
+ [1] Rcpp_1.0.9         RColorBrewer_1.1-3 compiler_4.2.1     pillar_1.8.1      
+ [5] bslib_0.4.0        later_1.3.0        git2r_0.30.1       jquerylib_0.1.4   
+ [9] tools_4.2.1        getPass_0.2-2      digest_0.6.29      jsonlite_1.8.0    
+[13] evaluate_0.16      tibble_3.1.8       lifecycle_1.0.3    pkgconfig_2.0.3   
+[17] rlang_1.0.6        cli_3.4.0          rstudioapi_0.14    yaml_2.3.5        
+[21] xfun_0.33          fastmap_1.1.0      httr_1.4.4         stringr_1.4.1     
 [25] knitr_1.40         htmlwidgets_1.5.4  sass_0.4.2         fs_1.5.2          
 [29] vctrs_0.5.1        rprojroot_2.0.3    glue_1.6.2         R6_2.5.1          
-[33] processx_3.8.0     fansi_1.0.2        rmarkdown_2.16     callr_3.7.3       
-[37] magrittr_2.0.2     whisker_0.4        ps_1.6.0           promises_1.2.0.1  
-[41] htmltools_0.5.4    ellipsis_0.3.2     httpuv_1.6.5       utf8_1.2.2        
-[45] stringi_1.7.6      visNetwork_2.1.2   cachem_1.0.6       crayon_1.5.0      </code></pre>
+[33] processx_3.7.0     fansi_1.0.3        rmarkdown_2.16     callr_3.7.2       
+[37] magrittr_2.0.3     whisker_0.4        ps_1.7.1           promises_1.2.0.1  
+[41] htmltools_0.5.3    httpuv_1.6.6       utf8_1.2.2         stringi_1.7.8     
+[45] visNetwork_2.1.2   cachem_1.0.6      </code></pre>
 </div>
 </div>
 

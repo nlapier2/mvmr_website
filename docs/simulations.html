@@ -271,6 +271,9 @@ $(document).ready(function () {
 <li>
   <a href="simulations.html">Simulations</a>
 </li>
+<li>
+  <a href="gibbs.html">Gibbs Sampler</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -296,7 +299,9 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -305,7 +310,9 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -314,17 +321,27 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-01-09
+<strong>Last updated:</strong> 2023-01-18
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>mvmr_website/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong> <code>mvmr_website/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -333,107 +350,152 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221205code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20221205)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221205code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221205)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20221205code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20221205code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20221205)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20221205)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef7f6cbc259f785033b6de4cde214e8d04a37af70targetblankf7f6cbca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/f7f6cbc259f785033b6de4cde214e8d04a37af70" target="_blank">f7f6cbc</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreeb890f047f5314ace4412ce8c2644f7dcbee0cb52targetblankb890f04a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/nlapier2/mvmr_website/tree/b890f047f5314ace4412ce8c2644f7dcbee0cb52" target="_blank">b890f04</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef7f6cbc259f785033b6de4cde214e8d04a37af70targetblankf7f6cbca" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreeb890f047f5314ace4412ce8c2644f7dcbee0cb52targetblankb890f04a"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/f7f6cbc259f785033b6de4cde214e8d04a37af70" target="_blank">f7f6cbc</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/nlapier2/mvmr_website/tree/b890f047f5314ace4412ce8c2644f7dcbee0cb52" target="_blank">b890f04</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
-Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .RData
-    Ignored:    .Rhistory
-
-Untracked files:
-    Untracked:  analysis/simulations.Rmd
-
 Unstaged changes:
-    Modified:   analysis/_site.yml
+    Modified:   analysis/gibbs.Rmd
+    Modified:   analysis/simulations.Rmd
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -442,9 +504,76 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/simulations.Rmd</code>) and HTML
+(<code>docs/simulations.html</code>) files. If you’ve configured a
+remote Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/analysis/simulations.Rmd" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+<td>
+rearranged website, added simulation and gibbs tabs, added more project
+description
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/simulations.html" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+<td>
+rearranged website, added simulation and gibbs tabs, added more project
+description
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -455,142 +584,908 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 <div id="htmlwidget-e3d5eff22888eb7ba78a" style="width:800px;height:350px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-e3d5eff22888eb7ba78a">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = LR]\n\n  node [shape = circle]\n  G [label = \"G\"]\n  Z [label = \"Z\"]\n  X [label = \"X\"]\n  Y [label = \"Y\"]\n\n  # edge definitions with the node IDs\n  edge []\n  G -> X [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GX<\/SUB><\/FONT>>]\n  G -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GY<\/SUB><\/FONT>>]\n  G -> Z [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GZ<\/SUB><\/FONT>>]\n  X -> Z [dir=back; label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZX<\/SUB><\/FONT>>]\n  Z -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZY<\/SUB><\/FONT>>]\n  X -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>XY<\/SUB><\/FONT>>]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <!-- ![](../figs/mvmr_dag.jpg) -->
-<p>Here, G are the Genotypes, X are the exposure phenotypes, Y is the outcome phenotype, and Z are confounders. All except Y are expected to be multivariate. The edge variables signify effects between these variables. Let <span class="math inline">\(M\)</span> be the number of SNPs, <span class="math inline">\(K\)</span> be the number of exposures, and <span class="math inline">\(J\)</span> be the number of confounders.</p>
+<p>Here, G are the Genotypes, X are the exposure phenotypes, Y is the
+outcome phenotype, and Z are confounders. All except Y are expected to
+be multivariate. The edge variables signify effects between these
+variables. Let <span class="math inline">\(M\)</span> be the number of
+SNPs, <span class="math inline">\(K\)</span> be the number of exposures,
+and <span class="math inline">\(J\)</span> be the number of
+confounders.</p>
 <p>The structural equation model for this DAG is:</p>
-<p><span class="math display">\[Z = G\theta_{GZ} + \epsilon_Z\]</span> <span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} + \epsilon_X\]</span> <span class="math display">\[Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y\]</span></p>
-<p>G is assumed fixed or is drawn from standard normal distributions. Define</p>
-<p><span class="math display">\[\psi_X = \theta_{GZ} * \theta_{ZX}\]</span> <span class="math display">\[\psi_Y = \theta_{GZ} * \theta_{ZY}\]</span> Then <span class="math inline">\(\psi_X\)</span> defines the heritability of X mediated through Z, <span class="math inline">\(\psi_Y\)</span> defines the confounding effect from G to Y that is correlated with X, and <span class="math inline">\(\theta_{GY}\)</span> defines the confounding effect from G to Y that is not correlated with X.</p>
-<p>By default, <span class="math inline">\(\theta_{XY}\)</span> are fixed effects specified by the user, which allows control over the strength of effects in the simulation. All other effects <span class="math inline">\(theta_i\)</span> (where <span class="math inline">\(i\)</span> is a stand-in for <span class="math inline">\(GX\)</span>, <span class="math inline">\(GY\)</span>, and so on) are drawn according to point-(multivarite-)normal distributions,</p>
-<p><span class="math display">\[\theta_i = f_i * \gamma^*_{i},\]</span></p>
+<p><span class="math display">\[Z = G\theta_{GZ} + \epsilon_Z\]</span>
+<span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} +
+\epsilon_X\]</span> <span class="math display">\[Y = X\theta_{XY} +
+G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y\]</span></p>
+<p>G is assumed fixed or is drawn from standard normal distributions.
+Define</p>
+<p><span class="math display">\[\psi_X = \theta_{GZ} *
+\theta_{ZX}\]</span> <span class="math display">\[\psi_Y = \theta_{GZ} *
+\theta_{ZY}\]</span> Then <span class="math inline">\(\psi_X\)</span>
+defines the heritability of X mediated through Z, <span
+class="math inline">\(\psi_Y\)</span> defines the confounding effect
+from G to Y that is correlated with X, and <span
+class="math inline">\(\theta_{GY}\)</span> defines the confounding
+effect from G to Y that is not correlated with X.</p>
+<p>By default, <span class="math inline">\(\theta_{XY}\)</span> are
+fixed effects specified by the user, which allows control over the
+strength of effects in the simulation. All other effects <span
+class="math inline">\(theta_i\)</span> (where <span
+class="math inline">\(i\)</span> is a stand-in for <span
+class="math inline">\(GX\)</span>, <span
+class="math inline">\(GY\)</span>, and so on) are drawn according to
+point-(multivarite-)normal distributions,</p>
+<p><span class="math display">\[\theta_i = f_i *
+\gamma^*_{i},\]</span></p>
 <p>where f is the point-(multivariate-)normal,</p>
-<p><span class="math display">\[f_i \sim \pi_{0,i}\delta + \pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),\]</span></p>
-<p>where <span class="math inline">\(\delta\)</span> is the Dirac delta function and <span class="math inline">\(d\)</span> is the dimensionality of the effected variable, i.e. <span class="math inline">\(J\)</span> if the effect is on <span class="math inline">\(Z\)</span>, <span class="math inline">\(K\)</span> for <span class="math inline">\(X\)</span>, or <span class="math inline">\(1\)</span> for <span class="math inline">\(Y\)</span>. <span class="math inline">\(\mu\)</span>, the mean parameter, is set to 0 by default, but can be set to non-zero values to allow “directional pleiotropy”. <span class="math inline">\(\Sigma_i\)</span> is currently taken to be a diagonal matrix, but could be generalized to allow correlated effects.</p>
-<p><span class="math inline">\(\pi_{0,i}\)</span> represents the amount of sparsity while <span class="math inline">\(\pi_{1,i}\)</span> represents the density, and <span class="math inline">\(\pi_{0,i} + \pi_{1,i} = 1\)</span>. In practice this is achieved by first simulating the multivariate normal, then multiplying each entry by <span class="math inline">\(\pi_{1,i}\)</span>, which is drawn separately for each entry according to</p>
-<p><span class="math display">\[\pi_{1,i} \sim Bernoulli(\phi_i),\]</span></p>
-<p>where <span class="math inline">\(\phi_i\)</span> is a parameter that controls the level of density. By default, the density of <span class="math inline">\(\theta_{ZY}\)</span> is set to 1 (<span class="math inline">\(\phi_{ZY}=1\)</span>) because if some <span class="math inline">\(Z_j\)</span> does not affect <span class="math inline">\(Y\)</span> then it is not a confounder.</p>
-<p>Finally, <span class="math inline">\(\gamma_i\)</span> represents the scaling parameter to achieve the desired <span class="math inline">\(R^2\)</span>. <span class="math inline">\(G\)</span>, <span class="math inline">\(Z\)</span>, <span class="math inline">\(X\)</span>, and <span class="math inline">\(Y\)</span> are controlled to have unit variance (see simulation of noise below). For <span class="math inline">\(G\)</span> to have the desired <span class="math inline">\(R^2\)</span> (heritability) on <span class="math inline">\(Z\)</span>, <span class="math inline">\(X\)</span>, or <span class="math inline">\(Y\)</span>, we need to adjust this parameter by the number of SNPs and the sparsity of the effects. Therefore, the per-SNP <span class="math inline">\(\gamma_i^*\)</span> is</p>
-<p><span class="math display">\[\gamma^*_{i} = \sqrt{\gamma_{i} / M / \phi_i}\]</span></p>
+<p><span class="math display">\[f_i \sim \pi_{0,i}\delta +
+\pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),\]</span></p>
+<p>where <span class="math inline">\(\delta\)</span> is the Dirac delta
+function and <span class="math inline">\(d\)</span> is the
+dimensionality of the effected variable, i.e. <span
+class="math inline">\(J\)</span> if the effect is on <span
+class="math inline">\(Z\)</span>, <span class="math inline">\(K\)</span>
+for <span class="math inline">\(X\)</span>, or <span
+class="math inline">\(1\)</span> for <span
+class="math inline">\(Y\)</span>. <span
+class="math inline">\(\mu\)</span>, the mean parameter, is set to 0 by
+default, but can be set to non-zero values to allow “directional
+pleiotropy”. <span class="math inline">\(\Sigma_i\)</span> is currently
+taken to be a diagonal matrix, but could be generalized to allow
+correlated effects.</p>
+<p><span class="math inline">\(\pi_{0,i}\)</span> represents the amount
+of sparsity while <span class="math inline">\(\pi_{1,i}\)</span>
+represents the density, and <span class="math inline">\(\pi_{0,i} +
+\pi_{1,i} = 1\)</span>. In practice this is achieved by first simulating
+the multivariate normal, then multiplying each entry by <span
+class="math inline">\(\pi_{1,i}\)</span>, which is drawn separately for
+each entry according to</p>
+<p><span class="math display">\[\pi_{1,i} \sim
+Bernoulli(\phi_i),\]</span></p>
+<p>where <span class="math inline">\(\phi_i\)</span> is a parameter that
+controls the level of density. By default, the density of <span
+class="math inline">\(\theta_{ZY}\)</span> is set to 1 (<span
+class="math inline">\(\phi_{ZY}=1\)</span>) because if some <span
+class="math inline">\(Z_j\)</span> does not affect <span
+class="math inline">\(Y\)</span> then it is not a confounder.</p>
+<p>Finally, <span class="math inline">\(\gamma_i\)</span> represents the
+scaling parameter to achieve the desired <span
+class="math inline">\(R^2\)</span>. <span
+class="math inline">\(G\)</span>, <span
+class="math inline">\(Z\)</span>, <span
+class="math inline">\(X\)</span>, and <span
+class="math inline">\(Y\)</span> are controlled to have unit variance
+(see simulation of noise below). For <span
+class="math inline">\(G\)</span> to have the desired <span
+class="math inline">\(R^2\)</span> (heritability) on <span
+class="math inline">\(Z\)</span>, <span
+class="math inline">\(X\)</span>, or <span
+class="math inline">\(Y\)</span>, we need to adjust this parameter by
+the number of SNPs and the sparsity of the effects. Therefore, the
+per-SNP <span class="math inline">\(\gamma_i^*\)</span> is</p>
+<p><span class="math display">\[\gamma^*_{i} = \sqrt{\gamma_{i} / M /
+\phi_i}\]</span></p>
 <!-- We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X. -->
-<p>The noise variances, epsilon, are designed so that Z, X, and Y have unit variance. So they are simulated according to</p>
-<p><span class="math display">\[\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z I_J)\]</span> <span class="math display">\[\epsilon_X \sim \mathcal{N}_K(0, \xi_Z I_K)\]</span> <span class="math display">\[\epsilon_Y \sim \mathcal{N}(0, \xi_Y)\]</span></p>
+<p>The noise variances, epsilon, are designed so that Z, X, and Y have
+unit variance. So they are simulated according to</p>
+<p><span class="math display">\[\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z
+I_J)\]</span> <span class="math display">\[\epsilon_X \sim
+\mathcal{N}_K(0, \xi_Z I_K)\]</span> <span
+class="math display">\[\epsilon_Y \sim \mathcal{N}(0,
+\xi_Y)\]</span></p>
 <p>where</p>
-<p><span class="math display">\[\xi_Z = 1 - \gamma_{GZ}\]</span> <span class="math display">\[\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}\]</span> <span class="math display">\[\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} - \sum_i \theta_{XY,i}^2\]</span></p>
+<p><span class="math display">\[\xi_Z = 1 - \gamma_{GZ}\]</span> <span
+class="math display">\[\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}\]</span>
+<span class="math display">\[\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} -
+\sum_i \theta_{XY,i}^2\]</span></p>
 </div>
 <div id="baseline-methods-assessed" class="section level3">
 <h3>Baseline Methods Assessed</h3>
 <ul>
-<li>“2SLS”: vanilla two-stage least squares implemented by me. I first perform multiple regression of each <span class="math inline">\(X_j\)</span> on <span class="math inline">\(G\)</span>, obtaining an estimate <span class="math inline">\(\hat{\tilde{X}}\)</span> of the genetic component of X, <span class="math inline">\(\tilde{X}\)</span>. I then regress <span class="math inline">\(Y\)</span> on <span class="math inline">\(\hat{\tilde{X}}\)</span> (second-stage regression).</li>
+<li>“2SLS”: vanilla two-stage least squares implemented by me. I first
+perform multiple regression of each <span
+class="math inline">\(X_j\)</span> on <span
+class="math inline">\(G\)</span>, obtaining an estimate <span
+class="math inline">\(\hat{\tilde{X}}\)</span> of the genetic component
+of X, <span class="math inline">\(\tilde{X}\)</span>. I then regress
+<span class="math inline">\(Y\)</span> on <span
+class="math inline">\(\hat{\tilde{X}}\)</span> (second-stage
+regression).</li>
 </ul>
-<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}\]</span> <span class="math display">\[Y \sim \hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span> <span class="math display">\[Y \sim
+\hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
 <ul>
-<li>“2SLS Oracle”: This is an augmented version of 2SLS where, in the second-stage regression, I include the true values of <span class="math inline">\(G\theta_{GZ}\)</span> (which is equal to the genetic component of Z, <span class="math inline">\(\tilde{Z}\)</span>) and <span class="math inline">\(G\theta_{GY}\)</span> as covariates. This represents the ideal performance of 2SLS if the true confounders were known (“oracle” setting), though it may be beatable by putting appropriate sparse priors on the confounders.</li>
+<li>“2SLS Oracle”: This is an augmented version of 2SLS where, in the
+second-stage regression, I include the true values of <span
+class="math inline">\(G\theta_{GZ}\)</span> (which is equal to the
+genetic component of Z, <span class="math inline">\(\tilde{Z}\)</span>)
+and <span class="math inline">\(G\theta_{GY}\)</span> as covariates.
+This represents the ideal performance of 2SLS if the true confounders
+were known (“oracle” setting), though it may be beatable by putting
+appropriate sparse priors on the confounders.</li>
 </ul>
-<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}\]</span> <span class="math display">\[Y \sim \hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span> <span class="math display">\[Y \sim
+\hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow
+\hat{\theta}_{XY}, pvalue\]</span></p>
 <ul>
-<li>SuSiE-SVD: This performs the same first-stage regression as 2SLS, then runs runs the SuSiE R package for the second-stage regression. Along with <span class="math inline">\(\hat{\tilde{X}}\)</span>, we include the SNPs <span class="math inline">\(G\)</span> to attempt to control for uncorrelated pleiotropy as well as an estimate of the confounders <span class="math inline">\(\hat{\tilde{Z}}\)</span>, produced by running truncated singular value decomposition (SVD) on <span class="math inline">\(\hat{\tilde{X}}\)</span>, to attempt to control for correlated pleiotropy. We give a slightly incorrect value for the true number of confounders to SVD.</li>
+<li>SuSiE-SVD: This performs the same first-stage regression as 2SLS,
+then runs runs the SuSiE R package for the second-stage regression.
+Along with <span class="math inline">\(\hat{\tilde{X}}\)</span>, we
+include the SNPs <span class="math inline">\(G\)</span> to attempt to
+control for uncorrelated pleiotropy as well as an estimate of the
+confounders <span class="math inline">\(\hat{\tilde{Z}}\)</span>,
+produced by running truncated singular value decomposition (SVD) on
+<span class="math inline">\(\hat{\tilde{X}}\)</span>, to attempt to
+control for correlated pleiotropy. We give a slightly incorrect value
+for the true number of confounders to SVD.</li>
 </ul>
-<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}\]</span> <span class="math display">\[SVD(\hat{\tilde{X}}) \rightarrow \hat{\tilde{Z}} = G\hat{\theta}_{GZ}\]</span></p>
-<p><span class="math display">\[susieR::susie(Y \sim \hat{\tilde{X}} + G + \hat{\tilde{Z}}) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span> <span
+class="math display">\[SVD(\hat{\tilde{X}}) \rightarrow \hat{\tilde{Z}}
+= G\hat{\theta}_{GZ}\]</span></p>
+<p><span class="math display">\[susieR::susie(Y \sim \hat{\tilde{X}} + G
++ \hat{\tilde{Z}}) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
 <ul>
-<li>Multivariate versions of four standard MR methods, implemented in the MendelianRandomization package: IVW, Egger, Median, and Lasso. For each of these, I first regress each <span class="math inline">\(X_j\)</span> and <span class="math inline">\(Y\)</span> on each genetic variant. The betas and standard errors from these per-variant regressions (mimicking summary statistics) are given to the methods as input.</li>
+<li>Multivariate versions of four standard MR methods, implemented in
+the MendelianRandomization package: IVW, Egger, Median, and Lasso. For
+each of these, I first regress each <span
+class="math inline">\(X_j\)</span> and <span
+class="math inline">\(Y\)</span> on each genetic variant. The betas and
+standard errors from these per-variant regressions (mimicking summary
+statistics) are given to the methods as input.</li>
 </ul>
-<p><span class="math display">\[X_i \sim G_j \rightarrow \hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow \hat{\beta}_{yj}, \hat{s}^2_{yj}\]</span> <span class="math display">\[MendelianRandomization::MVMR\_IVW(\hat{\beta}, \hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+<p><span class="math display">\[X_i \sim G_j \rightarrow
+\hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow
+\hat{\beta}_{yj}, \hat{s}^2_{yj}\]</span> <span
+class="math display">\[MendelianRandomization::MVMR\_IVW(\hat{\beta},
+\hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
 </div>
 <div id="simulation-results" class="section level3">
 <h3>Simulation Results</h3>
-<p>Here are some plots showing our simulation results. First, I’ll briefly explain the parameter settings.</p>
+<p>Here are some plots showing our simulation results. First, I’ll
+briefly explain the parameter settings.</p>
 <p>The following parameters are fixed:</p>
 <ul>
 <li>N = 20000 samples / individuals</li>
 <li>M = 100 SNPs</li>
 <li>K = 30 exposures / risk factors</li>
-<li>First four exposures are true effects with <span class="math inline">\(\theta_{XY}\)</span> = 0.05 / 0.1 / 0.2 / 0.3. This means that the variance explained of the outcome is 0.0025, 0.01, 0.04, 0.09. The other 26 effects are null. I show the first four nulls in the bar plots below for illustrative purposes.</li>
+<li>First four exposures are true effects with <span
+class="math inline">\(\theta_{XY}\)</span> = 0.05 / 0.1 / 0.2 / 0.3.
+This means that the variance explained of the outcome is 0.0025, 0.01,
+0.04, 0.09. The other 26 effects are null. I show the first four nulls
+in the bar plots below for illustrative purposes.</li>
 <li>J = 3 correlated confounding variables “Z”</li>
-<li>50% sparsity, i.e. of genotype effects on X/Y/Z are set to zero. The rest are drawn from normal distributions. In other words, the effects are point-normal. See “About” for details.</li>
+<li>50% sparsity, i.e. of genotype effects on X/Y/Z are set to zero. The
+rest are drawn from normal distributions. In other words, the effects
+are point-normal. See “About” for details.</li>
 </ul>
 <p>There are five key parameters I vary in these simulations:</p>
 <ul>
-<li><span class="math inline">\(\gamma_{GZ}\)</span>/<span class="math inline">\(\gamma_{GY}\)</span>/<span class="math inline">\(\gamma_{GZ}\)</span> = variance of X/Y/Z explained by G;</li>
-<li><span class="math inline">\(\psi_{X}\)</span>/<span class="math inline">\(\psi_{Y}\)</span> = percent of X/Y explained by G through confounder Z;</li>
-<li><span class="math inline">\(\mu\)</span> = mean parameter of multivariate normal effect size draws</li>
+<li><span class="math inline">\(\gamma_{GZ}\)</span>/<span
+class="math inline">\(\gamma_{GY}\)</span>/<span
+class="math inline">\(\gamma_{GZ}\)</span> = variance of X/Y/Z explained
+by G;</li>
+<li><span class="math inline">\(\psi_{X}\)</span>/<span
+class="math inline">\(\psi_{Y}\)</span> = percent of X/Y explained by G
+through confounder Z;</li>
+<li><span class="math inline">\(\mu\)</span> = mean parameter of
+multivariate normal effect size draws</li>
 </ul>
-<p>The default settings of these are 0.1 (10%) for <span class="math inline">\(\gamma_{GZ}\)</span>/<span class="math inline">\(\gamma_{GY}\)</span>/<span class="math inline">\(\psi_{X}\)</span>/<span class="math inline">\(\psi_{Y}\)</span> and 0 for <span class="math inline">\(\mu\)</span>. The default setting for <span class="math inline">\(\gamma_{GZ}\)</span> is 0.6, which is high, but this is to allow a wide range of <span class="math inline">\(\psi_{X}\)</span> and <span class="math inline">\(\psi_{Y}\)</span> values, since <span class="math inline">\(\psi_{X}\)</span> and <span class="math inline">\(\psi_{Y}\)</span> cannot be greater than <span class="math inline">\(\gamma_{GZ}\)</span>.</p>
+<p>The default settings of these are 0.1 (10%) for <span
+class="math inline">\(\gamma_{GZ}\)</span>/<span
+class="math inline">\(\gamma_{GY}\)</span>/<span
+class="math inline">\(\psi_{X}\)</span>/<span
+class="math inline">\(\psi_{Y}\)</span> and 0 for <span
+class="math inline">\(\mu\)</span>. The default setting for <span
+class="math inline">\(\gamma_{GZ}\)</span> is 0.6, which is high, but
+this is to allow a wide range of <span
+class="math inline">\(\psi_{X}\)</span> and <span
+class="math inline">\(\psi_{Y}\)</span> values, since <span
+class="math inline">\(\psi_{X}\)</span> and <span
+class="math inline">\(\psi_{Y}\)</span> cannot be greater than <span
+class="math inline">\(\gamma_{GZ}\)</span>.</p>
 <p>I show two types of plots:</p>
 <ul>
-<li>Bar plots, showing results for a single parameter setting, with Positive Rate (FPR/Power) on the y-axis and the index of the exposure on the x-axis. The first four exposures are true positives (so y-axis is empirical power) while the rest are null (so y-axis is FPR); only the first four nulls are shown for brevity.</li>
-<li>Line plots, showing results as one of the parameters is varied. FPR plots show results averaged over the four true effects while Power plots show results averaged over the null effects. FPR/Power is on the y-axis and the parameter value is on the x-axis.</li>
+<li>Bar plots, showing results for a single parameter setting, with
+Positive Rate (FPR/Power) on the y-axis and the index of the exposure on
+the x-axis. The first four exposures are true positives (so y-axis is
+empirical power) while the rest are null (so y-axis is FPR); only the
+first four nulls are shown for brevity.</li>
+<li>Line plots, showing results as one of the parameters is varied. FPR
+plots show results averaged over the four true effects while Power plots
+show results averaged over the null effects. FPR/Power is on the y-axis
+and the parameter value is on the x-axis.</li>
 </ul>
-<p>Here are the results with the default settings. We see that all methods except 2SLS-Oracle are inflated, with 2SLS-Oracle being the most powerful. Apart from 2SLS-Oracle, there is a clear order among the other methods in terms of both FPR and Power, with 2SLS &gt; MVMR Lasso &gt; MVMR Median &gt; MVMR IVW/Egger.</p>
+<p>Here are the results with the default settings. We see that all
+methods except 2SLS-Oracle are inflated, with 2SLS-Oracle being the most
+powerful. Apart from 2SLS-Oracle, there is a clear order among the other
+methods in terms of both FPR and Power, with 2SLS &gt; MVMR Lasso &gt;
+MVMR Median &gt; MVMR IVW/Egger.</p>
 <p><img src="figure/simulations.Rmd/both_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>As a sanity check, the plot below shows results in simulations with no confounding. As expected, all methods perform well.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-both_plei-1">
+Past versions of both_plei-1.png
+</button>
+</p>
+<div id="fig-both_plei-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/both_plei-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>As a sanity check, the plot below shows results in simulations with
+no confounding. As expected, all methods perform well.</p>
 <p><img src="figure/simulations.Rmd/no_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GX}\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability NOT mediated through <span class="math inline">\(Z\)</span>. As expected, power increases as the heritability of <span class="math inline">\(X\)</span> increases. Interesetingly, so does the FPR (except for 2SLS-Oracle).</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no_plei-1">
+Past versions of no_plei-1.png
+</button>
+</p>
+<div id="fig-no_plei-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/no_plei-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\theta_{GX}\)</span>, the part of <span
+class="math inline">\(X\)</span>’s heritability NOT mediated through
+<span class="math inline">\(Z\)</span>. As expected, power increases as
+the heritability of <span class="math inline">\(X\)</span> increases.
+Interesetingly, so does the FPR (except for 2SLS-Oracle).</p>
 <p><img src="figure/simulations.Rmd/vary_theta_gx-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\psi_X\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability mediated through <span class="math inline">\(Z\)</span>. This does not noticeably increase FPR (or lower power) for most methods, since it’s not actually confounding. Interestingly, it seems to actually decrease FPR for some methods.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gx-1">
+Past versions of vary_theta_gx-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gx-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_theta_gx-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\psi_X\)</span>, the part of <span
+class="math inline">\(X\)</span>’s heritability mediated through <span
+class="math inline">\(Z\)</span>. This does not noticeably increase FPR
+(or lower power) for most methods, since it’s not actually confounding.
+Interestingly, it seems to actually decrease FPR for some methods.</p>
 <p><img src="figure/simulations.Rmd/vary_psi_x-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_psi_x-1">
+Past versions of vary_psi_x-1.png
+</button>
+</p>
+<div id="fig-vary_psi_x-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_psi_x-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect
+size. As expected, the FPR increases for all methods except 2SLS-Oracle
+as correlated pleiotropy increases. It seems to also potentially lower
+the power of most MR methods, possibly due to increasing the stderr of
+effect estimates.</p>
 <p><img src="figure/simulations.Rmd/vary_psi_y-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic effect size. We see a similar trend to the <span class="math inline">\(\phi_{GY}\)</span> plot, except with a much more pronounced power decrease for IVW/Egger.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_psi_y-1">
+Past versions of vary_psi_y-1.png
+</button>
+</p>
+<div id="fig-vary_psi_y-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_psi_y-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic
+effect size. We see a similar trend to the <span
+class="math inline">\(\phi_{GY}\)</span> plot, except with a much more
+pronounced power decrease for IVW/Egger.</p>
 <p><img src="figure/simulations.Rmd/vary_theta_gy-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\mu\)</span>, the mean parameter of all the above effect sizes (this is called “directional pleiotropy” when <span class="math inline">\(\mu \neq 0\)</span>). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret – the median confounding effect is now no longer zero.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gy-1">
+Past versions of vary_theta_gy-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_theta_gy-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\mu\)</span>, the mean parameter of all the above
+effect sizes (this is called “directional pleiotropy” when <span
+class="math inline">\(\mu \neq 0\)</span>). Interestingly, this
+dramatically decreases both the FPR and power of Median and Lasso. The
+former is easy to interpret – the median confounding effect is now no
+longer zero.</p>
 <p><img src="figure/simulations.Rmd/vary_mu-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GZ}\)</span>, the heritability of <span class="math inline">\(Z\)</span>, while keeping <span class="math inline">\(\psi_X\)</span> and <span class="math inline">\(\psi_Y\)</span> constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as <span class="math inline">\(\theta_{GZ}\)</span> increases.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_mu-1">
+Past versions of vary_mu-1.png
+</button>
+</p>
+<div id="fig-vary_mu-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_mu-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\theta_{GZ}\)</span>, the heritability of <span
+class="math inline">\(Z\)</span>, while keeping <span
+class="math inline">\(\psi_X\)</span> and <span
+class="math inline">\(\psi_Y\)</span> constant. This seems to minimally
+effect most methods, though it seems that there are small trends of
+IVW/Egger power increasing and 2SLS power/FPR decreasing as <span
+class="math inline">\(\theta_{GZ}\)</span> increases.</p>
 <p><img src="figure/simulations.Rmd/vary_theta_gz-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gz-1">
+Past versions of vary_theta_gz-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gz-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_theta_gz-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>A few general observations:</p>
 <ul>
-<li>As expected, methods other than 2SLS Oracle are inflated under confounding &amp; do well with no confounding, with worse performance as confounding increases. 2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.</li>
-<li>Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods don’t fully separate signal from noise, they are just more or less conservative than one another.</li>
-<li>IVW/Egger tend to lose power under confounding moreso than increasing FPR. On the other hand, 2SLS retains power but FPR spikes. Lasso &amp; Median are in-between. This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), while 2SLS stderr does not. Effect size estimates are the same for both methods.</li>
-<li>2SLS Oracle is generally the most powerful method except in a couple cases where 2SLS is more powerful for <span class="math inline">\(X_1\)</span>, and is calibrated except strangely when <span class="math inline">\(\gamma_{GZ}\)</span> is low. Not sure if these are just noisy results or represent things I need to fix.</li>
+<li>As expected, methods other than 2SLS Oracle are inflated under
+confounding &amp; do well with no confounding, with worse performance as
+confounding increases. 2SLS is generally most inflated, followed by
+Lasso, Median, IVW/Egger.</li>
+<li>Power (excepting 2SLS Oracle) follows the same general order. It
+seems that the methods don’t fully separate signal from noise, they are
+just more or less conservative than one another.</li>
+<li>IVW/Egger tend to lose power under confounding moreso than
+increasing FPR. On the other hand, 2SLS retains power but FPR spikes.
+Lasso &amp; Median are in-between. This is because IVW/Egger standard
+errors increase under confounding because they are proportional to
+var(Y), while 2SLS stderr does not. Effect size estimates are the same
+for both methods.</li>
+<li>2SLS Oracle is generally the most powerful method except in a couple
+cases where 2SLS is more powerful for <span
+class="math inline">\(X_1\)</span>, and is calibrated except strangely
+when <span class="math inline">\(\gamma_{GZ}\)</span> is low. Not sure
+if these are just noisy results or represent things I need to fix.</li>
 </ul>
 </div>
 <div id="simulations-under-new-settings" class="section level3">
 <h3>Simulations under new settings</h3>
-<p>I performed some more simulations under settings that may be more realistic. The following changes were made as compared with the above simulations:</p>
+<p>I performed some more simulations under settings that may be more
+realistic. The following changes were made as compared with the above
+simulations:</p>
 <ul>
 <li>The number of samples was increased from 20,000 to 50,000</li>
 <li>The number of SNPs was increased from 100 to 1000</li>
-<li>The sparsity parameters were increased from <span class="math inline">\(\phi_X=\phi_Y=\phi_Z=50\%\)</span> to <span class="math inline">\(\phi_X=70\%, \phi_Y=\phi_Z=90\%\)</span>; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. Intuitively, we expect greater sparsity of genotypic effects on <span class="math inline">\(Z\)</span> and <span class="math inline">\(Y\)</span> than on <span class="math inline">\(X\)</span> since the SNPs were specifically ascertained due to a strong observed association with <span class="math inline">\(X\)</span>.</li>
-<li>The defaults for <span class="math inline">\(\theta_{GX}\)</span>, <span class="math inline">\(\phi_X\)</span>, and <span class="math inline">\(\theta_{GY}\)</span> were increased from <span class="math inline">\(0.1\)</span> to <span class="math inline">\(0.2\)</span>. Meanwhile the default for <span class="math inline">\(\theta_{GZ}\)</span> was decreased to <span class="math inline">\(0.4\)</span> and <span class="math inline">\(\psi_Y\)</span> was kept at <span class="math inline">\(0.1\)</span>. This was done to obtain more balanced and realistic heritabilities, something like we might expect if <span class="math inline">\(X\)</span> were lipid measurements and <span class="math inline">\(Y\)</span> was some complex trait. The resulting heritabilities are <span class="math inline">\(h^2(X)=40\%\)</span>, <span class="math inline">\(h^2(Z)=40\%\)</span>, <span class="math inline">\(h^2(Y)=44.25\%\)</span>.</li>
-<li>As a result of the parameter changes, some of the values they varied between were changed.</li>
-<li>I didn’t bother fiddling with <span class="math inline">\(\theta_{GX}\)</span> or <span class="math inline">\(\mu\)</span> here as the effects should be similar.</li>
+<li>The sparsity parameters were increased from <span
+class="math inline">\(\phi_X=\phi_Y=\phi_Z=50\%\)</span> to <span
+class="math inline">\(\phi_X=70\%, \phi_Y=\phi_Z=90\%\)</span>; thus a
+much smaller percentage of variants will affect the phenotypes,
+especially for pleiotropic effects. Intuitively, we expect greater
+sparsity of genotypic effects on <span class="math inline">\(Z\)</span>
+and <span class="math inline">\(Y\)</span> than on <span
+class="math inline">\(X\)</span> since the SNPs were specifically
+ascertained due to a strong observed association with <span
+class="math inline">\(X\)</span>.</li>
+<li>The defaults for <span class="math inline">\(\theta_{GX}\)</span>,
+<span class="math inline">\(\phi_X\)</span>, and <span
+class="math inline">\(\theta_{GY}\)</span> were increased from <span
+class="math inline">\(0.1\)</span> to <span
+class="math inline">\(0.2\)</span>. Meanwhile the default for <span
+class="math inline">\(\theta_{GZ}\)</span> was decreased to <span
+class="math inline">\(0.4\)</span> and <span
+class="math inline">\(\psi_Y\)</span> was kept at <span
+class="math inline">\(0.1\)</span>. This was done to obtain more
+balanced and realistic heritabilities, something like we might expect if
+<span class="math inline">\(X\)</span> were lipid measurements and <span
+class="math inline">\(Y\)</span> was some complex trait. The resulting
+heritabilities are <span class="math inline">\(h^2(X)=40\%\)</span>,
+<span class="math inline">\(h^2(Z)=40\%\)</span>, <span
+class="math inline">\(h^2(Y)=44.25\%\)</span>.</li>
+<li>As a result of the parameter changes, some of the values they varied
+between were changed.</li>
+<li>I didn’t bother fiddling with <span
+class="math inline">\(\theta_{GX}\)</span> or <span
+class="math inline">\(\mu\)</span> here as the effects should be
+similar.</li>
 <li>I now include Susie results in the plots.</li>
 </ul>
-<p>As we will soon see, compared to the initial simulations, most methods have substantially higher FPR and Power. Even 2SLS-Oracle is inflated, including in the no-pleiotropy setting. My interpretation of this is that there is weak instrument bias at play, since there are now 10 times as many SNPs but only 2 times the heritability. I probably need to re-run these in a two-sample setting, and/or with weak instrument filtering.</p>
-<p>One other interesting result is that Susie-SVD seems to have pretty good FPR control under these settings relative to other methods, at the cost of less power. Probably including <span class="math inline">\(G\)</span> has a big role in this.</p>
+<p>As we will soon see, compared to the initial simulations, most
+methods have substantially higher FPR and Power. Even 2SLS-Oracle is
+inflated, including in the no-pleiotropy setting. My interpretation of
+this is that there is weak instrument bias at play, since there are now
+10 times as many SNPs but only 2 times the heritability. I probably need
+to re-run these in a two-sample setting, and/or with weak instrument
+filtering.</p>
+<p>One other interesting result is that Susie-SVD seems to have pretty
+good FPR control under these settings relative to other methods, at the
+cost of less power. Probably including <span
+class="math inline">\(G\)</span> has a big role in this.</p>
 <p>Here are the results under the default settings:</p>
 <p><img src="figure/simulations.Rmd/both_plei_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-both_plei_new-1">
+Past versions of both_plei_new-1.png
+</button>
+</p>
+<div id="fig-both_plei_new-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/both_plei_new-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s a sanity check with no pleiotropy:</p>
 <p><img src="figure/simulations.Rmd/no_plei_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GX}\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability NOT mediated through <span class="math inline">\(Z\)</span>.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no_plei_new-1">
+Past versions of no_plei_new-1.png
+</button>
+</p>
+<div id="fig-no_plei_new-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/no_plei_new-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\theta_{GX}\)</span>, the part of <span
+class="math inline">\(X\)</span>’s heritability NOT mediated through
+<span class="math inline">\(Z\)</span>.</p>
 <p><img src="figure/simulations.Rmd/vary_theta_gx_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\psi_X\)</span>, the part of <span class="math inline">\(X\)</span>’s heritability mediated through <span class="math inline">\(Z\)</span>.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gx_new-1">
+Past versions of vary_theta_gx_new-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gx_new-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_theta_gx_new-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\psi_X\)</span>, the part of <span
+class="math inline">\(X\)</span>’s heritability mediated through <span
+class="math inline">\(Z\)</span>.</p>
 <p><img src="figure/simulations.Rmd/vary_psi_x_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect size.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_psi_x_new-1">
+Past versions of vary_psi_x_new-1.png
+</button>
+</p>
+<div id="fig-vary_psi_x_new-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_psi_x_new-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\psi_Y\)</span>, the correlated pleiotropic effect
+size.</p>
 <p><img src="figure/simulations.Rmd/vary_psi_y_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
-<p>Here’s the performance when we vary <span class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic effect size.</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_psi_y_new-1">
+Past versions of vary_psi_y_new-1.png
+</button>
+</p>
+<div id="fig-vary_psi_y_new-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_psi_y_new-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here’s the performance when we vary <span
+class="math inline">\(\theta_{GY}\)</span>, the uncorrelated pleiotropic
+effect size.</p>
 <p><img src="figure/simulations.Rmd/vary_theta_gy_new-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-vary_theta_gy_new-1">
+Past versions of vary_theta_gy_new-1.png
+</button>
+</p>
+<div id="fig-vary_theta_gy_new-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/figure/simulations.Rmd/vary_theta_gy_new-1.png" target="_blank">b890f04</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-01-09
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some simulation to-do’s:</p>
 <ul>
-<li>Use real data parameters / parameter settings to be more realistic.</li>
+<li>Use real data parameters / parameter settings to be more
+realistic.</li>
 <li>Use real UK Biobank genotypes.</li>
-<li>Line plots showing changes in power/FPR as parameters are adjusted, rather than static barplot for single parameter setting,</li>
 </ul>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 4.1.2 (2021-11-01)
+<pre><code>R version 4.2.1 (2022-06-23)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Big Sur 10.16
+Running under: macOS Big Sur ... 10.16
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.0.dylib
-LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
 
 locale:
 [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -602,25 +1497,24 @@ other attached packages:
 [1] ggpubr_0.5.0     ggplot2_3.4.0    DiagrammeR_1.0.9 workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.8         tidyr_1.2.0        getPass_0.2-2      ps_1.6.0          
+ [1] Rcpp_1.0.9         tidyr_1.2.1        getPass_0.2-2      ps_1.7.1          
  [5] visNetwork_2.1.2   assertthat_0.2.1   rprojroot_2.0.3    digest_0.6.29     
- [9] utf8_1.2.2         R6_2.5.1           backports_1.4.1    evaluate_0.15     
-[13] highr_0.9          httr_1.4.2         pillar_1.7.0       rlang_1.0.6       
-[17] rstudioapi_0.13    whisker_0.4        car_3.1-1          callr_3.7.3       
-[21] jquerylib_0.1.4    rmarkdown_2.16     labeling_0.4.2     stringr_1.4.0     
-[25] htmlwidgets_1.5.4  munsell_0.5.0      broom_0.7.12       compiler_4.1.2    
-[29] httpuv_1.6.5       xfun_0.32          pkgconfig_2.0.3    htmltools_0.5.4   
-[33] tidyselect_1.1.2   gridExtra_2.3      tibble_3.1.6       fansi_1.0.2       
-[37] crayon_1.5.0       dplyr_1.0.8        withr_2.5.0        later_1.3.0       
-[41] grid_4.1.2         jsonlite_1.8.0     gtable_0.3.0       lifecycle_1.0.3   
-[45] DBI_1.1.2          git2r_0.30.1       magrittr_2.0.2     scales_1.2.1      
-[49] carData_3.0-5      cli_3.5.0          stringi_1.7.6      cachem_1.0.6      
-[53] farver_2.1.0       ggsignif_0.6.4     fs_1.5.2           promises_1.2.0.1  
-[57] bslib_0.4.0        ellipsis_0.3.2     generics_0.1.2     vctrs_0.5.1       
-[61] cowplot_1.1.1      RColorBrewer_1.1-2 tools_4.1.2        glue_1.6.2        
-[65] purrr_0.3.4        abind_1.4-5        processx_3.8.0     fastmap_1.1.0     
-[69] yaml_2.3.5         colorspace_2.0-3   rstatix_0.7.1      knitr_1.40        
-[73] sass_0.4.2        </code></pre>
+ [9] utf8_1.2.2         R6_2.5.1           backports_1.4.1    evaluate_0.16     
+[13] highr_0.9          httr_1.4.4         pillar_1.8.1       rlang_1.0.6       
+[17] rstudioapi_0.14    whisker_0.4        car_3.1-1          callr_3.7.2       
+[21] jquerylib_0.1.4    rmarkdown_2.16     labeling_0.4.2     stringr_1.4.1     
+[25] htmlwidgets_1.5.4  munsell_0.5.0      broom_1.0.1        compiler_4.2.1    
+[29] httpuv_1.6.6       xfun_0.33          pkgconfig_2.0.3    htmltools_0.5.3   
+[33] tidyselect_1.1.2   gridExtra_2.3      tibble_3.1.8       fansi_1.0.3       
+[37] dplyr_1.0.10       withr_2.5.0        later_1.3.0        grid_4.2.1        
+[41] jsonlite_1.8.0     gtable_0.3.1       lifecycle_1.0.3    DBI_1.1.3         
+[45] git2r_0.30.1       magrittr_2.0.3     scales_1.2.1       cli_3.4.0         
+[49] stringi_1.7.8      cachem_1.0.6       carData_3.0-5      farver_2.1.1      
+[53] ggsignif_0.6.4     fs_1.5.2           promises_1.2.0.1   bslib_0.4.0       
+[57] generics_0.1.3     vctrs_0.5.1        cowplot_1.1.1      RColorBrewer_1.1-3
+[61] tools_4.2.1        glue_1.6.2         purrr_0.3.4        processx_3.7.0    
+[65] abind_1.4-5        fastmap_1.1.0      yaml_2.3.5         colorspace_2.0-3  
+[69] rstatix_0.7.1      knitr_1.40         sass_0.4.2        </code></pre>
 </div>
 </div>
 

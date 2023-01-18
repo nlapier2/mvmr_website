@@ -476,5 +476,3 @@ Some simulation to-do's:
 
 * Use real data parameters / parameter settings to be more realistic.
 * Use real UK Biobank genotypes.
-* Line plots showing changes in power/FPR as parameters are adjusted,
-    rather than static barplot for single parameter setting,

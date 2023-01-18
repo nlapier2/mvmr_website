@@ -212,17 +212,45 @@ $$\mu_{ZX}^t = \sigma_{ZX}^t ([G\theta_{GZ,*i}]' \xi_{X_j}^{-1} (X - G\theta_{GZ
 The model seems to be working, because the parameter values converge to the correct values if you fix the other parameters to their true values.
 The parameter estimates also stay close to the true value if you initialize them to the true values and then let them vary freely.
 
-However, when initialized randomly and allowed to fit freely, the parameters do not converge to the true values.
-They converge with little variation on incorrect values.
+However, when initialized randomly and allowed to fit freely, the parameters do not always (or often) converge to the true values.
 This probably means that there are multiple local optima and an incorrect local optimum is being converged towards.
-I am not sure if the problem is identifiable in general without certain sparsity assumptions.
+I am not sure if the problem is identifiable in general without some sparsity assumptions.
 
-I am not doing anything special to learn priors (variables are initialized by drawing from standard normals), so that could help too.
-Also, even though the effects are sparse, I am not explicitly modeling/learning sparsity.
+I did a brief evaluation using similar settings to those on my [simulation page](simulations.html), except with only three exposures, one confounder, and ten SNPs for computational simplicity.
+Parameter estimates and standard errors were evaluated by running the Gibbs sampler 100 times for each simulated dataset.
+The Gibbs sampler performed similarly to vanilla two-stage least squares (2SLS), with high power but also high false positive rates.
+Unlike 2SLS, the average estimate for the true beta was slightly deflated.
+The average estimates for the two null variables were quite low -- close to zero (as hoped for).
+
+Here are the raw results:
+
+```{r gibbs-res, results='hide'}
+'[nlapier2@midway3-login4 mvmr]$ Rscript eval_gibbs.R zzz/job_ 500
+[1] "Average Estimates for Betas: "
+[1]  0.175783706  0.010265478 -0.006009028
+[1] "Standard Deviations of Betas: "
+[1] 0.1787916 0.1738269 0.1816420
+[1] "Average StdErrors for Betas: "
+[1] 0.009712744 0.009482090 0.009499430
+[1] "Positive rate for exposures: "
+[1] 0.966 0.834 0.860
+[1] "Bonferroni-corrected positive rate for exposures: "
+[1] 0.958 0.796 0.826'
+```
+
+This gives some next steps to work on. 
+First, intelligently learning priors is important -- variables are currently initialized by drawing from standard normals.
+Second, sparsity is likely crucial to identifiability of the model.
+Third, as discussed above, there are issues learning $\theta_{GZ}$.
+Finally, it would be ideal to have flexibility beyond normally-distributed variables.
+So this all points to intelligently learning ash priors via variational inference.
+
+Also, speed is currently an issue.
+This may be more specific to my current Gibbs sampler model, e.g. running many chains to get the standard error.
+I implemented some momentum to help speed up slow convergence that I observed, but it's still slow.
 
 
 ## Next steps
 
-* Do something intelligent to learn priors
-* Allow sparse priors -- ash?
+* Intelligently learning priors, possibly sparse priors such as ash
 * Switch to coordinate-ascent variational inference (CAVI) or some other VI
