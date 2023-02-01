@@ -20,7 +20,7 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 ```{r plotcode, echo=FALSE}
 # Code for plots of simulation results
 group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.1,
-                          methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd')) {
+                          methods=c('2sls', '2sls_oracle', '2sls_enahnced', 'susie_svd', 'ivw', 'egger', 'median', 'lasso')) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -216,6 +216,16 @@ $$Y \sim \hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue$$
 $$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
 $$Y \sim \hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow \hat{\theta}_{XY}, pvalue$$
 
+* "2SLS Enhanced": This is an augmented version of 2SLS where, in the second stage regression, I include estimates of $G\theta_{GZ}$ and $G\theta_{GY}$ that can be obtained without knowing the true values. The former is estimated by running SVD on $\hat{\theta}_{GX}$. The latter is estimated by regressing $X$ out of $Y$ and then regressing those residuals on $G$.
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+
+$$SVD(\hat{\theta}_{GX}) \rightarrow \widehat{\theta_{GZ}\theta_{ZX}} = \hat{\psi}_X$$
+$$Y \sim X \rightarrow \hat{Y}_{resid}$$
+$$\hat{Y}_{resid} \sim G \rightarrow \hat{\theta}_{GY}$$
+$$Y \sim \hat{\tilde{X}} + G\hat{\psi}_x + G\hat{\theta}_{GY} \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+
 * SuSiE-SVD: This performs the same first-stage regression as 2SLS, then runs runs the SuSiE R package for the second-stage regression. Along with $\hat{\tilde{X}}$, we include the SNPs $G$ to attempt to control for uncorrelated pleiotropy as well as an estimate of the confounders $\hat{\tilde{Z}}$, produced by running truncated singular value decomposition (SVD) on $\hat{\tilde{X}}$, to attempt to control for correlated pleiotropy. We give a slightly incorrect value for the true number of confounders to SVD.
 
 $$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
@@ -375,6 +385,32 @@ A few general observations:
 * 2SLS Oracle is generally the most powerful method except in a couple cases where
     2SLS is more powerful for $X_1$, and is calibrated except strangely when $\gamma_{GZ}$ is low.
     Not sure if these are just noisy results or represent things I need to fix.
+    
+    
+(UPDATE) Here are some results including the "2SLS Enhanced" and "SuSiE SVD" methods.
+
+Here are the results with the default settings.
+2SLS Enhanced seems to achieve more separation between power and FPR than other methods (except 2SLS Oracle),
+although it is still inflated.
+
+```{r both_plei_full, echo=FALSE, fig.width=12}
+group_barchart('data/results_2sls_enhanced/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'susie_svd', 'ivw', 'egger', 'median', 'lasso'))
+```
+
+
+
+As a sanity check, the plot below shows results in simulations with no confounding. 
+As expected, no methods are inflated.
+However, 2SLS Enhanced has much lower power than other methods for weak true effects.
+
+```{r no_plei_full, echo=FALSE, fig.width=12}
+group_barchart('data/results_2sls_enhanced/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'susie_svd', 'ivw', 'egger', 'median', 'lasso'))
+```
+
     
     
     
