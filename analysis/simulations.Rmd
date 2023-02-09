@@ -20,7 +20,7 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 ```{r plotcode, echo=FALSE}
 # Code for plots of simulation results
 group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.1,
-                          methods=c('2sls', '2sls_oracle', '2sls_enahnced', 'susie_svd', 'ivw', 'egger', 'median', 'lasso')) {
+                          methods=c('2sls', '2sls_oracle', '2sls_enahnced', '2sls_cate', 'susie_svd', 'ivw', 'egger', 'median', 'lasso')) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -489,6 +489,29 @@ power_fpr_thresh_plot ('data/results_2sls_enhanced/no_plei_gx_0.2_gy_0.2_gz_0.4_
                '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05,
                methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'ivw', 'egger', 'median', 'lasso'))
 ```
+
+(UPDATE 2) Here are some results with 2SLS-Cate in the only-correlated-pleiotropy case:
+
+```{r cor_plei_cate, echo=FALSE, fig.width=12}
+group_barchart('data/results_2sls_cate/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', '2sls_cate'))
+```
+
+And again, here are the powers to detect each true variable at an FPR threshold of 0.05, showing similar trends
+to the barchart above:
+
+Here are the powers to detect each true variable at an FPR threshold of 0.05:
+
+```{r cor_plei_cate_powthresh, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot ('data/results_2sls_cate/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', '2sls_cate'))
+```
+
+
+
+
 
     
     
