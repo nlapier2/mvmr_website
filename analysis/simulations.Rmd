@@ -510,6 +510,39 @@ power_fpr_thresh_plot ('data/results_2sls_cate/cor_plei_gx_0.2_gy_0.2_gz_0.4_psi
 ```
 
 
+(UPDATE 3) Here are some results with "susiecate" -- Cate results included in Susie -- with L=60:
+
+No pleiotropy:
+
+```{r no_plei_susiecate, echo=FALSE, fig.width=12}
+group_barchart('data/results_susiecate_L60/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
+```
+
+Correlated pleiotropy only:
+
+```{r cor_plei_susiecate, echo=FALSE, fig.width=12}
+group_barchart('data/results_susiecate_L60/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
+```
+
+Uncorrelated pleiotropy only:
+
+```{r uncor_plei_susiecate, echo=FALSE, fig.width=12}
+group_barchart('data/results_susiecate_L60/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
+```
+
+Both correlated and uncorrelated pleiotropy:
+
+```{r both_plei_susiecate, echo=FALSE, fig.width=12}
+group_barchart('data/results_susiecate_L60/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
+               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
+```
 
 
 
