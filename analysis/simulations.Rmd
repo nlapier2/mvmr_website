@@ -354,6 +354,23 @@ group_barchart('data/results/no_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0
 ```
 
 
+Here's the performance with only correlated pleiotropy. Here we see that all methods except the oracle method have inflated FPR:
+
+```{r cor_plei, echo=FALSE, fig.width=12}
+group_barchart('data/results/cor_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
+```
+
+Finally, here's the performance with only uncorrelated pleiotropy.
+
+```{r uncor_plei, echo=FALSE, fig.width=12}
+group_barchart('data/results/uncor_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
+```
+
+
 
 Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$. As expected, power increases as the heritability of $X$ increases. Interesetingly, so does the FPR (except for 2SLS-Oracle).
 
