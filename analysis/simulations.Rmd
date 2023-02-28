@@ -20,7 +20,7 @@ cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00",
 ```{r plotcode, echo=FALSE}
 # Code for plots of simulation results
 group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.1,
-                          methods=c('2sls', '2sls_oracle', '2sls_enahnced', '2sls_cate', 'susie_svd', 'ivw', 'egger', 'median', 'lasso')) {
+                          methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple')) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -29,14 +29,14 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
     fname = paste0(dirname, prefix, m, '.txt')
     res = na.omit(read.table(fname))
     num_cols = dim(res)[2]
-    if(m == 'susie_svd' || m == 'zuber') {
+    if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
       num_betas = num_cols 
     } else {
       num_betas = num_cols / 3
     }
     # compute rates of (true or false) positives
     for (i in 1:n_x_show) {
-      if(m == 'susie_svd' || m == 'zuber') {
+      if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
         posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
       } else {
         posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -57,7 +57,7 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
 
 
 power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show = 4, thresh = 0.05,
-                          methods=c('2sls', '2sls_oracle', '2sls_enahnced', 'ivw', 'egger', 'median', 'lasso')) {
+                          methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple')) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -69,7 +69,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     num_sims = dim(res)[1]
     num_cols = dim(res)[2]
     if(m == 'susie_svd' || m == 'zuber') {
-      next
+      num_betas = num_cols
     } else {
       num_betas = num_cols / 3
     }
@@ -81,12 +81,20 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     sorted_pvals = c()
     for(row in 1:num_sims) {
       for(col in 1:num_betas) {
-        entry = res[row,(2*num_betas+col)]
+        if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+          entry = res[row,col]
+        } else {
+          entry = res[row,(2*num_betas+col)]
+        }
         sorted_pvals = rbind(sorted_pvals, c(entry, col))
       }
     }
-    sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
-    
+    if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+      sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
+    } else {
+      sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
+    }
+
     truepos = rep(0, num_betas)
     falsepos = 0
     for(row in 1:dim(sorted_pvals)[1]) {
@@ -119,7 +127,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
 
 param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_res_', 
                           thresh = 0.05, pip_thresh = 0.1, 
-                          methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd')) {
+                          methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple')) {
   all_method_labels = c()
   all_param_vals = c()
   all_fpr = c()
@@ -134,14 +142,14 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
       fname = paste0(dirname, prefix, m, '.txt')
       res = na.omit(read.table(fname))
       num_cols = dim(res)[2]
-      if(m == 'susie_svd' || m == 'zuber') {
+      if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
         num_betas = num_cols 
       } else {
         num_betas = num_cols / 3
       }
       # compute rates of (true or false) positives
       for (i in 1:num_betas) {
-        if(m == 'susie_svd' || m == 'zuber') {
+        if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
           posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
         } else {
           posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -372,194 +380,109 @@ group_barchart('data/results/uncor_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_m
 
 
 
-Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$. As expected, power increases as the heritability of $X$ increases. Interesetingly, so does the FPR (except for 2SLS-Oracle).
+<!-- Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$. As expected, power increases as the heritability of $X$ increases. Interestingly, so does the FPR (except for 2SLS-Oracle). -->
 
-```{r vary_theta_gx, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.05_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.2_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gx', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\psi_X$, the part of $X$'s heritability mediated through $Z$. This does not noticeably increase FPR (or lower power) for most methods, since it's not actually confounding. Interestingly, it seems to actually decrease FPR for some methods.
-
-```{r vary_psi_x, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.05_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.2_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'psi_x', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-                            methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
+<!-- ```{r vary_theta_gx, echo=FALSE, fig.width=12} -->
+<!-- this_dirvec = c('data/results/array_gx_0.05_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.2_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/') -->
+<!-- param_lineplot(this_dirvec, 'theta_gx', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
 
 
 
-Here's the performance when we vary $\psi_Y$, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates.
+<!-- Here's the performance when we vary $\psi_X$, the part of $X$'s heritability mediated through $Z$. This does not noticeably increase FPR (or lower power) for most methods, since it's not actually confounding. Interestingly, it seems to actually decrease FPR for some methods. -->
 
-```{r vary_psi_y, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.05_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.2_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0/')
-param_lineplot(this_dirvec, 'psi_y', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-                            methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GY}$, the uncorrelated pleiotropic effect size. We see a similar trend to the $\phi_{GY}$ plot, except with a much more pronounced power decrease for IVW/Egger.
-
-```{r vary_theta_gy, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.05_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.2_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gy', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
+<!-- ```{r vary_psi_x, echo=FALSE, fig.width=12} -->
+<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.05_psiy_0.1_mu_0/', -->
+<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.2_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0/') -->
+<!-- param_lineplot(this_dirvec, 'psi_x', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, -->
+<!--                             methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
 
 
 
-Here's the performance when we vary $\mu$, the mean parameter of all the above effect sizes (this is called "directional pleiotropy" when $\mu \neq 0$). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret -- the median confounding effect is now no longer zero.
+<!-- Here's the performance when we vary $\psi_Y$, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates. -->
 
-```{r vary_mu, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.2/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.4/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.8/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_1.6/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2/')
-param_lineplot(this_dirvec, 'mu', c(0, 0.2, 0.4, 0.8, 1.6, 3.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GZ}$, the heritability of $Z$, while keeping $\psi_X$ and $\psi_Y$ constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as $\theta_{GZ}$ increases.
-
-```{r vary_theta_gz, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.4_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/',
-                'data/results/array_gx_0.1_gy_0.1_gz_0.8_psix_0.1_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gz', c(0.2, 0.4, 0.6, 0.8), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso'))
-```
+<!-- ```{r vary_psi_y, echo=FALSE, fig.width=12} -->
+<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.05_mu_0/', -->
+<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.2_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0/') -->
+<!-- param_lineplot(this_dirvec, 'psi_y', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, -->
+<!--                             methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
 
 
 
+<!-- Here's the performance when we vary $\theta_{GY}$, the uncorrelated pleiotropic effect size. We see a similar trend to the $\phi_{GY}$ plot, except with a much more pronounced power decrease for IVW/Egger. -->
 
-A few general observations:
+<!-- ```{r vary_theta_gy, echo=FALSE, fig.width=12} -->
+<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.05_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.2_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0/') -->
+<!-- param_lineplot(this_dirvec, 'theta_gy', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
 
-* As expected, methods other than 2SLS Oracle are inflated under confounding & do well with no confounding,
-    with worse performance as confounding increases.
-    2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger.
-* Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods
-    don't fully separate signal from noise, they are just more or less conservative than one another.
-* IVW/Egger tend to lose power under confounding moreso than increasing FPR.
-    On the other hand, 2SLS retains power but FPR spikes. Lasso & Median are in-between.
-    This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y),
-    while 2SLS stderr does not. Effect size estimates are the same for both methods.
-* 2SLS Oracle is generally the most powerful method except in a couple cases where
-    2SLS is more powerful for $X_1$, and is calibrated except strangely when $\gamma_{GZ}$ is low.
-    Not sure if these are just noisy results or represent things I need to fix.
+
+
+<!-- Here's the performance when we vary $\mu$, the mean parameter of all the above effect sizes (this is called "directional pleiotropy" when $\mu \neq 0$). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret -- the median confounding effect is now no longer zero. -->
+
+<!-- ```{r vary_mu, echo=FALSE, fig.width=12} -->
+<!-- this_dirvec = c('data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.2/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.4/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.8/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_1.6/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2/') -->
+<!-- param_lineplot(this_dirvec, 'mu', c(0, 0.2, 0.4, 0.8, 1.6, 3.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
+
+
+
+<!-- Here's the performance when we vary $\theta_{GZ}$, the heritability of $Z$, while keeping $\psi_X$ and $\psi_Y$ constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as $\theta_{GZ}$ increases. -->
+
+<!-- ```{r vary_theta_gz, echo=FALSE, fig.width=12} -->
+<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.4_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
+<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.8_psix_0.1_psiy_0.1_mu_0/') -->
+<!-- param_lineplot(this_dirvec, 'theta_gz', c(0.2, 0.4, 0.6, 0.8), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
+
+
+
+
+<!-- A few general observations: -->
+
+<!-- * As expected, methods other than 2SLS Oracle are inflated under confounding & do well with no confounding, -->
+<!--     with worse performance as confounding increases. -->
+<!--     2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger. -->
+<!-- * Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods -->
+<!--     don't fully separate signal from noise, they are just more or less conservative than one another. -->
+<!-- * IVW/Egger tend to lose power under confounding moreso than increasing FPR. -->
+<!--     On the other hand, 2SLS retains power but FPR spikes. Lasso & Median are in-between. -->
+<!--     This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), -->
+<!--     while 2SLS stderr does not. Effect size estimates are the same for both methods. -->
+<!-- * 2SLS Oracle is generally the most powerful method except in a couple cases where -->
+<!--     2SLS is more powerful for $X_1$, and is calibrated except strangely when $\gamma_{GZ}$ is low. -->
+<!--     Not sure if these are just noisy results or represent things I need to fix. -->
     
     
-(UPDATE) Here are some results including the "2SLS Enhanced" and "SuSiE SVD" methods.
+<!-- Here are the powers to detect each true variable at an FPR threshold of 0.05: -->
 
-Here are the results with the default settings.
-2SLS Enhanced seems to achieve more separation between power and FPR than other methods (except 2SLS Oracle),
-although it is still inflated.
-
-```{r both_plei_full, echo=FALSE, fig.width=12}
-group_barchart('data/results_2sls_enhanced/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'susie_svd', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-Here are the powers to detect each true variable at an FPR threshold of 0.05:
-
-```{r both_plei_powthresh, echo=FALSE, fig.width=12}
-power_fpr_thresh_plot ('data/results_2sls_enhanced/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'ivw', 'egger', 'median', 'lasso'))
-```
+<!-- ```{r both_plei_powthresh, echo=FALSE, fig.width=12} -->
+<!-- power_fpr_thresh_plot ('data/results_2sls_enhanced/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',  -->
+<!--                '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05, -->
+<!--                methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'ivw', 'egger', 'median', 'lasso')) -->
+<!-- ``` -->
 
 
-As a sanity check, the plot below shows results in simulations with no confounding. 
-As expected, no methods are inflated.
-However, 2SLS Enhanced has much lower power than other methods for weak true effects.
 
-```{r no_plei_full, echo=FALSE, fig.width=12}
-group_barchart('data/results_2sls_enhanced/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'susie_svd', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-And again, here are the powers to detect each true variable at an FPR threshold of 0.05, showing similar trends
-to the barchart above:
-
-Here are the powers to detect each true variable at an FPR threshold of 0.05:
-
-```{r no_plei_powthresh, echo=FALSE, fig.width=12}
-power_fpr_thresh_plot ('data/results_2sls_enhanced/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'ivw', 'egger', 'median', 'lasso'))
-```
-
-(UPDATE 2) Here are some results with 2SLS-Cate in the only-correlated-pleiotropy case:
-
-```{r cor_plei_cate, echo=FALSE, fig.width=12}
-group_barchart('data/results_2sls_cate/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_cate'))
-```
-
-And again, here are the powers to detect each true variable at an FPR threshold of 0.05, showing similar trends
-to the barchart above:
-
-Here are the powers to detect each true variable at an FPR threshold of 0.05:
-
-```{r cor_plei_cate_powthresh, echo=FALSE, fig.width=12}
-power_fpr_thresh_plot ('data/results_2sls_cate/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_cate'))
-```
-
-
-(UPDATE 3) Here are some results with "susiecate" -- Cate results included in Susie -- with L=60:
-
-No pleiotropy:
-
-```{r no_plei_susiecate, echo=FALSE, fig.width=12}
-group_barchart('data/results_susiecate_L60/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
-```
-
-Correlated pleiotropy only:
-
-```{r cor_plei_susiecate, echo=FALSE, fig.width=12}
-group_barchart('data/results_susiecate_L60/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
-```
-
-Uncorrelated pleiotropy only:
-
-```{r uncor_plei_susiecate, echo=FALSE, fig.width=12}
-group_barchart('data/results_susiecate_L60/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
-```
-
-Both correlated and uncorrelated pleiotropy:
-
-```{r both_plei_susiecate, echo=FALSE, fig.width=12}
-group_barchart('data/results_susiecate_L60/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/', 
-               prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susie_svd'))
-```
 
 
 
@@ -571,92 +494,56 @@ group_barchart('data/results_susiecate_L60/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0
 I performed some more simulations under settings that may be more realistic.
 The following changes were made as compared with the above simulations:
 
-* The number of samples was increased from 20,000 to 50,000
-* The number of SNPs was increased from 100 to 1000
-* The sparsity parameters were increased from $\phi_X=\phi_Y=\phi_Z=50\%$ to $\phi_X=70\%, \phi_Y=\phi_Z=90\%$; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. Intuitively, we expect greater sparsity of genotypic effects on $Z$ and $Y$ than on $X$ since the SNPs were specifically ascertained due to a strong observed association with $X$.
-* The defaults for $\theta_{GX}$, $\phi_X$, and $\theta_{GY}$ were increased from $0.1$ to $0.2$.
-  Meanwhile the default for $\theta_{GZ}$ was decreased to $0.4$ and $\psi_Y$ was kept at $0.1$.
+<!-- * The number of samples was increased from 20,000 to 50,000 -->
+<!-- * The number of SNPs was increased from 100 to 1000 -->
+* The density parameters were decreased from $\phi_X=\phi_Y=\phi_Z=50\%$ to $\phi_X=5\%, \phi_Y=\phi_Z=5\%$; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. 
+* The defaults for $\theta_{GX}$, $\psi_X$, and $\theta_{GY}$ were increased from $0.1$ to $0.2$.
+  Meanwhile the default for $\theta_{GZ}$ was decreased to $0.4$ and $\psi_Y$ was kept at $0.15$.
   This was done to obtain more balanced and realistic heritabilities, something like we might expect
     if $X$ were lipid measurements and $Y$ was some complex trait.
-  The resulting heritabilities are $h^2(X)=40\%$, $h^2(Z)=40\%$, $h^2(Y)=44.25\%$.
+  The resulting heritabilities are $h^2(X)=40\%$, $h^2(Z)=40\%$, $h^2(Y)=49.25\%$.
 * As a result of the parameter changes, some of the values they varied between were changed.
 * I didn't bother fiddling with $\theta_{GX}$ or $\mu$ here as the effects should be similar.
-* I now include Susie results in the plots.
-
-
-As we will soon see, compared to the initial simulations, most methods have substantially higher FPR and Power.
-Even 2SLS-Oracle is inflated, including in the no-pleiotropy setting.
-My interpretation of this is that there is weak instrument bias at play, since there are now 10 times as many SNPs but only 2 times the heritability.
-I probably need to re-run these in a two-sample setting, and/or with weak instrument filtering.
-
-One other interesting result is that Susie-SVD seems to have pretty good FPR control under these settings relative to other methods, at the cost of less power. Probably including $G$ has a big role in this.
-
+* I now include more methods in the plots.
 
 
 Here are the results under the default settings:
 
-```{r both_plei_new, echo=FALSE, fig.width=12}
-group_barchart('data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
+```{r both_plei_highsnp, echo=FALSE, fig.width=12}
+group_barchart('data/results_highsnp_fixed/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
 ```
 
 
 
 Here's a sanity check with no pleiotropy:
 
-```{r no_plei_new, echo=FALSE, fig.width=12}
-group_barchart('data/results_new_setting/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
+```{r no_plei_highsnp, echo=FALSE, fig.width=12}
+group_barchart('data/results_highsnp_fixed/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
 ```
 
 
 
-Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$.
+Here are the results with only correlated pleiotropy:
 
-```{r vary_theta_gx_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.1_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/array_gx_0.4_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gx', c(0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
+```{r cor_plei_highsnp, echo=FALSE, fig.width=12}
+group_barchart('data/results_highsnp_fixed/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
 ```
 
 
 
-Here's the performance when we vary $\psi_X$, the part of $X$'s heritability mediated through $Z$.
+Finally, here are the results with only uncorrelated pleiotropy:
 
-```{r vary_psi_x_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.1_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'psi_x', c(0.1, 0.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
+```{r uncor_plei_highsnp, echo=FALSE, fig.width=12}
+group_barchart('data/results_highsnp_fixed/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
 ```
-
-
-
-Here's the performance when we vary $\psi_Y$, the correlated pleiotropic effect size.
-
-```{r vary_psi_y_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.05_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/array_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.2_mu_0/')
-param_lineplot(this_dirvec, 'psi_y', c(0.05, 0.1, 0.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
-
-
-Here's the performance when we vary $\theta_{GY}$, the uncorrelated pleiotropic effect size.
-
-```{r vary_theta_gy_new, echo=FALSE, fig.width=12}
-this_dirvec = c('data/results_new_setting/array_gx_0.2_gy_0.1_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.1_mu_0/',
-                'data/results_new_setting/array_gx_0.2_gy_0.4_gz_0.4_psix_0.2_psiy_0.1_mu_0/')
-param_lineplot(this_dirvec, 'theta_gy', c(0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso', 'susie_svd'))
-```
-
 
     
     
