@@ -14,13 +14,13 @@ library("ggplot2")
 library("ggpubr")
 
 # colorblind-friendly palette
-cbPalette <- c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#999999")
+cbPalette <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", 
+                             "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888")
 ```
 
 ```{r plotcode, echo=FALSE}
 # Code for plots of simulation results
-group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.1,
-                          methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple')) {
+group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5, methods=c()) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -29,14 +29,14 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
     fname = paste0(dirname, prefix, m, '.txt')
     res = na.omit(read.table(fname))
     num_cols = dim(res)[2]
-    if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+    if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
       num_betas = num_cols 
     } else {
       num_betas = num_cols / 3
     }
     # compute rates of (true or false) positives
     for (i in 1:n_x_show) {
-      if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+      if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
         posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
       } else {
         posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -56,8 +56,7 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
 }
 
 
-power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show = 4, thresh = 0.05,
-                          methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple')) {
+power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show = 4, thresh = 0.05, methods=c()) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -68,7 +67,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     res = na.omit(read.table(fname))
     num_sims = dim(res)[1]
     num_cols = dim(res)[2]
-    if(m == 'susie_svd' || m == 'zuber') {
+    if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
       num_betas = num_cols
     } else {
       num_betas = num_cols / 3
@@ -81,7 +80,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     sorted_pvals = c()
     for(row in 1:num_sims) {
       for(col in 1:num_betas) {
-        if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+        if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
           entry = res[row,col]
         } else {
           entry = res[row,(2*num_betas+col)]
@@ -89,7 +88,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
         sorted_pvals = rbind(sorted_pvals, c(entry, col))
       }
     }
-    if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+    if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
     } else {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
@@ -126,8 +125,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
 
 
 param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_res_', 
-                          thresh = 0.05, pip_thresh = 0.1, 
-                          methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple')) {
+                          thresh = 0.05, pip_thresh = 0.1, methods=c()) {
   all_method_labels = c()
   all_param_vals = c()
   all_fpr = c()
@@ -142,14 +140,14 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
       fname = paste0(dirname, prefix, m, '.txt')
       res = na.omit(read.table(fname))
       num_cols = dim(res)[2]
-      if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+      if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
         num_betas = num_cols 
       } else {
         num_betas = num_cols / 3
       }
       # compute rates of (true or false) positives
       for (i in 1:num_betas) {
-        if(m == 'susie_svd' || m == 'susiecate' || m == 'zuber') {
+        if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
           posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
         } else {
           posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -380,112 +378,6 @@ group_barchart('data/results/uncor_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_m
 
 
 
-<!-- Here's the performance when we vary $\theta_{GX}$, the part of $X$'s heritability NOT mediated through $Z$. As expected, power increases as the heritability of $X$ increases. Interestingly, so does the FPR (except for 2SLS-Oracle). -->
-
-<!-- ```{r vary_theta_gx, echo=FALSE, fig.width=12} -->
-<!-- this_dirvec = c('data/results/array_gx_0.05_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.2_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.4_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/') -->
-<!-- param_lineplot(this_dirvec, 'theta_gx', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-<!-- Here's the performance when we vary $\psi_X$, the part of $X$'s heritability mediated through $Z$. This does not noticeably increase FPR (or lower power) for most methods, since it's not actually confounding. Interestingly, it seems to actually decrease FPR for some methods. -->
-
-<!-- ```{r vary_psi_x, echo=FALSE, fig.width=12} -->
-<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.05_psiy_0.1_mu_0/', -->
-<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.2_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.4_psiy_0.1_mu_0/') -->
-<!-- param_lineplot(this_dirvec, 'psi_x', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, -->
-<!--                             methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-<!-- Here's the performance when we vary $\psi_Y$, the correlated pleiotropic effect size. As expected, the FPR increases for all methods except 2SLS-Oracle as correlated pleiotropy increases. It seems to also potentially lower the power of most MR methods, possibly due to increasing the stderr of effect estimates. -->
-
-<!-- ```{r vary_psi_y, echo=FALSE, fig.width=12} -->
-<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.05_mu_0/', -->
-<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.2_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.4_mu_0/') -->
-<!-- param_lineplot(this_dirvec, 'psi_y', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, -->
-<!--                             methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-<!-- Here's the performance when we vary $\theta_{GY}$, the uncorrelated pleiotropic effect size. We see a similar trend to the $\phi_{GY}$ plot, except with a much more pronounced power decrease for IVW/Egger. -->
-
-<!-- ```{r vary_theta_gy, echo=FALSE, fig.width=12} -->
-<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.05_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.2_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.4_gz_0.6_psix_0.1_psiy_0.1_mu_0/') -->
-<!-- param_lineplot(this_dirvec, 'theta_gy', c(0.05, 0.1, 0.2, 0.4), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-<!-- Here's the performance when we vary $\mu$, the mean parameter of all the above effect sizes (this is called "directional pleiotropy" when $\mu \neq 0$). Interestingly, this dramatically decreases both the FPR and power of Median and Lasso. The former is easy to interpret -- the median confounding effect is now no longer zero. -->
-
-<!-- ```{r vary_mu, echo=FALSE, fig.width=12} -->
-<!-- this_dirvec = c('data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.2/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.4/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0.8/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_1.6/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_3.2/') -->
-<!-- param_lineplot(this_dirvec, 'mu', c(0, 0.2, 0.4, 0.8, 1.6, 3.2), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-<!-- Here's the performance when we vary $\theta_{GZ}$, the heritability of $Z$, while keeping $\psi_X$ and $\psi_Y$ constant. This seems to minimally effect most methods, though it seems that there are small trends of IVW/Egger power increasing and 2SLS power/FPR decreasing as $\theta_{GZ}$ increases. -->
-
-<!-- ```{r vary_theta_gz, echo=FALSE, fig.width=12} -->
-<!-- this_dirvec = c('data/results/array_gx_0.1_gy_0.1_gz_0.2_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.4_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/both_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_mu_0/', -->
-<!--                 'data/results/array_gx_0.1_gy_0.1_gz_0.8_psix_0.1_psiy_0.1_mu_0/') -->
-<!-- param_lineplot(this_dirvec, 'theta_gz', c(0.2, 0.4, 0.6, 0.8), c(1,2,3,4), prefix='all_res_', thresh = 0.05, methods=c('2sls', '2sls_oracle', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-
-<!-- A few general observations: -->
-
-<!-- * As expected, methods other than 2SLS Oracle are inflated under confounding & do well with no confounding, -->
-<!--     with worse performance as confounding increases. -->
-<!--     2SLS is generally most inflated, followed by Lasso, Median, IVW/Egger. -->
-<!-- * Power (excepting 2SLS Oracle) follows the same general order. It seems that the methods -->
-<!--     don't fully separate signal from noise, they are just more or less conservative than one another. -->
-<!-- * IVW/Egger tend to lose power under confounding moreso than increasing FPR. -->
-<!--     On the other hand, 2SLS retains power but FPR spikes. Lasso & Median are in-between. -->
-<!--     This is because IVW/Egger standard errors increase under confounding because they are proportional to var(Y), -->
-<!--     while 2SLS stderr does not. Effect size estimates are the same for both methods. -->
-<!-- * 2SLS Oracle is generally the most powerful method except in a couple cases where -->
-<!--     2SLS is more powerful for $X_1$, and is calibrated except strangely when $\gamma_{GZ}$ is low. -->
-<!--     Not sure if these are just noisy results or represent things I need to fix. -->
-    
-    
-<!-- Here are the powers to detect each true variable at an FPR threshold of 0.05: -->
-
-<!-- ```{r both_plei_powthresh, echo=FALSE, fig.width=12} -->
-<!-- power_fpr_thresh_plot ('data/results_2sls_enhanced/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',  -->
-<!--                '1,2,3,4', prefix='all_res_', n_x_show = 4, thresh = 0.05, -->
-<!--                methods=c('2sls', '2sls_oracle', '2sls_enhanced', 'ivw', 'egger', 'median', 'lasso')) -->
-<!-- ``` -->
-
-
-
-
-
-
     
     
     
@@ -546,8 +438,78 @@ group_barchart('data/results_highsnp_fixed/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_
 ```
 
     
-    
-Some simulation to-do's:
 
-* Use real data parameters / parameter settings to be more realistic.
-* Use real UK Biobank genotypes.
+
+### Simulations with Cate and RPCA plugins
+
+Here I'm comparing standard methods augmented with either Cate or RPCA,
+under several sparsity and SNP count settings.
+This will show that Cate is more robust than RPCA in that it does not assume
+that the G-->Z effects are dense, while RPCA needs this assumption.
+Of course, the benefit of RPCA is we can apply it to summary statistics,
+while Cate needs individual-level data.
+
+We will also see that Robust generally enjoys greater power than SuSiE,
+but is occasionally inflated, particularly in a scenario with denser direct effects
+and fewer SNPs overall. 
+On the other hand, SuSiE has low power to detect weak effects but is very robust
+to almost any setting, provided that it is given a reasonable estimate of 
+correlated pleiotropic effects via Cate or RPCA.
+
+Here are the results with correlated pleiotropy only, with $\theta_{gx}$ sparse
+and $\theta_{gz}$ dense ($\phi_{gx}=0.1$ and $\phi_{gz}=0.8$).
+
+```{r cor_plei_rpcacate1, echo=FALSE, fig.width=12}
+group_barchart('data/results_rpca_cate1/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
+                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
+                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+```
+
+Here's the same plot, except with $\phi_{gz}=0.1$. This is a problem for RPCA,
+but not Cate.
+
+```{r cor_plei_rpcacate2, echo=FALSE, fig.width=12}
+group_barchart('data/results_rpca_cate2/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
+                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
+                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+```
+
+Finally, here's a setting with $100$ SNPs (the above two have 300) and $\phi_{gx}=0.5$.
+
+```{r cor_plei_rpcacate4, echo=FALSE, fig.width=12}
+group_barchart('data/results_rpca_cate4/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
+                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
+                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+```
+
+Here's the same, but with both kinds of pleiotropy:
+
+```{r both_plei_rpcacate4, echo=FALSE, fig.width=12}
+group_barchart('data/results_rpca_cate4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
+                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
+                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+```
+
+Finally, here's the power at a fixed FPR threshold, using the same data as above:
+
+```{r powfpr_both_plei_rpcacate4, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_rpca_cate4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
+                      c('1','2','3','4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+                      methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
+                                 'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
+                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+```
+
