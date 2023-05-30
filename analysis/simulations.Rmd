@@ -140,14 +140,14 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
       fname = paste0(dirname, prefix, m, '.txt')
       res = na.omit(read.table(fname))
       num_cols = dim(res)[2]
-      if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+      if(grepl('susie', m) || grepl('zuber', m)) {
         num_betas = num_cols 
       } else {
         num_betas = num_cols / 3
       }
       # compute rates of (true or false) positives
       for (i in 1:num_betas) {
-        if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+        if(grepl('susie', m) || grepl('zuber', m)) {
           posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
         } else {
           posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
