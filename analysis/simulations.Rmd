@@ -15,7 +15,7 @@ library("ggpubr")
 
 # colorblind-friendly palette
 cbPalette <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", 
-                             "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888")
+               "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888", "#000000")
 ```
 
 ```{r plotcode, echo=FALSE}
@@ -29,14 +29,14 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
     fname = paste0(dirname, prefix, m, '.txt')
     res = na.omit(read.table(fname))
     num_cols = dim(res)[2]
-    if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+    if(grepl('susie', m) || grepl('zuber', m)) {
       num_betas = num_cols 
     } else {
       num_betas = num_cols / 3
     }
     # compute rates of (true or false) positives
     for (i in 1:n_x_show) {
-      if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+      if(grepl('susie', m) || grepl('zuber', m)) {
         posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
       } else {
         posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -67,7 +67,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     res = na.omit(read.table(fname))
     num_sims = dim(res)[1]
     num_cols = dim(res)[2]
-    if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+    if(grepl('susie', m) || grepl('zuber', m)) {
       num_betas = num_cols
     } else {
       num_betas = num_cols / 3
@@ -80,7 +80,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     sorted_pvals = c()
     for(row in 1:num_sims) {
       for(col in 1:num_betas) {
-        if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+        if(grepl('susie', m) || grepl('zuber', m)) {
           entry = res[row,col]
         } else {
           entry = res[row,(2*num_betas+col)]
@@ -88,7 +88,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
         sorted_pvals = rbind(sorted_pvals, c(entry, col))
       }
     }
-    if(m == 'susie' || m == 'susie_svd' || m == 'susie_cate' || m == 'susie_rpca' || m == 'zuber') {
+    if(grepl('susie', m) || grepl('zuber', m)) {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
     } else {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
@@ -381,69 +381,27 @@ group_barchart('data/results/uncor_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_m
     
     
     
-### Simulations under new settings
+### Simulations with new settings + Cate, RPCA, & GFA plugins
 
 I performed some more simulations under settings that may be more realistic.
 The following changes were made as compared with the above simulations:
 
 <!-- * The number of samples was increased from 20,000 to 50,000 -->
-<!-- * The number of SNPs was increased from 100 to 1000 -->
-* The density parameters were decreased from $\phi_X=\phi_Y=\phi_Z=50\%$ to $\phi_X=5\%, \phi_Y=\phi_Z=5\%$; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. 
-* The defaults for $\theta_{GX}$, $\psi_X$, and $\theta_{GY}$ were increased from $0.1$ to $0.2$.
+<!-- * As a result of the parameter changes, some of the values they varied between were changed. -->
+* The number of SNPs was increased from 100 to 300
+* The density parameters were decreased from $\phi_X=\phi_Y=\phi_Z=50\%$ to $\phi_X=10\%, \phi_Y=\phi_Z=10\%$; thus a much smaller percentage of variants will affect the phenotypes, especially for pleiotropic effects. 
+* The defaults for $\theta_{GX}$ and $\theta_{GY}$ were increased from $0.1$ to $0.2$.
   Meanwhile the default for $\theta_{GZ}$ was decreased to $0.4$ and $\psi_Y$ was kept at $0.15$.
   This was done to obtain more balanced and realistic heritabilities, something like we might expect
     if $X$ were lipid measurements and $Y$ was some complex trait.
-  The resulting heritabilities are $h^2(X)=40\%$, $h^2(Z)=40\%$, $h^2(Y)=49.25\%$.
-* As a result of the parameter changes, some of the values they varied between were changed.
+  The resulting heritabilities are $h^2(X)=30\%$, $h^2(Z)=40\%$, $h^2(Y)=49.25\%$.
 * I didn't bother fiddling with $\theta_{GX}$ or $\mu$ here as the effects should be similar.
 * I now include more methods in the plots.
 
 
-Here are the results under the default settings:
-
-```{r both_plei_highsnp, echo=FALSE, fig.width=12}
-group_barchart('data/results_highsnp_fixed/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
-```
-
-
-
-Here's a sanity check with no pleiotropy:
-
-```{r no_plei_highsnp, echo=FALSE, fig.width=12}
-group_barchart('data/results_highsnp_fixed/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
-```
-
-
-
-Here are the results with only correlated pleiotropy:
-
-```{r cor_plei_highsnp, echo=FALSE, fig.width=12}
-group_barchart('data/results_highsnp_fixed/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
-```
-
-
-
-Finally, here are the results with only uncorrelated pleiotropy:
-
-```{r uncor_plei_highsnp, echo=FALSE, fig.width=12}
-group_barchart('data/results_highsnp_fixed/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('2sls', '2sls_oracle', '2sls_cate', 'susiecate', 'ivw', 'robust', 'grapple'))
-```
-
-    
-
-
-### Simulations with Cate and RPCA plugins
-
 Here I'm comparing standard methods augmented with either Cate or RPCA,
 under several sparsity and SNP count settings.
+(Update: I have now added GFA as well, which also works on summary statistics.)
 This will show that Cate is more robust than RPCA in that it does not assume
 that the G-->Z effects are dense, while RPCA needs this assumption.
 Of course, the benefit of RPCA is we can apply it to summary statistics,
@@ -459,57 +417,52 @@ correlated pleiotropic effects via Cate or RPCA.
 Here are the results with correlated pleiotropy only, with $\theta_{gx}$ sparse
 and $\theta_{gz}$ dense ($\phi_{gx}=0.1$ and $\phi_{gz}=0.8$).
 
-```{r cor_plei_rpcacate1, echo=FALSE, fig.width=12}
-group_barchart('data/results_rpca_cate1/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+```{r cor_plei_gfa1, echo=FALSE, fig.width=12}
+group_barchart('data/results_gfa_rpca1/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
-                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
-               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
-                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               methods=c('2sls_oracle', 'ivw', 'ivw_cate', 'ivw_rpca', 'ivw_gfa',
+                         # 'robust', 'robust_cate', 'robust_rpca', 'robust_gfa', 
+                         'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
 ```
 
 Here's the same plot, except with $\phi_{gz}=0.1$. This is a problem for RPCA,
 but not Cate.
 
-```{r cor_plei_rpcacate2, echo=FALSE, fig.width=12}
-group_barchart('data/results_rpca_cate2/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+```{r cor_plei_gfa2, echo=FALSE, fig.width=12}
+group_barchart('data/results_gfa_rpca2/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
-                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
-               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
-                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               methods=c('2sls_oracle', 'ivw', 'ivw_cate', 'ivw_rpca', 'ivw_gfa',
+                         # 'robust', 'robust_cate', 'robust_rpca', 'robust_gfa', 
+                         'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
 ```
 
 Finally, here's a setting with $100$ SNPs (the above two have 300) and $\phi_{gx}=0.5$.
 
-```{r cor_plei_rpcacate4, echo=FALSE, fig.width=12}
-group_barchart('data/results_rpca_cate4/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+```{r cor_plei_gfa4, echo=FALSE, fig.width=12}
+group_barchart('data/results_gfa_rpca4/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
-                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
-               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
-                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               methods=c('2sls_oracle', 'ivw', 'ivw_cate', 'ivw_rpca', 'ivw_gfa',
+                         # 'robust', 'robust_cate', 'robust_rpca', 'robust_gfa', 
+                         'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
 ```
 
 Here's the same, but with both kinds of pleiotropy:
 
-```{r both_plei_rpcacate4, echo=FALSE, fig.width=12}
-group_barchart('data/results_rpca_cate4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+```{r both_plei_gfa4, echo=FALSE, fig.width=12}
+group_barchart('data/results_gfa_rpca4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
-                         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
-               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
-                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               methods=c('2sls_oracle', 'ivw', 'ivw_cate', 'ivw_rpca', 'ivw_gfa',
+                         # 'robust', 'robust_cate', 'robust_rpca', 'robust_gfa', 
+                         'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
 ```
 
 Finally, here's the power at a fixed FPR threshold, using the same data as above:
 
-```{r powfpr_both_plei_rpcacate4, echo=FALSE, fig.width=12}
-power_fpr_thresh_plot('data/results_rpca_cate4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
+```{r powfpr_both_plei_gfa4, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_gfa_rpca4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
                       c('1','2','3','4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
-                      methods=c('ivw', 'ivw_cate', 'ivw_rpca', 
-                                 'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
-               #methods=c('2sls_oracle', '2sls_cate', '2sls_rpca', 'ivw', 'ivw_cate', 'ivw_rpca', 
-                #         'robust', 'robust_cate', 'robust_rpca', 'susie', 'susie_cate', 'susie_rpca'))
+               methods=c('2sls_oracle', 'ivw', 'ivw_cate', 'ivw_rpca', 'ivw_gfa',
+                         # 'robust', 'robust_cate', 'robust_rpca', 'robust_gfa', 
+                         'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
 ```
 
