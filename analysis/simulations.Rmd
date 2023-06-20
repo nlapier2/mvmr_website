@@ -29,14 +29,14 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
     fname = paste0(dirname, prefix, m, '.txt')
     res = na.omit(read.table(fname))
     num_cols = dim(res)[2]
-    if(grepl('susie', m) || grepl('zuber', m)) {
+    if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
       num_betas = num_cols 
     } else {
       num_betas = num_cols / 3
     }
     # compute rates of (true or false) positives
     for (i in 1:n_x_show) {
-      if(grepl('susie', m) || grepl('zuber', m)) {
+      if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
         posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
       } else {
         posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -67,7 +67,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     res = na.omit(read.table(fname))
     num_sims = dim(res)[1]
     num_cols = dim(res)[2]
-    if(grepl('susie', m) || grepl('zuber', m)) {
+    if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
       num_betas = num_cols
     } else {
       num_betas = num_cols / 3
@@ -80,7 +80,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     sorted_pvals = c()
     for(row in 1:num_sims) {
       for(col in 1:num_betas) {
-        if(grepl('susie', m) || grepl('zuber', m)) {
+        if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
           entry = res[row,col]
         } else {
           entry = res[row,(2*num_betas+col)]
@@ -88,7 +88,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
         sorted_pvals = rbind(sorted_pvals, c(entry, col))
       }
     }
-    if(grepl('susie', m) || grepl('zuber', m)) {
+    if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
     } else {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
@@ -147,7 +147,7 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
       }
       # compute rates of (true or false) positives
       for (i in 1:num_betas) {
-        if(grepl('susie', m) || grepl('zuber', m)) {
+        if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
           posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
         } else {
           posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -436,7 +436,7 @@ group_barchart('data/results_gfa_rpca2/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_ps
                          'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
 ```
 
-Finally, here's a setting with $100$ SNPs (the above two have 300) and $\phi_{gx}=0.5$.
+Finally, here's a setting with $100$ SNPs (the above two have 300) and $\phi_{gx}=0.5$  and $\phi_{gy}=0.4$.
 
 ```{r cor_plei_gfa4, echo=FALSE, fig.width=12}
 group_barchart('data/results_gfa_rpca4/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
@@ -464,5 +464,94 @@ power_fpr_thresh_plot('data/results_gfa_rpca4/both_plei_gx_0.2_gy_0.2_gz_0.4_psi
                methods=c('2sls_oracle', 'ivw', 'ivw_cate', 'ivw_rpca', 'ivw_gfa',
                          # 'robust', 'robust_cate', 'robust_rpca', 'robust_gfa', 
                          'susie', 'susie_cate', 'susie_rpca', 'susie_gfa'))
+```
+
+
+
+### MR.Ash assessments
+
+Last four plots above, but now comparing MR.Ash to other second-stage methods.
+
+Correlated pleiotropy, $\phi_{gy}=0.1$.
+
+```{r cor_plei_mrash2, echo=FALSE, fig.width=12}
+group_barchart('data/results_mrash2/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Correlated pleiotropy, with $100$ SNPs (the above has 300) and $\phi_{gx}=0.5$  and $\phi_{gy}=0.4$.
+
+```{r cor_plei_mrash4, echo=FALSE, fig.width=12}
+group_barchart('data/results_mrash4/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Here's the same, but with both kinds of pleiotropy:
+
+```{r both_plei_mrash4, echo=FALSE, fig.width=12}
+group_barchart('data/results_mrash4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Finally, here's the power at a fixed FPR threshold, using the same data as above:
+
+```{r powfpr_both_plei_mrash4, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_mrash4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
+                      c('1','2','3','4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+
+
+### Population stratification assessments
+
+Simulated population structure using Balding-Nichols model on two populations.
+$F_{ST}=0.1$, $\gamma_{psx}=0.25$, $\gamma_{psy}=0.25$, $\gamma_{psz}=0.25$.
+
+No pleiotropy (just population stratification):
+
+```{r no_plei_ps2, echo=FALSE, fig.width=12}
+group_barchart('data/results_ps2/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_cate', 'robust_cate', 'mrash_cate', 'susie_cate',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Both types of pleiotropy:
+
+```{r both_plei_ps2, echo=FALSE, fig.width=12}
+group_barchart('data/results_ps2/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_cate', 'robust_cate', 'mrash_cate', 'susie_cate',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Here's the power at a fixed FPR threshold, with no pleiotropy:
+
+```{r powfpr_no_plei_ps2, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_ps2/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
+                      c('1','2','3','4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_cate', 'robust_cate', 'mrash_cate', 'susie_cate',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+No pleiotropy (just population stratification), tougher setting:
+
+```{r no_plei_ps4, echo=FALSE, fig.width=12}
+group_barchart('data/results_ps4/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_cate', 'robust_cate', 'mrash_cate', 'susie_cate',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
 ```
 
