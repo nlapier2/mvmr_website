@@ -1,0 +1,3 @@
+Average Precision: 0.42621 ; stddev 0.05266
+Average Recall: 0.14218 ; stddev 0.01854
+Average F1: 0.21313 ; stddev 0.02704

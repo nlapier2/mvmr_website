@@ -29,14 +29,15 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
     fname = paste0(dirname, prefix, m, '.txt')
     res = na.omit(read.table(fname))
     num_cols = dim(res)[2]
-    if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
+    ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
+    if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
       num_betas = num_cols 
     } else {
       num_betas = num_cols / 3
     }
     # compute rates of (true or false) positives
     for (i in 1:n_x_show) {
-      if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
+      if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
         posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
       } else {
         posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -67,7 +68,8 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     res = na.omit(read.table(fname))
     num_sims = dim(res)[1]
     num_cols = dim(res)[2]
-    if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
+    ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
+    if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
       num_betas = num_cols
     } else {
       num_betas = num_cols / 3
@@ -80,7 +82,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     sorted_pvals = c()
     for(row in 1:num_sims) {
       for(col in 1:num_betas) {
-        if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
+        if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
           entry = res[row,col]
         } else {
           entry = res[row,(2*num_betas+col)]
@@ -88,7 +90,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
         sorted_pvals = rbind(sorted_pvals, c(entry, col))
       }
     }
-    if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
+    if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
     } else {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
@@ -140,14 +142,15 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
       fname = paste0(dirname, prefix, m, '.txt')
       res = na.omit(read.table(fname))
       num_cols = dim(res)[2]
-      if(grepl('susie', m) || grepl('zuber', m)) {
+      ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
+      if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
         num_betas = num_cols 
       } else {
         num_betas = num_cols / 3
       }
       # compute rates of (true or false) positives
       for (i in 1:num_betas) {
-        if(grepl('susie', m) || grepl('mrash', m) || grepl('zuber', m)) {
+        if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
           posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
         } else {
           posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -185,7 +188,7 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
 ```
 
 
-### Simulation description
+## Simulation description
 
 We simulate according to the following DAG:
 
@@ -307,7 +310,7 @@ $$MendelianRandomization::MVMR\_IVW(\hat{\beta}, \hat{s}^2) \rightarrow \hat{\th
 
 
 
-### Simulation Results
+## Simulation Results
 
 Here are some plots showing our simulation results. First, I'll briefly explain the parameter settings.
 
@@ -381,7 +384,7 @@ group_barchart('data/results/uncor_plei_gx_0.1_gy_0.1_gz_0.6_psix_0.1_psiy_0.1_m
     
     
     
-### Simulations with new settings + Cate, RPCA, & GFA plugins
+## Simulations with new settings + Cate, RPCA, & GFA plugins
 
 I performed some more simulations under settings that may be more realistic.
 The following changes were made as compared with the above simulations:
@@ -468,7 +471,7 @@ power_fpr_thresh_plot('data/results_gfa_rpca4/both_plei_gx_0.2_gy_0.2_gz_0.4_psi
 
 
 
-### MR.Ash assessments
+## MR.Ash assessments
 
 Last four plots above, but now comparing MR.Ash to other second-stage methods.
 
@@ -510,7 +513,178 @@ power_fpr_thresh_plot('data/results_mrash4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0
 
 
 
-### Population stratification assessments
+
+## Simulations with many exposures
+
+We have talked about potentially supporting hundreds of exposures,
+but thus far our simulations have only had 30. Here I raise that to 200.
+First, we keep the other settings the same as above, with 300 SNPs.
+Notably, there's still only four true causal exposures, so very sparse,
+and also only three confounders.
+Here's what it looks like with no pleiotropy:
+
+```{r 200exp_300snp_no_plei, echo=FALSE, fig.width=12}
+group_barchart('data/results_200exp_mrash_oracle/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Right off the bat we notice something odd: robust is inflated despite no pleiotropy.
+Everything else looks normal right now.
+
+If we instead increase the number of SNPs to 1000, that goes away:
+
+```{r 200exp_1000snp_no_plei, echo=FALSE, fig.width=12}
+group_barchart('data/results_200exp_1000snp/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Now here's correlated-only pleiotropy:
+
+```{r 200exp_1000snp_cor_plei, echo=FALSE, fig.width=12}
+group_barchart('data/results_200exp_1000snp/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+Now we see another odd thing -- methods are not inflated even when they have no
+first-stage factor analysis to infer confounders.
+
+Finally, here's both kinds of pleiotropy:
+
+```{r 200exp_1000snp_both_plei, echo=FALSE, fig.width=12}
+group_barchart('data/results_200exp_1000snp/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+As usual, IVW and Robust drop in power, so methods like MR.Ash and Susie perform
+relatively better here.
+
+So there's two interesting things going on here:
+
+* Robust seems to cause false positives when the number of exposures 
+approaches the number of SNPs
+* Methods seem to not be inflated under pleiotropy, even without any first stage FA.
+I am less sure why this is. Maybe the sparsity of the true effects and the low
+number of confounders relative to the number of exposures?
+
+It could be worth investigating stronger confounding effects and denser settings
+to see if that can cause inflation in the methods.
+
+
+
+## Simulations using UK Biobank Genotypes
+
+Here are some simulations using real genotypes from White European samples in
+the UK Biobank.
+Phenotype simulations is still the same as above -- we just use real genotypes
+instead of simulating them.
+We randomly downsample samples, SNPs, and loci from the mvSusie blood cell trait 
+data, which contains 975 loci averaging ~10k SNPs each and ~250k samples.
+We usually use 100 loci, 1000 SNPs per locus, and 10-20k samples.
+
+In addition to using real genoytpes, we make these simulations more realistic in
+another important dimension: SNP selection.
+Instead of providing the true causal SNPs to the methods as in the above 
+simulations, we perform SNP selection with mvSusie, using the genotypes and 
+simulated phenotypes as input.
+
+
+Here are the settings used for these simlations:
+
+* 10,000 samples
+* 100 loci, each with 1-5 causal SNPs implanted (so ~300 overall)
+* 30 exposures, 3 confounders
+* $\theta_{gx}=0.2$, $\theta_{gz}=0.4$, $\theta_{zx}=0.5$, $\theta_{zy}=0.375$
+* $\phi_{gx}=0.05$, $\phi_{gy}=0.05$, $\phi_{gz}=0.05$, $\phi_{zx}=0.5$
+* As usual, first four exposures are true effects with effect sizes $0.05,0.1,0.2,0.3$
+
+Here are the results with correlated pleiotropy:
+
+```{r cor_plei_ukbb_mvsusie, echo=FALSE, fig.width=12}
+group_barchart('data/results_ukbb_mvsusie/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'susie_gfa'))
+```
+
+And here are the results with both kinds of pleiotropy:
+
+```{r both_plei_ukbb_mvsusie, echo=FALSE, fig.width=12}
+group_barchart('data/results_ukbb_mvsusie/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw', 'robust', 'susie',
+                 'ivw_gfa', 'robust_gfa', 'susie_gfa'))
+```
+
+
+
+
+## SNP Selection Comparison
+
+How should we select SNPs to use as instruments?
+The traditional strategy is to pick the SNP with the lowest p-value in each locus.
+But this becomes tricky in the multi-exposure case.
+What if a locus has different causal variants for different traits?
+
+To test this, I compared several SNP selection strategies in the UK Biobank simulations:
+
+* mvSusie, i.e. the same strategy as above
+* mvSusie-RSS, the summary statistics mode of mvSusie
+* max: select the SNP at each locus that has the best z-score for any trait
+* mean: select the SNP at each locus that has the best z-score, averaged across
+all traits
+
+The latter three methods use summary statistics, which would normally take an
+intractable amount of time to generate.
+So instead I simulated the statistics from the RSS model,
+
+$$\hat{\beta} \sim \mathcal{N}(SRS\beta^{-1},SRS)$$
+
+where the true $\beta$ are the effects simulated by my phenotype simulator, the
+$R$ is taken from the LD file included with each mvSusie locus, and $S$ is
+a matrix containing SNP standard deviations (see RSS paper).
+The standard errors for the summary statistics were simply set to $1/\sqrt{N}$.
+
+We can show that using mvSusie or mvSusie-RSS leads to a better F1 score for
+SNP selection, as well as improved downstream performance.
+
+First, here is the precision / recall / F1 for each method (no pleiotropy):
+
+* mvSusie: 0.34358 / 0.47136 / 0.39688
+* mvSusie-RSS: 0.47689 / 0.48672 / 0.47989
+* max: 0.63289 / 0.2106 / 0.31591
+* mean: 0.42589 / 0.14216 / 0.21308
+
+Results look similar regardless of the level of pleiotropy.
+There is a clear hierarchy, mvSusie-RSS > mvSusie > max > mean, in terms of F1.
+The high precision but low recall of max/mean reflects that they can't capture
+all causal SNPs at each locus.
+It's a bit less clear why mvSusie-RSS > mvSusie, but it's probably because I 
+simulated the sumstats exactly from the RSS model.
+
+The next question, naturally, is whether this actually impacts downstream
+results of the methods.
+The answer is yes, and here's a graph showing it for IVW and Susie (no pleiotropy):
+
+```{r no_plei_selection, echo=FALSE, fig.width=12}
+group_barchart('data/results_ukbb_selection_comp/no_plei/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ivw_gfa_mvsusie', 'ivw_gfa_mvsusie_rss', 'ivw_gfa_max',
+                 'ivw_gfa_mean', 'susie_gfa_mvsusie', 'susie_gfa_mvsusie_rss',
+                 'susie_gfa_max', 'susie_gfa_mean'))
+```
+
+
+
+
+## Population stratification assessments
 
 Simulated population structure using Balding-Nichols model on two populations.
 $F_{ST}=0.1$, $\gamma_{psx}=0.25$, $\gamma_{psy}=0.25$, $\gamma_{psz}=0.25$.

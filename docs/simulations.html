@@ -317,7 +317,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2023-06-20
+<strong>Last updated:</strong> 2023-08-07
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -408,16 +408,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef5f65b62913292e68d0b5a3f2dba26dc1f80b36ctargetblankf5f65b6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/f5f65b62913292e68d0b5a3f2dba26dc1f80b36c" target="_blank">f5f65b6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree08e3dae8978a7721593da93237f214f94ff76f27targetblank08e3daea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nlapier2/mvmr_website/tree/08e3dae8978a7721593da93237f214f94ff76f27" target="_blank">08e3dae</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreef5f65b62913292e68d0b5a3f2dba26dc1f80b36ctargetblankf5f65b6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree08e3dae8978a7721593da93237f214f94ff76f27targetblank08e3daea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/f5f65b62913292e68d0b5a3f2dba26dc1f80b36c" target="_blank">f5f65b6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/nlapier2/mvmr_website/tree/08e3dae8978a7721593da93237f214f94ff76f27" target="_blank">08e3dae</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -427,12 +427,16 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .RData
     Ignored:    .Rhistory
+    Ignored:    analysis/figure/
 
 Untracked files:
-    Untracked:  data/results_mrash2/
-    Untracked:  data/results_mrash4/
-    Untracked:  data/results_ps2/
-    Untracked:  data/results_ps4/
+    Untracked:  data/results_200exp_1000snp/
+    Untracked:  data/results_200exp_mrash_oracle/
+    Untracked:  data/results_ukbb_max/
+    Untracked:  data/results_ukbb_mean/
+    Untracked:  data/results_ukbb_mvsusie/
+    Untracked:  data/results_ukbb_mvsusie_rss/
+    Untracked:  data/results_ukbb_selection_comp/
 
 Unstaged changes:
     Modified:   analysis/simulations.Rmd
@@ -474,6 +478,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/analysis/simulations.Rmd" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+<td>
+added mrash and ps sims
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/08e3dae8978a7721593da93237f214f94ff76f27/docs/simulations.html" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+<td>
+added mrash and ps sims
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -838,8 +876,8 @@ rearranged website, added simulation and gibbs tabs, added more project descript
 </div>
 </div>
 </div>
-<div id="simulation-description" class="section level3">
-<h3>Simulation description</h3>
+<div id="simulation-description" class="section level2">
+<h2>Simulation description</h2>
 <p>We simulate according to the following DAG:</p>
 <div id="htmlwidget-e3d5eff22888eb7ba78a" style="width:800px;height:350px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-e3d5eff22888eb7ba78a">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = LR]\n\n  node [shape = circle]\n  G [label = \"G\"]\n  Z [label = \"Z\"]\n  X [label = \"X\"]\n  Y [label = \"Y\"]\n\n  # edge definitions with the node IDs\n  edge []\n  G -> X [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GX<\/SUB><\/FONT>>]\n  G -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GY<\/SUB><\/FONT>>]\n  G -> Z [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GZ<\/SUB><\/FONT>>]\n  X -> Z [dir=back; label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZX<\/SUB><\/FONT>>]\n  Z -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZY<\/SUB><\/FONT>>]\n  X -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>XY<\/SUB><\/FONT>>]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
@@ -864,7 +902,6 @@ rearranged website, added simulation and gibbs tabs, added more project descript
 <p><span class="math display">\[\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z I_J)\]</span> <span class="math display">\[\epsilon_X \sim \mathcal{N}_K(0, \xi_Z I_K)\]</span> <span class="math display">\[\epsilon_Y \sim \mathcal{N}(0, \xi_Y)\]</span></p>
 <p>where</p>
 <p><span class="math display">\[\xi_Z = 1 - \gamma_{GZ}\]</span> <span class="math display">\[\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}\]</span> <span class="math display">\[\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} - \sum_i \theta_{XY,i}^2\]</span></p>
-</div>
 <div id="baseline-methods-assessed" class="section level3">
 <h3>Baseline Methods Assessed</h3>
 <ul>
@@ -890,8 +927,9 @@ rearranged website, added simulation and gibbs tabs, added more project descript
 </ul>
 <p><span class="math display">\[X_i \sim G_j \rightarrow \hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow \hat{\beta}_{yj}, \hat{s}^2_{yj}\]</span> <span class="math display">\[MendelianRandomization::MVMR\_IVW(\hat{\beta}, \hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
 </div>
-<div id="simulation-results" class="section level3">
-<h3>Simulation Results</h3>
+</div>
+<div id="simulation-results" class="section level2">
+<h2>Simulation Results</h2>
 <p>Here are some plots showing our simulation results. First, I’ll briefly explain the parameter settings.</p>
 <p>The following parameters are fixed:</p>
 <ul>
@@ -1115,8 +1153,8 @@ Nathan LaPierre
 </div>
 </div>
 </div>
-<div id="simulations-with-new-settings-cate-rpca-gfa-plugins" class="section level3">
-<h3>Simulations with new settings + Cate, RPCA, &amp; GFA plugins</h3>
+<div id="simulations-with-new-settings-cate-rpca-gfa-plugins" class="section level2">
+<h2>Simulations with new settings + Cate, RPCA, &amp; GFA plugins</h2>
 <p>I performed some more simulations under settings that may be more realistic. The following changes were made as compared with the above simulations:</p>
 <!-- * The number of samples was increased from 20,000 to 50,000 -->
 <!-- * As a result of the parameter changes, some of the values they varied between were changed. -->
@@ -1325,29 +1363,388 @@ Nathan LaPierre
 </div>
 </div>
 </div>
-<div id="mr.ash-assessments" class="section level3">
-<h3>MR.Ash assessments</h3>
+<div id="mr.ash-assessments" class="section level2">
+<h2>MR.Ash assessments</h2>
 <p>Last four plots above, but now comparing MR.Ash to other second-stage methods.</p>
 <p>Correlated pleiotropy, <span class="math inline">\(\phi_{gy}=0.1\)</span>.</p>
 <p><img src="figure/simulations.Rmd/cor_plei_mrash2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cor_plei_mrash2-1">
+Past versions of cor_plei_mrash2-1.png
+</button>
+</p>
+<div id="fig-cor_plei_mrash2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/cor_plei_mrash2-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Correlated pleiotropy, with <span class="math inline">\(100\)</span> SNPs (the above has 300) and <span class="math inline">\(\phi_{gx}=0.5\)</span> and <span class="math inline">\(\phi_{gy}=0.4\)</span>.</p>
 <p><img src="figure/simulations.Rmd/cor_plei_mrash4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-cor_plei_mrash4-1">
+Past versions of cor_plei_mrash4-1.png
+</button>
+</p>
+<div id="fig-cor_plei_mrash4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/cor_plei_mrash4-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the same, but with both kinds of pleiotropy:</p>
 <p><img src="figure/simulations.Rmd/both_plei_mrash4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-both_plei_mrash4-1">
+Past versions of both_plei_mrash4-1.png
+</button>
+</p>
+<div id="fig-both_plei_mrash4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/both_plei_mrash4-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Finally, here’s the power at a fixed FPR threshold, using the same data as above:</p>
 <p><img src="figure/simulations.Rmd/powfpr_both_plei_mrash4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-powfpr_both_plei_mrash4-1">
+Past versions of powfpr_both_plei_mrash4-1.png
+</button>
+</p>
+<div id="fig-powfpr_both_plei_mrash4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/powfpr_both_plei_mrash4-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div id="population-stratification-assessments" class="section level3">
-<h3>Population stratification assessments</h3>
+</div>
+</div>
+<div id="simulations-with-many-exposures" class="section level2">
+<h2>Simulations with many exposures</h2>
+<p>We have talked about potentially supporting hundreds of exposures, but thus far our simulations have only had 30. Here I raise that to 200. First, we keep the other settings the same as above, with 300 SNPs. Notably, there’s still only four true causal exposures, so very sparse, and also only three confounders. Here’s what it looks like with no pleiotropy:</p>
+<p><img src="figure/simulations.Rmd/200exp_300snp_no_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Right off the bat we notice something odd: robust is inflated despite no pleiotropy. Everything else looks normal right now.</p>
+<p>If we instead increase the number of SNPs to 1000, that goes away:</p>
+<p><img src="figure/simulations.Rmd/200exp_1000snp_no_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Now here’s correlated-only pleiotropy:</p>
+<p><img src="figure/simulations.Rmd/200exp_1000snp_cor_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Now we see another odd thing – methods are not inflated even when they have no first-stage factor analysis to infer confounders.</p>
+<p>Finally, here’s both kinds of pleiotropy:</p>
+<p><img src="figure/simulations.Rmd/200exp_1000snp_both_plei-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>As usual, IVW and Robust drop in power, so methods like MR.Ash and Susie perform relatively better here.</p>
+<p>So there’s two interesting things going on here:</p>
+<ul>
+<li>Robust seems to cause false positives when the number of exposures approaches the number of SNPs</li>
+<li>Methods seem to not be inflated under pleiotropy, even without any first stage FA. I am less sure why this is. Maybe the sparsity of the true effects and the low number of confounders relative to the number of exposures?</li>
+</ul>
+<p>It could be worth investigating stronger confounding effects and denser settings to see if that can cause inflation in the methods.</p>
+</div>
+<div id="simulations-using-uk-biobank-genotypes" class="section level2">
+<h2>Simulations using UK Biobank Genotypes</h2>
+<p>Here are some simulations using real genotypes from White European samples in the UK Biobank. Phenotype simulations is still the same as above – we just use real genotypes instead of simulating them. We randomly downsample samples, SNPs, and loci from the mvSusie blood cell trait data, which contains 975 loci averaging ~10k SNPs each and ~250k samples. We usually use 100 loci, 1000 SNPs per locus, and 10-20k samples.</p>
+<p>In addition to using real genoytpes, we make these simulations more realistic in another important dimension: SNP selection. Instead of providing the true causal SNPs to the methods as in the above simulations, we perform SNP selection with mvSusie, using the genotypes and simulated phenotypes as input.</p>
+<p>Here are the settings used for these simlations:</p>
+<ul>
+<li>10,000 samples</li>
+<li>100 loci, each with 1-5 causal SNPs implanted (so ~300 overall)</li>
+<li>30 exposures, 3 confounders</li>
+<li><span class="math inline">\(\theta_{gx}=0.2\)</span>, <span class="math inline">\(\theta_{gz}=0.4\)</span>, <span class="math inline">\(\theta_{zx}=0.5\)</span>, <span class="math inline">\(\theta_{zy}=0.375\)</span></li>
+<li><span class="math inline">\(\phi_{gx}=0.05\)</span>, <span class="math inline">\(\phi_{gy}=0.05\)</span>, <span class="math inline">\(\phi_{gz}=0.05\)</span>, <span class="math inline">\(\phi_{zx}=0.5\)</span></li>
+<li>As usual, first four exposures are true effects with effect sizes <span class="math inline">\(0.05,0.1,0.2,0.3\)</span></li>
+</ul>
+<p>Here are the results with correlated pleiotropy:</p>
+<p><img src="figure/simulations.Rmd/cor_plei_ukbb_mvsusie-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>And here are the results with both kinds of pleiotropy:</p>
+<p><img src="figure/simulations.Rmd/both_plei_ukbb_mvsusie-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="snp-selection-comparison" class="section level2">
+<h2>SNP Selection Comparison</h2>
+<p>How should we select SNPs to use as instruments? The traditional strategy is to pick the SNP with the lowest p-value in each locus. But this becomes tricky in the multi-exposure case. What if a locus has different causal variants for different traits?</p>
+<p>To test this, I compared several SNP selection strategies in the UK Biobank simulations:</p>
+<ul>
+<li>mvSusie, i.e. the same strategy as above</li>
+<li>mvSusie-RSS, the summary statistics mode of mvSusie</li>
+<li>max: select the SNP at each locus that has the best z-score for any trait</li>
+<li>mean: select the SNP at each locus that has the best z-score, averaged across all traits</li>
+</ul>
+<p>The latter three methods use summary statistics, which would normally take an intractable amount of time to generate. So instead I simulated the statistics from the RSS model,</p>
+<p><span class="math display">\[\hat{\beta} \sim \mathcal{N}(SRS\beta^{-1},SRS)\]</span></p>
+<p>where the true <span class="math inline">\(\beta\)</span> are the effects simulated by my phenotype simulator, the <span class="math inline">\(R\)</span> is taken from the LD file included with each mvSusie locus, and <span class="math inline">\(S\)</span> is a matrix containing SNP standard deviations (see RSS paper). The standard errors for the summary statistics were simply set to <span class="math inline">\(1/\sqrt{N}\)</span>.</p>
+<p>We can show that using mvSusie or mvSusie-RSS leads to a better F1 score for SNP selection, as well as improved downstream performance.</p>
+<p>First, here is the precision / recall / F1 for each method (no pleiotropy):</p>
+<ul>
+<li>mvSusie: 0.34358 / 0.47136 / 0.39688</li>
+<li>mvSusie-RSS: 0.47689 / 0.48672 / 0.47989</li>
+<li>max: 0.63289 / 0.2106 / 0.31591</li>
+<li>mean: 0.42589 / 0.14216 / 0.21308</li>
+</ul>
+<p>Results look similar regardless of the level of pleiotropy. There is a clear hierarchy, mvSusie-RSS &gt; mvSusie &gt; max &gt; mean, in terms of F1. The high precision but low recall of max/mean reflects that they can’t capture all causal SNPs at each locus. It’s a bit less clear why mvSusie-RSS &gt; mvSusie, but it’s probably because I simulated the sumstats exactly from the RSS model.</p>
+<p>The next question, naturally, is whether this actually impacts downstream results of the methods. The answer is yes, and here’s a graph showing it for IVW and Susie (no pleiotropy):</p>
+<p><img src="figure/simulations.Rmd/no_plei_selection-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="population-stratification-assessments" class="section level2">
+<h2>Population stratification assessments</h2>
 <p>Simulated population structure using Balding-Nichols model on two populations. <span class="math inline">\(F_{ST}=0.1\)</span>, <span class="math inline">\(\gamma_{psx}=0.25\)</span>, <span class="math inline">\(\gamma_{psy}=0.25\)</span>, <span class="math inline">\(\gamma_{psz}=0.25\)</span>.</p>
 <p>No pleiotropy (just population stratification):</p>
 <p><img src="figure/simulations.Rmd/no_plei_ps2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no_plei_ps2-1">
+Past versions of no_plei_ps2-1.png
+</button>
+</p>
+<div id="fig-no_plei_ps2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/no_plei_ps2-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Both types of pleiotropy:</p>
 <p><img src="figure/simulations.Rmd/both_plei_ps2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-both_plei_ps2-1">
+Past versions of both_plei_ps2-1.png
+</button>
+</p>
+<div id="fig-both_plei_ps2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/both_plei_ps2-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here’s the power at a fixed FPR threshold, with no pleiotropy:</p>
 <p><img src="figure/simulations.Rmd/powfpr_no_plei_ps2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-powfpr_no_plei_ps2-1">
+Past versions of powfpr_no_plei_ps2-1.png
+</button>
+</p>
+<div id="fig-powfpr_no_plei_ps2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/powfpr_no_plei_ps2-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>No pleiotropy (just population stratification), tougher setting:</p>
 <p><img src="figure/simulations.Rmd/no_plei_ps4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no_plei_ps4-1">
+Past versions of no_plei_ps4-1.png
+</button>
+</p>
+<div id="fig-no_plei_ps4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/08e3dae8978a7721593da93237f214f94ff76f27/docs/figure/simulations.Rmd/no_plei_ps4-1.png" target="_blank">08e3dae</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2023-06-20
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1374,7 +1771,7 @@ other attached packages:
 [1] ggpubr_0.5.0     ggplot2_3.4.2    DiagrammeR_1.0.9 workflowr_1.7.0 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.10        tidyr_1.2.0        getPass_0.2-2      ps_1.7.5          
+ [1] Rcpp_1.0.11        tidyr_1.2.0        getPass_0.2-2      ps_1.7.5          
  [5] visNetwork_2.1.2   assertthat_0.2.1   rprojroot_2.0.3    digest_0.6.29     
  [9] utf8_1.2.3         R6_2.5.1           backports_1.4.1    evaluate_0.15     
 [13] highr_0.9          httr_1.4.2         pillar_1.9.0       rlang_1.1.1       
@@ -1388,8 +1785,8 @@ loaded via a namespace (and not attached):
 [45] magrittr_2.0.3     scales_1.2.1       cli_3.6.1          stringi_1.7.6     
 [49] cachem_1.0.6       carData_3.0-5      farver_2.1.1       ggsignif_0.6.4    
 [53] fs_1.5.2           promises_1.2.0.1   bslib_0.4.0        generics_0.1.2    
-[57] vctrs_0.6.2        RColorBrewer_1.1-3 tools_4.1.2        glue_1.6.2        
-[61] purrr_0.3.4        processx_3.8.1     abind_1.4-5        fastmap_1.1.0     
+[57] vctrs_0.6.3        RColorBrewer_1.1-3 tools_4.1.2        glue_1.6.2        
+[61] purrr_0.3.4        processx_3.8.2     abind_1.4-5        fastmap_1.1.0     
 [65] yaml_2.3.5         colorspace_2.1-0   rstatix_0.7.1      knitr_1.40        
 [69] sass_0.4.2        </code></pre>
 </div>
