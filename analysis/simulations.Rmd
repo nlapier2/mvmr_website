@@ -566,16 +566,17 @@ group_barchart('data/results_200exp_1000snp/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_
 As usual, IVW and Robust drop in power, so methods like MR.Ash and Susie perform
 relatively better here.
 
-So there's two interesting things going on here:
+I ran some additional experiments (not shown here) which showed that the lack
+of inflation under pleiotropy was due to a low number of confounders relative to
+the number of exposures.
 
-* Robust seems to cause false positives when the number of exposures 
-approaches the number of SNPs
-* Methods seem to not be inflated under pleiotropy, even without any first stage FA.
-I am less sure why this is. Maybe the sparsity of the true effects and the low
-number of confounders relative to the number of exposures?
+So the interesting result is that two ratios are important:
 
-It could be worth investigating stronger confounding effects and denser settings
-to see if that can cause inflation in the methods.
+* The "M/K" or "num SNPs / num exposures" ratio -- if <1 than traditional methods
+   don't work at all, and robust becomes inflated if it's close to 1.
+* The "J/K" or "num confounders / num exposures" ratio -- if very low (e.g. 1/100)
+   then confounding will not inflate methods, even if Zs affect many Xs.
+   It is possible this can be overrided with very powerful confounding effects.
 
 
 
@@ -679,6 +680,173 @@ group_barchart('data/results_ukbb_selection_comp/no_plei/',
                methods=c('ivw_gfa_mvsusie', 'ivw_gfa_mvsusie_rss', 'ivw_gfa_max',
                  'ivw_gfa_mean', 'susie_gfa_mvsusie', 'susie_gfa_mvsusie_rss',
                  'susie_gfa_max', 'susie_gfa_mean'))
+```
+
+
+
+
+## Sims with true genotypes and exposures, only simulating outcome
+
+In these simulations, we use true UK Biobank genotypes, as above, but here we
+also use true exposure phenotype values. We only simulate the outcome trait.
+Simulating the confounders is optional, but here I used real confounders too.
+This makes the simulation as "realistic" as possible, with the downside being 
+that we don't know which SNPs truly affect the exposures & can't control those
+effects.
+
+Here I used loci for 16 UK Biobank blood cell traits preprocessed for the mvSusie paper. 
+I downsampled to 50,000 samples and 200 loci for simplicity.
+Out of the 16 traits, I picked two randomly to serve as unobserved confounders.
+
+Here are the results with no pleiotropy. Methods are calibrated, as expected.
+
+```{r no_plei_truegx, echo=FALSE, fig.width=12}
+group_barchart('data/results_true_gx/no_plei_gy_0.2_zx_0.2_zy_0.2/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_gfa', 'ivw', 'ivw_gfa', 
+                         'robust', 'robust_gfa', 'susie', 'susie_gfa'))
+```
+
+Now here are the results with correlated pleiotropy, with 
+$\gamma_{zx} = \gamma_{zy} = 0.2$. 
+Remember, I don't have control over $\gamma_{gz}$, since here $Z$ are real traits.
+Here we see a great deal of confounding, even with GFA:
+
+```{r cor_plei_truegx, echo=FALSE, fig.width=12}
+group_barchart('data/results_true_gx/cor_plei_gy_0.2_zx_0.2_zy_0.2/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', '2sls_gfa', 'ivw', 'ivw_gfa', 
+                         'robust', 'robust_gfa', 'susie', 'susie_gfa'))
+```
+
+So we are getting results that seem plausible, but the confounding seems quite strong.
+I ran more sims with $\gamma_{zx} = \gamma_{zy} = 0.1$ (not shown), which slightly
+reduced confounding, but methods were still inflated even with GFA.
+Still need to figure out what's going on here.
+
+
+
+
+# Real data results
+
+I ran 2SLS/IVW/Robust/Susie/MR.Ash + nothing/GFA/RPCA on the 
+loci for 16 UK Biobank blood cell traits preprocessed for the mvSusie paper.
+I chose Hemoglobin as the outcome and the other 15 as exposures, arbitrarily.
+I have no idea if this is reasonable, so take the second-stage results with a
+grain of salt. 
+I'll update with more realistic traits and better formatting later.
+
+Here are the number of significant traits found by each method:
+
+* 2SLS: 10
+* 2SLS-GFA: 10
+* 2SLS-RPCA: 9
+* IVW: 10
+* IVW-GFA: 7
+* IVW-RPCA: 8
+* Robust: 7
+* Robust-GFA: 6
+* Robust-RPCA: 8
+* Susie: 3
+* Susie-GFA: 4 
+* Susie-RPCA: 4
+* MR.Ash: 6
+* MR.Ash-GFA: 6
+* MR.Ash-RPCA: 6
+
+So we can see that sometimes first-stage methods reduce the number of significant
+trait pairs. 
+The methods vary on the number of exposures found significant, though they
+generally agree on the order.
+
+
+Here are the number of factors found by each FA method, and their correlations
+with the 15 exposure traits (sorry for ugly raw format):
+
+* GFA: 4 factors (after pruning heuristic)
+
+```
+[1] "Number of factors detected by GFA: 4"
+[1] "Correlations with x_betas:"
+        WBC_count   RBC_count        MCV         RDW Platelet_count
+[1,] -0.001640976 -0.75468968 0.98605224 -0.31663391     0.03624346
+[2,]  0.325981371 -0.09764243 0.05087593 -0.05687534     0.93476251
+[3,]  0.023064779 -0.07617768 0.12559695 -0.15648708     0.01058407
+[4,] -0.321576727 -0.02835313 0.05563161 -0.00118629     0.03691328
+     Plateletcrit         PDW Lymphocyte_perc Monocyte_perc Neutrophill_perc
+[1,]   0.04016506 -0.06180007      0.06647548    0.05594493      -0.06597634
+[2,]   0.90809002 -0.55897034      0.01045073    0.01053307      -0.03457303
+[3,]   0.02770390  0.10704047     -0.06414842   -0.03178419       0.07043654
+[4,]   0.00682206 -0.05983110      0.96675776    0.27570438      -0.97842300
+     Eosinophill_perc Basophill_perc Reticulocyte_perc        MSCV     HLR_perc
+[1,]      -0.06279681     0.02657169       0.102809344  0.88625102  0.170774450
+[2,]       0.09842009     0.05558868      -0.008599868  0.03262786  0.007867302
+[3,]      -0.01165736    -0.00792867       0.987386457 -0.14451179  0.987802241
+[4,]       0.20059308     0.11994296      -0.082500786  0.12663053 -0.061190626
+```
+
+
+* RPCA: 13 factors (no pruning)
+
+```
+[1] "Number of factors detected by RPCA: 13"
+[1] "Correlations with x_betas:"
+         WBC_count    RBC_count          MCV          RDW Platelet_count
+ [1,] -0.102095006  0.462869586 -0.479733770  0.024229052   -0.372475422
+ [2,]  0.419429298  0.284659704 -0.396475049  0.104518434    0.606220257
+ [3,] -0.295600205  0.368873285 -0.420897576  0.171037432   -0.087991929
+ [4,]  0.079700065 -0.049654160  0.070989330  0.089435198   -0.121957750
+ [5,] -0.013486931  0.072250670  0.035881308  0.053908895   -0.059051433
+ [6,] -0.408498335 -0.238159343  0.007617194 -0.380541389    0.103350258
+ [7,] -0.232778402 -0.173081414 -0.056831128  0.308649364   -0.035678286
+ [8,]  0.090406415 -0.126642244  0.042541912 -0.083316360   -0.001085696
+ [9,] -0.059653731 -0.011806263 -0.052414418  0.270085345   -0.023874378
+[10,]  0.014354183 -0.002924474  0.020023040  0.008973424    0.018205410
+[11,]  0.010207131 -0.017109076  0.037672692 -0.010542113    0.013850411
+[12,] -0.019022972  0.004579979  0.005743584  0.007400343    0.003209279
+[13,]  0.004254445  0.008882500  0.010584905 -0.010955323    0.010688070
+      Plateletcrit          PDW Lymphocyte_perc Monocyte_perc Neutrophill_perc
+ [1,] -0.352704986  0.364713774    -0.361376169  -0.191987718      0.403521073
+ [2,]  0.641283437 -0.285581415    -0.249106479  -0.060101095      0.224404739
+ [3,] -0.147663273 -0.017198872     0.433218044   0.194557047     -0.493851833
+ [4,] -0.135894160 -0.023659701    -0.444764748  -0.160943509      0.474331214
+ [5,]  0.010917763  0.049580935    -0.269549980   0.442772389      0.001697879
+ [6,] -0.032898149 -0.179395399    -0.056383699   0.029950428      0.042152127
+ [7,]  0.093138535  0.206575311    -0.030301279   0.032833525      0.042485129
+ [8,]  0.091555474  0.169117602    -0.036891945  -0.185170321     -0.007131183
+ [9,] -0.074433455 -0.156936780    -0.018031752  -0.116356819      0.017082797
+[10,]  0.015548812 -0.032775914    -0.003521535  -0.050230055      0.017867336
+[11,]  0.004391547 -0.013130119    -0.008541238   0.037531366     -0.002805021
+[12,] -0.007191359  0.009035615    -0.001589169  -0.006344848      0.004468541
+[13,]  0.016166542  0.014291370    -0.005441077  -0.010111899      0.012487903
+      Eosinophill_perc Basophill_perc Reticulocyte_perc         MSCV
+ [1,]     -0.088915000   -0.117998027      0.2474364500 -0.601589489
+ [2,]      0.059826493    0.012290744     -0.0962091162 -0.327354648
+ [3,]      0.220223819    0.116363603     -0.4617865613 -0.226336510
+ [4,]     -0.157427805   -0.069499723     -0.4847973241  0.187549039
+ [5,]      0.335569245    0.168349777      0.0611062173  0.062306447
+ [6,]     -0.016342239   -0.019982891      0.0658507416 -0.142766188
+ [7,]     -0.154073560    0.193978437      0.0126234349  0.016055167
+ [8,]      0.423262465    0.301601724     -0.0054947977 -0.005286929
+ [9,]      0.210416415   -0.253647386      0.0003153864  0.003298467
+[10,]      0.009229434    0.002925570      0.0661240105  0.001889833
+[11,]     -0.001062457   -0.041301685      0.0623734135  0.001506438
+[12,]     -0.005449317   -0.007815489      0.0123083211  0.002891452
+[13,]     -0.013552033   -0.046556558      0.0173652680 -0.014306854
+         HLR_perc
+ [1,]  0.17455981
+ [2,] -0.10057817
+ [3,] -0.47560346
+ [4,] -0.48563753
+ [5,]  0.06599330
+ [6,]  0.02873132
+ [7,]  0.02948258
+ [8,] -0.01456019
+ [9,]  0.02461489
+[10,]  0.06070806
+[11,]  0.05783540
+[12,]  0.01099033
+[13,]  0.00724240
 ```
 
 
