@@ -11,8 +11,10 @@ navbar:
   #   href: license.html
   - text: Simulations
     href: simulations.html
-  - text: Gibbs Sampler
-    href: gibbs.html
+  - text: New Experiments
+    href: experimental.html
+  # - text: Gibbs Sampler
+  #   href: gibbs.html
   right:
   - icon: fab fa-github
     text: Source code

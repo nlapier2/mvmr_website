@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>New Experiments</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.10/grViz.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">mvmr_website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="simulations.html">Simulations</a>
+</li>
+<li>
+  <a href="experimental.html">New Experiments</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/nlapier2/mvmr_website">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">New Experiments</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2023-10-03
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>mvmr_website/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221205code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221205)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221205code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221205)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreea1dd33895805194a34a0d3a45573b275c5e9daactargetblanka1dd338a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/nlapier2/mvmr_website/tree/a1dd33895805194a34a0d3a45573b275c5e9daac" target="_blank">a1dd338</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreea1dd33895805194a34a0d3a45573b275c5e9daactargetblanka1dd338a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/nlapier2/mvmr_website/tree/a1dd33895805194a34a0d3a45573b275c5e9daac" target="_blank">a1dd338</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    backup/
+    Ignored:    data/.DS_Store
+    Ignored:    data/results/.DS_Store
+    Ignored:    data/results_true_gx/uncor_plei_gy_0.2_zx_0.2_zy_0.2/
+
+Untracked files:
+    Untracked:  analysis/experimental.Rmd
+    Untracked:  data/results_brms_test_2/
+    Untracked:  data/results_brms_test_4/
+    Untracked:  data/results_sumstat_mrash_susie_test/
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   analysis/simulations.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="simulation-description" class="section level2">
+<h2>Simulation description</h2>
+<p>We simulate according to the following DAG:</p>
+<div id="htmlwidget-e3d5eff22888eb7ba78a" style="width:800px;height:350px;" class="grViz html-widget "></div>
+<script type="application/json" data-for="htmlwidget-e3d5eff22888eb7ba78a">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = LR]\n\n  node [shape = circle]\n  G [label = \"G\"]\n  Z [label = \"Z\"]\n  X [label = \"X\"]\n  Y [label = \"Y\"]\n\n  # edge definitions with the node IDs\n  edge []\n  G -> X [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GX<\/SUB><\/FONT>>]\n  G -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GY<\/SUB><\/FONT>>]\n  G -> Z [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GZ<\/SUB><\/FONT>>]\n  X -> Z [dir=back; label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZX<\/SUB><\/FONT>>]\n  Z -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZY<\/SUB><\/FONT>>]\n  X -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>XY<\/SUB><\/FONT>>]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<!-- ![](../figs/mvmr_dag.jpg) -->
+<p>Here, G are the Genotypes, X are the exposure phenotypes, Y is the
+outcome phenotype, and Z are confounders. All except Y are expected to
+be multivariate. The edge variables signify effects between these
+variables. Let <span class="math inline">\(M\)</span> be the number of
+SNPs, <span class="math inline">\(K\)</span> be the number of exposures,
+and <span class="math inline">\(J\)</span> be the number of
+confounders.</p>
+<p>The structural equation model for this DAG is:</p>
+<p><span class="math display">\[Z = G\theta_{GZ} + \epsilon_Z\]</span>
+<span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} +
+\epsilon_X\]</span> <span class="math display">\[Y = X\theta_{XY} +
+G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y\]</span></p>
+<p>G is assumed fixed or is drawn from standard normal distributions.
+Define</p>
+<p><span class="math display">\[\psi_X = \theta_{GZ} *
+\theta_{ZX}\]</span> <span class="math display">\[\psi_Y = \theta_{GZ} *
+\theta_{ZY}\]</span> Then <span class="math inline">\(\psi_X\)</span>
+defines the heritability of X mediated through Z, <span
+class="math inline">\(\psi_Y\)</span> defines the confounding effect
+from G to Y that is correlated with X, and <span
+class="math inline">\(\theta_{GY}\)</span> defines the confounding
+effect from G to Y that is not correlated with X.</p>
+<p>By default, <span class="math inline">\(\theta_{XY}\)</span> are
+fixed effects specified by the user, which allows control over the
+strength of effects in the simulation. All other effects <span
+class="math inline">\(theta_i\)</span> (where <span
+class="math inline">\(i\)</span> is a stand-in for <span
+class="math inline">\(GX\)</span>, <span
+class="math inline">\(GY\)</span>, and so on) are drawn according to
+point-(multivarite-)normal distributions,</p>
+<p><span class="math display">\[\theta_i = f_i *
+\gamma^*_{i},\]</span></p>
+<p>where f is the point-(multivariate-)normal,</p>
+<p><span class="math display">\[f_i \sim \pi_{0,i}\delta +
+\pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),\]</span></p>
+<p>where <span class="math inline">\(\delta\)</span> is the Dirac delta
+function and <span class="math inline">\(d\)</span> is the
+dimensionality of the effected variable, i.e. <span
+class="math inline">\(J\)</span> if the effect is on <span
+class="math inline">\(Z\)</span>, <span class="math inline">\(K\)</span>
+for <span class="math inline">\(X\)</span>, or <span
+class="math inline">\(1\)</span> for <span
+class="math inline">\(Y\)</span>. <span
+class="math inline">\(\mu\)</span>, the mean parameter, is set to 0 by
+default, but can be set to non-zero values to allow “directional
+pleiotropy”. <span class="math inline">\(\Sigma_i\)</span> is currently
+taken to be a diagonal matrix, but could be generalized to allow
+correlated effects.</p>
+<p><span class="math inline">\(\pi_{0,i}\)</span> represents the amount
+of sparsity while <span class="math inline">\(\pi_{1,i}\)</span>
+represents the density, and <span class="math inline">\(\pi_{0,i} +
+\pi_{1,i} = 1\)</span>. In practice this is achieved by first simulating
+the multivariate normal, then multiplying each entry by <span
+class="math inline">\(\pi_{1,i}\)</span>, which is drawn separately for
+each entry according to</p>
+<p><span class="math display">\[\pi_{1,i} \sim
+Bernoulli(\phi_i),\]</span></p>
+<p>where <span class="math inline">\(\phi_i\)</span> is a parameter that
+controls the level of density. By default, the density of <span
+class="math inline">\(\theta_{ZY}\)</span> is set to 1 (<span
+class="math inline">\(\phi_{ZY}=1\)</span>) because if some <span
+class="math inline">\(Z_j\)</span> does not affect <span
+class="math inline">\(Y\)</span> then it is not a confounder.</p>
+<p>Finally, <span class="math inline">\(\gamma_i\)</span> represents the
+scaling parameter to achieve the desired <span
+class="math inline">\(R^2\)</span>. <span
+class="math inline">\(G\)</span>, <span
+class="math inline">\(Z\)</span>, <span
+class="math inline">\(X\)</span>, and <span
+class="math inline">\(Y\)</span> are controlled to have unit variance
+(see simulation of noise below). For <span
+class="math inline">\(G\)</span> to have the desired <span
+class="math inline">\(R^2\)</span> (heritability) on <span
+class="math inline">\(Z\)</span>, <span
+class="math inline">\(X\)</span>, or <span
+class="math inline">\(Y\)</span>, we need to adjust this parameter by
+the number of SNPs and the sparsity of the effects. Therefore, the
+per-SNP <span class="math inline">\(\gamma_i^*\)</span> is</p>
+<p><span class="math display">\[\gamma^*_{i} = \sqrt{\gamma_{i} / M /
+\phi_i}\]</span></p>
+<!-- We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X. -->
+<p>The noise variances, epsilon, are designed so that Z, X, and Y have
+unit variance. So they are simulated according to</p>
+<p><span class="math display">\[\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z
+I_J)\]</span> <span class="math display">\[\epsilon_X \sim
+\mathcal{N}_K(0, \xi_Z I_K)\]</span> <span
+class="math display">\[\epsilon_Y \sim \mathcal{N}(0,
+\xi_Y)\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\xi_Z = 1 - \gamma_{GZ}\]</span> <span
+class="math display">\[\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}\]</span>
+<span class="math display">\[\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} -
+\sum_i \theta_{XY,i}^2\]</span></p>
+<div id="baseline-methods-assessed" class="section level3">
+<h3>Baseline Methods Assessed</h3>
+<ul>
+<li>“2SLS”: vanilla two-stage least squares implemented by me. I first
+perform multiple regression of each <span
+class="math inline">\(X_j\)</span> on <span
+class="math inline">\(G\)</span>, obtaining an estimate <span
+class="math inline">\(\hat{\tilde{X}}\)</span> of the genetic component
+of X, <span class="math inline">\(\tilde{X}\)</span>. I then regress
+<span class="math inline">\(Y\)</span> on <span
+class="math inline">\(\hat{\tilde{X}}\)</span> (second-stage
+regression).</li>
+</ul>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span> <span class="math display">\[Y \sim
+\hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+<ul>
+<li>“2SLS Oracle”: This is an augmented version of 2SLS where, in the
+second-stage regression, I include the true values of <span
+class="math inline">\(G\theta_{GZ}\)</span> (which is equal to the
+genetic component of Z, <span class="math inline">\(\tilde{Z}\)</span>)
+and <span class="math inline">\(G\theta_{GY}\)</span> as covariates.
+This represents the ideal performance of 2SLS if the true confounders
+were known (“oracle” setting), though it may be beatable by putting
+appropriate sparse priors on the confounders.</li>
+</ul>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span> <span class="math display">\[Y \sim
+\hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow
+\hat{\theta}_{XY}, pvalue\]</span></p>
+<ul>
+<li>“2SLS Enhanced”: This is an augmented version of 2SLS where, in the
+second stage regression, I include estimates of <span
+class="math inline">\(G\theta_{GZ}\)</span> and <span
+class="math inline">\(G\theta_{GY}\)</span> that can be obtained without
+knowing the true values. The former is estimated by running SVD on <span
+class="math inline">\(\hat{\theta}_{GX}\)</span>. The latter is
+estimated by regressing <span class="math inline">\(X\)</span> out of
+<span class="math inline">\(Y\)</span> and then regressing those
+residuals on <span class="math inline">\(G\)</span>.</li>
+</ul>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span></p>
+<p><span class="math display">\[SVD(\hat{\theta}_{GX}) \rightarrow
+\widehat{\theta_{GZ}\theta_{ZX}} = \hat{\psi}_X\]</span> <span
+class="math display">\[Y \sim X \rightarrow \hat{Y}_{resid}\]</span>
+<span class="math display">\[\hat{Y}_{resid} \sim G \rightarrow
+\hat{\theta}_{GY}\]</span> <span class="math display">\[Y \sim
+\hat{\tilde{X}} + G\hat{\psi}_x + G\hat{\theta}_{GY} \rightarrow
+\hat{\theta}_{XY}, pvalue\]</span></p>
+<ul>
+<li>SuSiE-SVD: This performs the same first-stage regression as 2SLS,
+then runs runs the SuSiE R package for the second-stage regression.
+Along with <span class="math inline">\(\hat{\tilde{X}}\)</span>, we
+include the SNPs <span class="math inline">\(G\)</span> to attempt to
+control for uncorrelated pleiotropy as well as an estimate of the
+confounders <span class="math inline">\(\hat{\tilde{Z}}\)</span>,
+produced by running truncated singular value decomposition (SVD) on
+<span class="math inline">\(\hat{\tilde{X}}\)</span>, to attempt to
+control for correlated pleiotropy. We give a slightly incorrect value
+for the true number of confounders to SVD.</li>
+</ul>
+<p><span class="math display">\[X_1,...,X_K \sim G \rightarrow
+\hat{\tilde{X}}\]</span> <span
+class="math display">\[SVD(\hat{\tilde{X}}) \rightarrow \hat{\tilde{Z}}
+= G\hat{\theta}_{GZ}\]</span></p>
+<p><span class="math display">\[susieR::susie(Y \sim \hat{\tilde{X}} + G
++ \hat{\tilde{Z}}) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+<ul>
+<li>Multivariate versions of four standard MR methods, implemented in
+the MendelianRandomization package: IVW, Egger, Median, and Lasso. For
+each of these, I first regress each <span
+class="math inline">\(X_j\)</span> and <span
+class="math inline">\(Y\)</span> on each genetic variant. The betas and
+standard errors from these per-variant regressions (mimicking summary
+statistics) are given to the methods as input.</li>
+</ul>
+<p><span class="math display">\[X_i \sim G_j \rightarrow
+\hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow
+\hat{\beta}_{yj}, \hat{s}^2_{yj}\]</span> <span
+class="math display">\[MendelianRandomization::MVMR\_IVW(\hat{\beta},
+\hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue\]</span></p>
+</div>
+</div>
+<div id="bayesian-robust-regression" class="section level2">
+<h2>Bayesian Robust Regression</h2>
+<p>Below are some results using Bayesian Robust Regression, implemented
+with BRMS. The inputs to the regression are the same as with any other
+summary statistic method. The outcome is modeled using a t-distribution
+for robustness. The prior for the effects is either normal or horseshoe
+(hs), the latter for sparsity. A test was performed for the probability
+of false sign, i.e. <span
+class="math inline">\(max(p(\hat{\theta}_{XY_i} &gt; 0),
+p(\hat{\theta}_{XY_i} &lt; 0))\)</span>.</p>
+<p>A repeat pattern is that brms with a normal prior is inflated in all
+cases, while brms.hs is conservative. However, both perform well in
+causal ordering, and are more robust to the M/K ratio than MVMR-Robust
+(and will run when M&gt;K).</p>
+<p>Here is a run with no pleiotropy.</p>
+<p><img src="figure/experimental.Rmd/no_plei_brms-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Now here’s a run with both kinds of pleiotropy.</p>
+<p><img src="figure/experimental.Rmd/both_plei_brms-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>And here’s the power at an FPR threshold of 0.05:</p>
+<p><img src="figure/experimental.Rmd/powfpr_no_plei_brms_2-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>We see that robust does pretty well, as expected, though all methods
+achieve good ordering. At a fixed p-value cutoff of 0.05, robust is a
+bit inflated.</p>
+<p>But now here’s a setting with M=100 (M=300 previously) and denser
+theta_gx and theta_gy. This setting is generally more difficult, but as
+before, robust suffers especially.</p>
+<p><img src="figure/experimental.Rmd/both_plei_brms_4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p><img src="figure/experimental.Rmd/powfpr_no_plei_brms_4-1.png" width="1152" style="display: block; margin: auto;" /></p>
+</div>
+<div id="summary-statistics-versions-of-susie-and-mr.ash"
+class="section level2">
+<h2>Summary Statistics versions of Susie and MR.Ash</h2>
+<p>Here, since the vanilla simulations have uncorrelated variants, I
+simply fed these methods x_betas and y_betas instead of X and Y (did not
+use Susie_RSS). Susie seems to work ok in sumstats mode, but MR.Ash does
+not, for some reason.</p>
+<p>Here is a run with no pleiotropy.</p>
+<p><img src="figure/experimental.Rmd/no_plei_susie_mrash_ss-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<p>Now here’s a run with both kinds of pleiotropy.</p>
+<p><img src="figure/experimental.Rmd/both_plei_susie_mrash_ss-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggpubr_0.6.0      ggplot2_3.4.3     DiagrammeR_1.0.10 workflowr_1.7.0  
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.2.0   xfun_0.39          bslib_0.5.0        purrr_1.0.1       
+ [5] carData_3.0-5      colorspace_2.1-0   vctrs_0.6.3        generics_0.1.3    
+ [9] htmltools_0.5.5    yaml_2.3.7         utf8_1.2.3         rlang_1.1.1       
+[13] jquerylib_0.1.4    later_1.3.1        pillar_1.9.0       glue_1.6.2        
+[17] withr_2.5.0        RColorBrewer_1.1-3 lifecycle_1.0.3    stringr_1.5.0     
+[21] ggsignif_0.6.4     munsell_0.5.0      gtable_0.3.3       visNetwork_2.1.2  
+[25] htmlwidgets_1.6.2  evaluate_0.21      labeling_0.4.2     knitr_1.43        
+[29] callr_3.7.3        fastmap_1.1.1      httpuv_1.6.11      ps_1.7.5          
+[33] fansi_1.0.4        highr_0.10         broom_1.0.5        Rcpp_1.0.11       
+[37] backports_1.4.1    promises_1.2.0.1   scales_1.2.1       cachem_1.0.8      
+[41] jsonlite_1.8.7     abind_1.4-5        farver_2.1.1       fs_1.6.3          
+[45] digest_0.6.33      stringi_1.7.12     rstatix_0.7.2      processx_3.8.2    
+[49] dplyr_1.1.2        getPass_0.2-2      rprojroot_2.0.3    grid_4.2.1        
+[53] cli_3.6.1          tools_4.2.1        magrittr_2.0.3     sass_0.4.7        
+[57] tibble_3.2.1       car_3.1-2          tidyr_1.3.0        whisker_0.4.1     
+[61] pkgconfig_2.0.3    ellipsis_0.3.2     rmarkdown_2.23     httr_1.4.6        
+[65] rstudioapi_0.15.0  R6_2.5.1           git2r_0.32.0       compiler_4.2.1    </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

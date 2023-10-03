@@ -1,0 +1,396 @@
+---
+title: "New Experiments"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r packages, echo=FALSE}
+library("DiagrammeR")
+library("ggplot2")
+library("ggpubr")
+
+# colorblind-friendly palette
+cbPalette <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499", 
+               "#44AA99", "#999933", "#882255", "#661100", "#6699CC", "#888888", "#000000")
+```
+
+```{r plotcode, echo=FALSE}
+# check if this is a pip method
+pip_checker = function(method) {
+  return(grepl('susie', method) || grepl('mrash', method) || grepl('zuber', method) || grepl('brms', method))
+}
+
+# Code for plots of simulation results
+group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.95, methods=c()) {
+  method_labels = c()
+  beta_labels = c()
+  all_pos_rates = c()
+  
+  for(m in methods) {
+    fname = paste0(dirname, prefix, m, '.txt')
+    res = na.omit(read.table(fname))
+    num_cols = dim(res)[2]
+    ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
+    if(pip_checker(ss)) {
+      num_betas = num_cols 
+    } else {
+      num_betas = num_cols / 3
+    }
+    # compute rates of (true or false) positives
+    for (i in 1:n_x_show) {
+      if(pip_checker(ss)) {
+        posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
+      } else {
+        posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
+      }
+      method_labels = c(method_labels, m)
+      beta_labels = c(beta_labels, as.character(i))
+      all_pos_rates = c(all_pos_rates, posrate)
+    }
+  }
+  
+  data = data.frame(method_labels, beta_labels, all_pos_rates)
+  ggplot(data, aes(fill=method_labels, y=all_pos_rates, x=beta_labels)) +
+    geom_bar(position="dodge", stat="identity") + 
+    geom_hline(yintercept=0.05, linetype="dashed", color = "black") +
+    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
+    xlab('Exposures') + ylab('Positive Rate') + labs(fill = "Method") + ylim(0, 1)
+}
+
+
+power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show = 4, thresh = 0.05, methods=c()) {
+  method_labels = c()
+  beta_labels = c()
+  all_pos_rates = c()
+  truevars = as.numeric(unlist(strsplit(truevars, ",")))
+  
+  for(m in methods) {
+    fname = paste0(dirname, prefix, m, '.txt')
+    res = na.omit(read.table(fname))
+    num_sims = dim(res)[1]
+    num_cols = dim(res)[2]
+    ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
+    if(pip_checker(ss)) {
+      num_betas = num_cols
+    } else {
+      num_betas = num_cols / 3
+    }
+    num_falsevars = num_betas - length(truevars)
+    tot_false = num_sims * num_falsevars
+    falselim = tot_false * thresh
+    
+    # determine power of each true variable at specified FPR threshold
+    sorted_pvals = c()
+    for(row in 1:num_sims) {
+      for(col in 1:num_betas) {
+        if(pip_checker(ss)) {
+          entry = res[row,col]
+        } else {
+          entry = res[row,(2*num_betas+col)]
+        }
+        sorted_pvals = rbind(sorted_pvals, c(entry, col))
+      }
+    }
+    if(pip_checker(ss)) {
+      sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
+    } else {
+      sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
+    }
+
+    truepos = rep(0, num_betas)
+    falsepos = 0
+    for(row in 1:dim(sorted_pvals)[1]) {
+      var = sorted_pvals[row,2]
+      if(var %in% truevars) {
+        truepos[var] = truepos[var] + 1
+      } else{
+        falsepos = falsepos + 1
+      }
+      if(falsepos >= falselim) {
+        break
+      }
+    }
+    truepos = (truepos / num_sims)[1:n_x_show]
+    for(i in 1:length(truepos)) {
+      method_labels = c(method_labels, m)
+      beta_labels = c(beta_labels, as.character(i))
+      all_pos_rates = c(all_pos_rates, truepos[i])
+    }
+  }
+  
+  data = data.frame(method_labels, beta_labels, all_pos_rates)
+  ggplot(data, aes(fill=method_labels, y=all_pos_rates, x=beta_labels)) +
+    geom_bar(position="dodge", stat="identity") + 
+    geom_hline(yintercept=0.05, linetype="dashed", color = "black") +
+    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
+    xlab('Exposures') + ylab(paste0('Power @ FPR = ', thresh)) + labs(fill = "Method") + ylim(0, 1)
+}
+
+
+param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_res_', 
+                          thresh = 0.05, pip_thresh = 0.95, methods=c()) {
+  all_method_labels = c()
+  all_param_vals = c()
+  all_fpr = c()
+  all_power = c()
+
+  for(i in 1:length(dirvec)) {
+    dirname = dirvec[i]
+    thisval = param_vals[i]
+    for(m in methods) {
+      fpr = 0
+      power = 0
+      fname = paste0(dirname, prefix, m, '.txt')
+      res = na.omit(read.table(fname))
+      num_cols = dim(res)[2]
+      ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
+      if(pip_checker(ss)) {
+        num_betas = num_cols 
+      } else {
+        num_betas = num_cols / 3
+      }
+      # compute rates of (true or false) positives
+      for (i in 1:num_betas) {
+        if(pip_checker(ss)) {
+          posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
+        } else {
+          posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
+        }
+        if(i %in% truepos) {
+          power = power + posrate
+        } else {
+          fpr = fpr + posrate
+        }
+      }
+      power = power / length(truepos)
+      fpr = fpr / (num_betas - length(truepos))
+      all_method_labels = c(all_method_labels, m)
+      all_param_vals = c(all_param_vals, thisval)
+      all_power = c(all_power, power)
+      all_fpr = c(all_fpr, fpr)
+    }
+  }
+  
+  data_fpr = data.frame(all_method_labels, all_param_vals, all_fpr)
+  data_power = data.frame(all_method_labels, all_param_vals, all_power)
+  fpr_plot = ggplot(data_fpr, 
+    aes(group=all_method_labels, color=all_method_labels, y=all_fpr, x=all_param_vals)) +
+    geom_line(linewidth=2) + geom_point(size=4) + 
+    geom_hline(yintercept=0.05, linetype="dashed", color = "black") +
+    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
+    xlab(param_name) + ylab('False Positive Rate') + labs(fill = "Method") + ylim(0, 1)
+  power_plot = ggplot(data_power, 
+    aes(group=all_method_labels, color=all_method_labels, y=all_power, x=all_param_vals)) +
+    geom_line(linewidth=2) + geom_point(size=4) + 
+    scale_fill_manual(values=cbPalette) + theme(text = element_text(size = 20)) + 
+    xlab(param_name) + ylab('Power') + labs(fill = "Method") + ylim(0, 1)
+  ggarrange(fpr_plot, power_plot, nrow=1, ncol=2, common.legend = TRUE, legend="bottom")
+}
+```
+
+
+## Simulation description
+
+We simulate according to the following DAG:
+
+```{r dag, echo=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = LR]
+
+  node [shape = circle]
+  G [label = 'G']
+  Z [label = 'Z']
+  X [label = 'X']
+  Y [label = 'Y']
+
+  # edge definitions with the node IDs
+  edge []
+  G -> X [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GX</SUB></FONT>>]
+  G -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GY</SUB></FONT>>]
+  G -> Z [label=<\U03B8<FONT POINT-SIZE='8'><SUB>GZ</SUB></FONT>>]
+  X -> Z [dir=back; label=<\U03B8<FONT POINT-SIZE='8'><SUB>ZX</SUB></FONT>>]
+  Z -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>ZY</SUB></FONT>>]
+  X -> Y [label=<\U03B8<FONT POINT-SIZE='8'><SUB>XY</SUB></FONT>>]
+  }",
+  height = 350, width = 800)
+```
+
+<!-- ![](../figs/mvmr_dag.jpg) -->
+
+Here, G are the Genotypes, X are the exposure phenotypes, Y is the outcome phenotype, and Z are confounders.
+All except Y are expected to be multivariate. 
+The edge variables signify effects between these variables.
+Let $M$ be the number of SNPs, $K$ be the number of exposures, and $J$ be the number of confounders.
+
+The structural equation model for this DAG is:
+
+$$Z = G\theta_{GZ} + \epsilon_Z$$
+$$X = G\theta_{GX} + Z\theta_{ZX} + \epsilon_X$$
+$$Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y$$
+
+G is assumed fixed or is drawn from standard normal distributions. Define
+
+$$\psi_X = \theta_{GZ} * \theta_{ZX}$$
+$$\psi_Y = \theta_{GZ} * \theta_{ZY}$$
+Then $\psi_X$ defines the heritability of X mediated through Z, 
+$\psi_Y$ defines the confounding effect from G to Y that is correlated with X,
+and $\theta_{GY}$ defines the confounding effect from G to Y that is not correlated with X.
+
+By default, $\theta_{XY}$ are fixed effects specified by the user, 
+which allows control over the strength of effects in the simulation.
+All other effects $theta_i$ (where $i$ is a stand-in for $GX$, $GY$, and so on) are drawn according to point-(multivarite-)normal distributions,
+
+$$\theta_i = f_i * \gamma^*_{i},$$
+
+where f is the point-(multivariate-)normal,
+
+$$f_i \sim \pi_{0,i}\delta + \pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),$$
+
+where $\delta$ is the Dirac delta function and $d$ is the dimensionality of the effected variable, i.e. $J$ if the effect is on $Z$, $K$ for $X$, or $1$ for $Y$. 
+$\mu$, the mean parameter, is set to 0 by default, but can be set to non-zero values to allow “directional pleiotropy”. 
+$\Sigma_i$ is currently taken to be a diagonal matrix, but could be generalized to allow correlated effects.
+
+$\pi_{0,i}$ represents the amount of sparsity while $\pi_{1,i}$ represents the density, and $\pi_{0,i} + \pi_{1,i} = 1$. 
+In practice this is achieved by first simulating the multivariate normal, then multiplying each entry by $\pi_{1,i}$, which is drawn separately for each entry according to
+
+$$\pi_{1,i} \sim Bernoulli(\phi_i),$$
+
+where $\phi_i$ is a parameter that controls the level of density. By default, the density of $\theta_{ZY}$ is set to 1 ($\phi_{ZY}=1$) because if some $Z_j$ does not affect $Y$ then it is not a confounder.
+
+Finally, $\gamma_i$ represents the scaling parameter to achieve the desired $R^2$. $G$, $Z$, $X$, and $Y$ are controlled to have unit variance (see simulation of noise below). For $G$ to have the desired $R^2$ (heritability) on $Z$, $X$, or $Y$, we need to adjust this parameter by the number of SNPs and the sparsity of the effects. Therefore, the per-SNP $\gamma_i^*$ is 
+
+$$\gamma^*_{i} = \sqrt{\gamma_{i} / M / \phi_i}$$
+
+<!-- We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X. -->
+
+The noise variances, epsilon, are designed so that Z, X, and Y have unit variance. So they are simulated according to
+
+$$\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z I_J)$$
+$$\epsilon_X \sim \mathcal{N}_K(0, \xi_Z I_K)$$
+$$\epsilon_Y \sim \mathcal{N}(0, \xi_Y)$$
+
+where
+
+$$\xi_Z = 1 - \gamma_{GZ}$$
+$$\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}$$
+$$\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} - \sum_i \theta_{XY,i}^2$$
+
+### Baseline Methods Assessed
+
+* "2SLS": vanilla two-stage least squares implemented by me. I first perform multiple regression of each $X_j$ on $G$, obtaining an estimate $\hat{\tilde{X}}$ of the genetic component of X, $\tilde{X}$. I then regress $Y$ on $\hat{\tilde{X}}$ (second-stage regression).
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+$$Y \sim \hat{\tilde{X}} \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+* "2SLS Oracle": This is an augmented version of 2SLS where, in the second-stage regression, I include the true values of $G\theta_{GZ}$ (which is equal to the genetic component of Z, $\tilde{Z}$) and $G\theta_{GY}$ as covariates. This represents the ideal performance of 2SLS if the true confounders were known ("oracle" setting), though it may be beatable by putting appropriate sparse priors on the confounders.
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+$$Y \sim \hat{\tilde{X}} + \tilde{Z} + G\theta_{GY} \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+* "2SLS Enhanced": This is an augmented version of 2SLS where, in the second stage regression, I include estimates of $G\theta_{GZ}$ and $G\theta_{GY}$ that can be obtained without knowing the true values. The former is estimated by running SVD on $\hat{\theta}_{GX}$. The latter is estimated by regressing $X$ out of $Y$ and then regressing those residuals on $G$.
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+
+$$SVD(\hat{\theta}_{GX}) \rightarrow \widehat{\theta_{GZ}\theta_{ZX}} = \hat{\psi}_X$$
+$$Y \sim X \rightarrow \hat{Y}_{resid}$$
+$$\hat{Y}_{resid} \sim G \rightarrow \hat{\theta}_{GY}$$
+$$Y \sim \hat{\tilde{X}} + G\hat{\psi}_x + G\hat{\theta}_{GY} \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+
+* SuSiE-SVD: This performs the same first-stage regression as 2SLS, then runs runs the SuSiE R package for the second-stage regression. Along with $\hat{\tilde{X}}$, we include the SNPs $G$ to attempt to control for uncorrelated pleiotropy as well as an estimate of the confounders $\hat{\tilde{Z}}$, produced by running truncated singular value decomposition (SVD) on $\hat{\tilde{X}}$, to attempt to control for correlated pleiotropy. We give a slightly incorrect value for the true number of confounders to SVD.
+
+$$X_1,...,X_K \sim G \rightarrow \hat{\tilde{X}}$$
+$$SVD(\hat{\tilde{X}}) \rightarrow \hat{\tilde{Z}} = G\hat{\theta}_{GZ}$$
+
+$$susieR::susie(Y \sim \hat{\tilde{X}} + G + \hat{\tilde{Z}}) \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+* Multivariate versions of four standard MR methods, implemented in the MendelianRandomization package: IVW, Egger, Median, and Lasso. For each of these, I first regress each $X_j$ and $Y$ on each genetic variant. The betas and standard errors from these per-variant regressions (mimicking summary statistics) are given to the methods as input.
+
+$$X_i \sim G_j \rightarrow \hat{\beta}_{ij}, \hat{s}^2_{ij} \qquad Y \sim G_j \rightarrow \hat{\beta}_{yj}, \hat{s}^2_{yj}$$
+$$MendelianRandomization::MVMR\_IVW(\hat{\beta}, \hat{s}^2) \rightarrow \hat{\theta}_{XY}, pvalue$$
+
+
+
+## Bayesian Robust Regression
+
+Below are some results using Bayesian Robust Regression, implemented with BRMS.
+The inputs to the regression are the same as with any other summary statistic method.
+The outcome is modeled using a t-distribution for robustness.
+The prior for the effects is either normal or horseshoe (hs), the latter for sparsity.
+A test was performed for the probability of false sign, i.e.
+$max(p(\hat{\theta}_{XY_i} > 0), p(\hat{\theta}_{XY_i} < 0))$.
+
+A repeat pattern is that brms with a normal prior is inflated in all cases, 
+while brms.hs is conservative. However, both perform well in causal ordering,
+and are more robust to the M/K ratio than MVMR-Robust (and will run when M>K).
+
+Here is a run with no pleiotropy.
+
+```{r no_plei_brms, echo=FALSE, fig.width=12}
+group_barchart('data/results_brms_test_2/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('brms', 'brms.hs', 'robust', 'mrash', 'susie'))
+```
+
+Now here's a run with both kinds of pleiotropy.
+
+```{r both_plei_brms, echo=FALSE, fig.width=12}
+group_barchart('data/results_brms_test_2/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('brms_gfa', 'brms.hs_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+And here's the power at an FPR threshold of 0.05:
+
+```{r powfpr_no_plei_brms_2, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_brms_test_2/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
+                      c('1','2','3','4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('brms_gfa', 'brms.hs_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+We see that robust does pretty well, as expected, though all methods achieve
+good ordering. At a fixed p-value cutoff of 0.05, robust is a bit inflated.
+
+But now here's a setting with M=100 (M=300 previously) and denser theta_gx and theta_gy.
+This setting is generally more difficult, but as before, robust suffers especially.
+
+```{r both_plei_brms_4, echo=FALSE, fig.width=12}
+group_barchart('data/results_brms_test_4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('brms_gfa', 'brms.hs_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+
+```{r powfpr_no_plei_brms_4, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_brms_test_4/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/', 
+                      c('1','2','3','4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('brms_gfa', 'brms.hs_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
+```
+ 
+
+
+## Summary Statistics versions of Susie and MR.Ash
+
+Here, since the vanilla simulations have uncorrelated variants, I simply fed
+these methods x_betas and y_betas instead of X and Y (did not use Susie_RSS).
+Susie seems to work ok in sumstats mode, but MR.Ash does not, for some reason.
+
+
+Here is a run with no pleiotropy.
+
+```{r no_plei_susie_mrash_ss, echo=FALSE, fig.width=12}
+group_barchart('data/results_sumstat_mrash_susie_test/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('mrash', 'mrash.ss', 'susie', 'susie.ss'))
+```
+
+Now here's a run with both kinds of pleiotropy.
+
+```{r both_plei_susie_mrash_ss, echo=FALSE, fig.width=12}
+group_barchart('data/results_sumstat_mrash_susie_test/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('mrash_gfa', 'mrash.ss_gfa', 'susie_gfa', 'susie.ss_gfa'))
+```

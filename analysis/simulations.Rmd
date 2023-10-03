@@ -19,8 +19,13 @@ cbPalette <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499",
 ```
 
 ```{r plotcode, echo=FALSE}
+# check if this is a pip method
+pip_checker = function(method) {
+  return(grepl('susie', method) || grepl('mrash', method) || grepl('zuber', method) || grepl('brms', method))
+}
+
 # Code for plots of simulation results
-group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.5, methods=c()) {
+group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.05, pip_thresh = 0.95, methods=c()) {
   method_labels = c()
   beta_labels = c()
   all_pos_rates = c()
@@ -30,14 +35,14 @@ group_barchart = function(dirname, prefix='all_res_', n_x_show = 8, thresh = 0.0
     res = na.omit(read.table(fname))
     num_cols = dim(res)[2]
     ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
-    if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+    if(pip_checker(ss)) {
       num_betas = num_cols 
     } else {
       num_betas = num_cols / 3
     }
     # compute rates of (true or false) positives
     for (i in 1:n_x_show) {
-      if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+      if(pip_checker(ss)) {
         posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
       } else {
         posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -69,7 +74,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     num_sims = dim(res)[1]
     num_cols = dim(res)[2]
     ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
-    if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+    if(pip_checker(ss)) {
       num_betas = num_cols
     } else {
       num_betas = num_cols / 3
@@ -82,7 +87,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
     sorted_pvals = c()
     for(row in 1:num_sims) {
       for(col in 1:num_betas) {
-        if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+        if(pip_checker(ss)) {
           entry = res[row,col]
         } else {
           entry = res[row,(2*num_betas+col)]
@@ -90,7 +95,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
         sorted_pvals = rbind(sorted_pvals, c(entry, col))
       }
     }
-    if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+    if(pip_checker(ss)) {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=TRUE),]
     } else {
       sorted_pvals = sorted_pvals[order(sorted_pvals[,1],decreasing=FALSE),]
@@ -127,7 +132,7 @@ power_fpr_thresh_plot = function(dirname, truevars, prefix='all_res_', n_x_show 
 
 
 param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_res_', 
-                          thresh = 0.05, pip_thresh = 0.1, methods=c()) {
+                          thresh = 0.05, pip_thresh = 0.95, methods=c()) {
   all_method_labels = c()
   all_param_vals = c()
   all_fpr = c()
@@ -143,14 +148,14 @@ param_lineplot = function(dirvec, param_name, param_vals, truepos, prefix='all_r
       res = na.omit(read.table(fname))
       num_cols = dim(res)[2]
       ss = strsplit(m, '_')[[1]][1]  # isolate the second-stage method name
-      if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+      if(pip_checker(ss)) {
         num_betas = num_cols 
       } else {
         num_betas = num_cols / 3
       }
       # compute rates of (true or false) positives
       for (i in 1:num_betas) {
-        if(grepl('susie', ss) || grepl('mrash', ss) || grepl('zuber', ss)) {
+        if(pip_checker(ss)) {
           posrate = sum(res[,i] >= pip_thresh) / length(res[,i])
         } else {
           posrate = sum(res[,(i+num_betas*2)] <= thresh) / length(res[,(i+num_betas*2)])
@@ -896,4 +901,3 @@ group_barchart('data/results_ps4/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15
                  'ivw_cate', 'robust_cate', 'mrash_cate', 'susie_cate',
                  'ivw_gfa', 'robust_gfa', 'mrash_gfa', 'susie_gfa'))
 ```
-
