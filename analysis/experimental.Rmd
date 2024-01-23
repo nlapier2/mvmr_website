@@ -21,7 +21,7 @@ cbPalette <- c("#88CCEE", "#CC6677", "#DDCC77", "#117733", "#332288", "#AA4499",
 ```{r plotcode, echo=FALSE}
 # check if this is a pip method
 pip_checker = function(method) {
-  return(grepl('susie', method) || grepl('mrash', method) || grepl('zuber', method) || grepl('brms', method))
+  return(grepl('susie', method) || grepl('mrash', method) || grepl('varbvs', method) || grepl('ctwas', method) || grepl('zuber', method) || grepl('brms', method))
 }
 
 # Code for plots of simulation results
@@ -381,7 +381,7 @@ these methods x_betas and y_betas instead of X and Y (did not use Susie_RSS).
 Here is a run with no pleiotropy.
 
 ```{r no_plei_bvs_ss, echo=FALSE, fig.width=12}
-group_barchart('data\results_test_varbvs_ss_rescale\no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+group_barchart('data/results_test_varbvs_ss_rescale/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
                methods=c('ivw', 'robust', 'mrash.ss', 'susie.ss', 'varbvs.ss'))
 ```
@@ -389,7 +389,75 @@ group_barchart('data\results_test_varbvs_ss_rescale\no_plei_gx_0.2_gy_0.2_gz_0.4
 Here is the power at a fixed FPR threshold of 0.05:
 
 ```{r powfpr_no_plei_bvs_ss, echo=FALSE, fig.width=12}
-group_barchart('data\results_test_varbvs_ss_rescale\no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+power_fpr_thresh_plot('data/results_test_varbvs_ss_rescale/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
                methods=c('ivw', 'robust', 'mrash.ss', 'susie.ss', 'varbvs.ss'))
 ```
+
+
+
+## cTWAS Results
+
+I re-implemented cTWAS-RSS, checked that it matched the original, and ran it on the
+UK Biobank simulations.
+For now, I excluded SNPs with z-scores below 5.2, but did no other thinning.
+cTWAS-RSS currently shows lower power than the most comparable method, susie.ss,
+but as expected, is much more robust to uncorrelated pleiotropy.
+
+Here are the results with no pleiotropy:
+
+```{r no_plei_ctwas, echo=FALSE, fig.width=12}
+group_barchart('data/results_ctwas_test/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', 'susie', 'susie.ss', 'ctwas.rss'))
+```
+
+And here are the results with uncorrelated pleiotropy:
+
+```{r uncor_plei_ctwas, echo=FALSE, fig.width=12}
+group_barchart('data/results_ctwas_test/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', 'susie', 'susie.ss', 'ctwas.rss'))
+```
+
+
+
+## Prior weights and variances for susie and varbvs
+
+Here I did experiments where I manually set prior weights for susie and varbvs.
+For the prior weights I gave the true proportions of exposures and SNPs that
+were causal.
+For prior variance, I just used 0.01.
+Despite this, the prior variance made a big difference in the results of susie
+and even more so for varbvs.
+It seems that varbvs usually estimates a too-high prior variance (more like ~0.5)
+and this causes its true positive rate to be low despite good power at a fixed FPR.
+
+Here are the results with no pleiotropy:
+
+```{r no_plei_priors, echo=FALSE, fig.width=12}
+group_barchart('data/results_test_group_prior/no_plei_all/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', 'susie', 'varbvs', 'susie.prior', 'varbvs.prior'))
+```
+
+```{r powfpr_no_plei_priors, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_test_group_prior/no_plei_all/',
+               c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('2sls', 'susie', 'varbvs', 'susie.prior', 'varbvs.prior'))
+```
+
+We see a similar pattern with uncorrelated pleiotropy:
+
+```{r uncor_plei_priors, echo=FALSE, fig.width=12}
+group_barchart('data/results_test_group_prior/uncor_plei_all/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('2sls', 'susie', 'varbvs', 'susie.prior', 'varbvs.prior'))
+```
+
+```{r powfpr_uncor_plei_priors, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_test_group_prior/uncor_plei_all/',
+               c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('2sls', 'susie', 'varbvs', 'susie.prior', 'varbvs.prior'))
+```
+
