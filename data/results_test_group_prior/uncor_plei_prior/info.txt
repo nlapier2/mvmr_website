@@ -1,0 +1,1 @@
+Rscript run_sim_and_methods.R --num_samples 10000 --num_snps 100 --num_exposures 10 --num_confounders 2 --beta=0.05,0.1,0.2,0.3 --phi_gx 0.2 --phi_gy 0.05 --phi_gz 0.2 --phi_zx 0.5 --susieL 5 --trunc 10 --methods=2sls,ivw,robust,susie,mrash,varbvs --gamma_gx 0.2 --gamma_zx .25000000 --gamma_zy .37500000 --mu 0.0 --gamma_gw 0.4 --gamma_wx 0 --gamma_gy 0.2 --gamma_gz 0.0

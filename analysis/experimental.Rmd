@@ -372,49 +372,24 @@ power_fpr_thresh_plot('data/results_brms_test_4/both_plei_gx_0.2_gy_0.2_gz_0.4_p
  
 
 
-## Summary Statistics versions of Susie and MR.Ash
+## Summary Statistics versions of Susie, MR.Ash, and VarBVS
 
 Here, since the vanilla simulations have uncorrelated variants, I simply fed
 these methods x_betas and y_betas instead of X and Y (did not use Susie_RSS).
-Susie seems to work ok in sumstats mode, but MR.Ash does not, for some reason.
 
 
 Here is a run with no pleiotropy.
 
-```{r no_plei_susie_mrash_ss, echo=FALSE, fig.width=12}
-group_barchart('data/results_sumstat_mrash_susie_test/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+```{r no_plei_bvs_ss, echo=FALSE, fig.width=12}
+group_barchart('data\results_test_varbvs_ss_rescale\no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
                prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('mrash', 'mrash.ss', 'susie', 'susie.ss'))
+               methods=c('ivw', 'robust', 'mrash.ss', 'susie.ss', 'varbvs.ss'))
 ```
 
-Now here's a run with both kinds of pleiotropy.
+Here is the power at a fixed FPR threshold of 0.05:
 
-```{r both_plei_susie_mrash_ss, echo=FALSE, fig.width=12}
-group_barchart('data/results_sumstat_mrash_susie_test/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('mrash_gfa', 'mrash.ss_gfa', 'susie_gfa', 'susie.ss_gfa'))
+```{r powfpr_no_plei_bvs_ss, echo=FALSE, fig.width=12}
+group_barchart('data\results_test_varbvs_ss_rescale\no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
+               c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('ivw', 'robust', 'mrash.ss', 'susie.ss', 'varbvs.ss'))
 ```
-
-I then noticed that mr.ash was producing good effect size estimates, but the PIPs
-were very low, and sensitive to the grid of prior variances.
-So instead I did a very simple hacky test: assume stderrs are $1/\sqrt{N}$, 
-then divide the betas by that to get the test statistics, then run a t-test.
-This improved the power of both mr.ash and mr.ash.ss, though the latter became
-miscalibrated in settings with pleiotropy.
-
-Here is a run with no pleiotropy:
-
-```{r no_plei_susie_mrash_ss_altz, echo=FALSE, fig.width=12}
-group_barchart('data/results_mrash.ss_alt_zscore_test/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('mrash', 'mrash.ss', 'susie', 'susie.ss'))
-```
-
-Here is a run with both kinds of pleiotropy:
-
-```{r both_plei_susie_mrash_ss_altz, echo=FALSE, fig.width=12}
-group_barchart('data/results_mrash.ss_alt_zscore_test/both_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.1_psiy_0.15_mu_0.0/',
-               prefix='all_res_', n_x_show = 8, thresh = 0.05,
-               methods=c('mrash_gfa', 'mrash.ss_gfa', 'susie_gfa', 'susie.ss_gfa'))
-```
-
