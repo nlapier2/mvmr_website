@@ -461,3 +461,65 @@ power_fpr_thresh_plot('data/results_test_group_prior/uncor_plei_all/',
                methods=c('2sls', 'susie', 'varbvs', 'susie.prior', 'varbvs.prior'))
 ```
 
+
+
+## cTWAS individual level
+
+Here I ran my implementation of individual-level cTWAS on my UK Biobank sims.
+SNP selection was performed with mvSusie.
+Note that here I intersected the SNPs that passed the cTWAS filter with those
+selected by mvSusie. This increased SNP selection precision which increased power.
+Unless otherwise noted, the setting for susieL was 5.
+
+Here are the results with no pleiotropy. cTWAS does pretty well at variant
+prioritization, while it lags in absolute power behind varbvs with cTWAS priors.
+Surprisingly, 2sls and brms.hs are inflated despite no pleiotropy, probably
+due to some "false positive" variants being selected.
+
+```{r no_plei_ctwas_ind, echo=FALSE, fig.width=12}
+group_barchart('data/results_ctwas_individual_100loci/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ctwas', '2sls', 'susie', 'varbvs', 'mrash', 'brms.hs'))
+```
+
+```{r powfpr_no_plei_ctwas_ind, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_ctwas_individual_100loci/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('ctwas', '2sls', 'susie', 'varbvs', 'mrash', 'brms.hs'))
+```
+
+Here are the results with uncorrelated pleiotropy. I also show that increasing
+susieL to 20 for cTWAS helps, since with some true G-->Y effects there are more
+than 5 total effects now.
+Absolute power still decreases, but prioritization still works fairly well.
+
+```{r uncor_plei_ctwas_ind, echo=FALSE, fig.width=12}
+group_barchart('data/results_ctwas_individual_100loci/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ctwas', 'ctwasL20', '2sls', 'susie', 'varbvs', 'mrash', 'brms.hs'))
+```
+
+```{r powfpr_uncor_plei_ctwas_ind, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_ctwas_individual_100loci/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/',
+               c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('ctwas', 'ctwasL20', '2sls', 'susie', 'varbvs', 'mrash', 'brms.hs'))
+```
+
+
+
+## UK Biobank Two Sample Test
+
+Here are the results in a two sample setting with no pleiotropy (preliminary):
+
+```{r no_plei_ctwas_2samp, echo=FALSE, fig.width=12}
+group_barchart('data/results_ctwas_test_individual_2samp/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.0_mu_0.0/',
+               prefix='all_res_', n_x_show = 8, thresh = 0.05,
+               methods=c('ctwas', '2sls', 'susie', 'varbvs', 'mrash'))
+```
+
+```{r powfpr_no_plei_ctwas_2samp, echo=FALSE, fig.width=12}
+power_fpr_thresh_plot('data/results_ctwas_test_individual_2samp/no_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.0_mu_0.0/',
+               c('1', '2', '3', '4'), prefix='all_res_', n_x_show = 4, thresh = 0.05,
+               methods=c('ctwas', '2sls', 'susie', 'varbvs', 'mrash'))
+```
+    
