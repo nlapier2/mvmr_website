@@ -1,0 +1,77 @@
+Average Estimates for Betas: 
+0.6528083 2.972248 7.39802 12.4399 0.05544152
+0.05764021 0.08216535 0.07594292 0.08123375 0.06768745
+0.0767662 0.06097531 0.08020159 0.1076065 0.0619502
+0.06625637 0.09489987 0.07149141 0.1063209 0.08327266
+0.05830588 0.06452515 0.0702565 0.06420768 0.0746875
+0.06076003 0.05815868 0.08251977 0.07646726 0.0714162
+Standard Deviations of Betas: 
+0.8953462 2.221169 3.139016 3.547663 0.1076108
+0.1089173 0.1667286 0.1613309 0.1835833 0.1290931
+0.1751392 0.1401829 0.1783993 0.2234132 0.1266272
+0.1022158 0.175144 0.1219827 0.2262891 0.1756694
+0.1050185 0.1280412 0.1419788 0.1183043 0.145912
+0.1209459 0.1060374 0.2073025 0.1218767 0.1271187
+Average StdErrors for Betas: 
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+Calibration results: 
+Pct. correct for pips in bin from 0 to 0.1: 0.0206185567010309; n=485
+Pct. correct for pips in bin from 0.1 to 0.2: 0.0209747069710056; n=1621
+Pct. correct for pips in bin from 0.2 to 0.3: 0.0788863109048724; n=431
+Pct. correct for pips in bin from 0.3 to 0.4: 0.227642276422764; n=123
+Pct. correct for pips in bin from 0.4 to 0.5: 0.35; n=60
+Pct. correct for pips in bin from 0.5 to 0.6: 0.78125; n=32
+Pct. correct for pips in bin from 0.6 to 0.7: 1; n=3
+No pips in bin from 0.7 to 0.8
+Pct. correct for pips in bin from 0.8 to 0.9: 1; n=6
+Pct. correct for pips in bin from 0.9 to 1: 1; n=239
+Average PIPs: 
+0.3016219 0.680008 0.9411433 0.9989125 0.1515311
+0.1603128 0.1676374 0.1598518 0.1615026 0.1603803
+0.1654519 0.1608725 0.1588336 0.1682908 0.1515248
+0.1521496 0.1629058 0.1517542 0.1712414 0.1669424
+0.1471694 0.1530073 0.1584917 0.1621589 0.1564268
+0.1552769 0.1540865 0.1614463 0.1530695 0.1610968
+Percent of time PIP >= 0.1: 
+0.94 0.96 1 1 0.78
+0.84 0.82 0.85 0.81 0.85
+0.81 0.77 0.81 0.82 0.88
+0.83 0.83 0.81 0.85 0.8
+0.76 0.86 0.76 0.81 0.84
+0.79 0.81 0.81 0.8 0.85
+Percent of time PIP >= 0.5: 
+0.13 0.66 0.94 1 0
+0 0 0.02 0 0
+0 0.01 0 0.01 0
+0 0.01 0 0.02 0
+0 0 0 0 0
+0 0 0 0 0
+Percent of time PIP >= 0.95: 
+0.03 0.44 0.87 0.99 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+Power at FPR threshold of 0.05: 
+0.39 0.83 0.96 1
+Summary of famr priors: 
+Mean prior PIP for exposures: 0.23516785795628
+SD of prior PIP for exposures: 0.049149685239171
+Mean prior sigma^2 for exposures: 89.254714689208
+SD of prior sigma^2 for exposures: 23.7036635343134
+Mean prior PIP for snps: 0.0115717724294447
+SD of prior PIP for snps: 0.000989272381530338
+Mean prior sigma^2 for snps: 100.887767284045
+SD of prior sigma^2 for snps: 4.75202918005038
+Summary of susie sets: 
+Avg. set size: 1
+Avg. exposures in sets: 2.34
+Avg. precision: 1
+Avg. recall: 0.585
+Avg. coverage: 1
