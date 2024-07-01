@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Metabolite MR</title>
+
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">mvmr_website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="simulations.html">Simulations</a>
+</li>
+<li>
+  <a href="experimental.html">New Experiments</a>
+</li>
+<li>
+  <a href="realdata.html">Metabolite MR</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/nlapier2/mvmr_website">
+    <span class="fab fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Metabolite MR</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2024-07-01
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>mvmr_website/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R
+Markdown file created these results, you’ll want to first commit it to
+the Git repo. If you’re still working on the analysis, you can ignore
+this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221205code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221205)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221205code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221205)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree96b5c8a03cf573a80fddafc2f9703f7dab395295targetblank96b5c8aa">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/nlapier2/mvmr_website/tree/96b5c8a03cf573a80fddafc2f9703f7dab395295" target="_blank">96b5c8a</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree96b5c8a03cf573a80fddafc2f9703f7dab395295targetblank96b5c8aa"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/nlapier2/mvmr_website/tree/96b5c8a03cf573a80fddafc2f9703f7dab395295" target="_blank">96b5c8a</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    backup/
+    Ignored:    data/.DS_Store
+    Ignored:    data/results/.DS_Store
+    Ignored:    data/results_true_gx/uncor_plei_gy_0.2_zx_0.2_zy_0.2/
+
+Untracked files:
+    Untracked:  analysis/realdata.Rmd
+    Untracked:  data/real_data_results_summary.tsv
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   analysis/experimental.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/simulations.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<p>In order to assess the performance of FAMR in a real data setting, we
+performed a high-dimensional / multi-variable Mendelian Randomization
+(MR) analysis of the effect of various metabolic and anthropometric
+traits on several complex diseases (coronary artery disease, stroke,
+type 2 diabetes, and asthma).</p>
+<div id="data-sources" class="section level2">
+<h2>Data Sources</h2>
+<p>Summary statistics for the exposure traits were obtained mostly from
+the UK Biobank while the outcome traits were obtained from other
+sources, so the analysis is two-sample MR. All summary statistics were
+obtained from the <a href="https://gwas.mrcieu.ac.uk/datasets/">IEU Open
+GWAS</a> website.</p>
+<p>The 33 exposure traits chosen are the union of the 20 exposure traits
+analyzed by <a
+href="https://doi.org/10.1038/s41586-024-07148-y">Karjalainen et al</a>
+in their MR analysis and those analyzed by <a
+href="https://doi.org/10.1038/s41588-020-0631-4">Morrison et al</a> in
+their analysis. We excluded Glycerol because there is no large (&gt;100k
+samples) dataset available on the IEU Open GWAS portal. We also included
+Apolipoprotein B (ApoB) and Poly-Unsaturated Fatty Acids (PUFA) as these
+are known to play a causal role in coronary artery disease (CAD).</p>
+<p><a
+href="https://www.nature.com/articles/s41588-020-0631-4/tables/1">Morrison
+et al</a> provide a helpful table of which of the exposures they
+analyzed are expected to affect each of the outcomes based on literature
+support.</p>
+<p>Here are the exposures used in the analysis:</p>
+<pre class="r"><code>sort(unique(dat$Exposure))</code></pre>
+<pre><code> [1] &quot;3-hydroxybutyrate&quot;                  &quot;Acetate&quot;                           
+ [3] &quot;Acetone&quot;                            &quot;Alanine&quot;                           
+ [5] &quot;Albumin&quot;                            &quot;Alcohol&quot;                           
+ [7] &quot;Apolipoprotein B&quot;                   &quot;Birth Weight (BW)&quot;                 
+ [9] &quot;Body Fat&quot;                           &quot;Body Mass Index&quot;                   
+[11] &quot;Citrate&quot;                            &quot;Creatinine&quot;                        
+[13] &quot;Diastolic Blood Pressure&quot;           &quot;Fasting Glucose&quot;                   
+[15] &quot;Glucose&quot;                            &quot;Glutamine&quot;                         
+[17] &quot;Glycine&quot;                            &quot;Glycoprotein acetylation&quot;          
+[19] &quot;Height&quot;                             &quot;High Density Lipoprotein (HDL)&quot;    
+[21] &quot;Histidine&quot;                          &quot;Isoleucine&quot;                        
+[23] &quot;Lactate&quot;                            &quot;Leucine&quot;                           
+[25] &quot;Low Density Lipoprotein (LDL)&quot;      &quot;Phenylalanine&quot;                     
+[27] &quot;Polyunsaturated Fatty Acids (PUFA)&quot; &quot;Pyruvate&quot;                          
+[29] &quot;Smoking&quot;                            &quot;Systolic Blood Pressure&quot;           
+[31] &quot;Triglycerides&quot;                      &quot;Tyrosine&quot;                          
+[33] &quot;Valine&quot;                            </code></pre>
+</div>
+<div id="processing-pipeline" class="section level2">
+<h2>Processing Pipeline</h2>
+<p>Preprocessing the data consisted of the following steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>For each exposure, we centered 1 Mb windows around each SNP with
+a p-value of less than <span class="math inline">\(5*10^{-8}\)</span>
+(standard genome-wide significance).</p></li>
+<li><p>We then merged these regions across all exposures,
+e.g. overlapping regions were merged together.</p></li>
+<li><p>We obtained the LD matrix of the SNPs in each of these regions
+using individual-level data from the UK Biobank.</p></li>
+<li><p>SNPs that were not in the UK Biobank, had minor allele frequency
+below 0.01, were multi-allelic, had an NA value, or were in the Human
+Leukocyte Antigen (HLA) region were filtered out.</p></li>
+<li><p>Due to the high memory requirements, we performed LD clumping to
+reduce the total number of SNPs, with a threshold of <span
+class="math inline">\(|r|=0.1\)</span>. In particular, SNPs were sorted
+by increasing p-value, and SNPs with abs(LD) greater than 0.1 with a SNP
+with a stronger p-value were removed. This also improves the performance
+of most factor analysis methods and MVMR methods in
+simulations.</p></li>
+<li><p>We ran FAMR and various other MVMR methods (see table below) on
+this data. We also ran univariate IVW MR (“ivw.univar”) on each
+exposure-outcome pair.</p></li>
+</ol>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<p>The results table is below, sorted by decreasing average probability
+(across all methods) of the exposure having a causal effect on the
+outcome. For FAMR, the probability of being causal is given by the
+posterior inclusion probability (PIP). For other methods, we performed
+false discovery rate (FDR) control across all exposures for each outcome
+trait using the Q-value method. The probability of causality was
+computed as 1 minus the Q-value.</p>
+<p>In general, in line with simulation results, we observed that FAMR is
+a bit more conservative than IVW. It occasionally misses a trait pair
+that IVW gets that has good evidence according to <a
+href="https://www.nature.com/articles/s41588-020-0631-4/tables/1">Morrison
+et al</a>. However, it also avoids some likely spurious positives that
+IVW picks up. It should be kept in mind that some of the positives
+identified by FAMR are factors, and by examining the factor loadings we
+can see that some of the exposure-outcome pairs that are likely causal
+are loaded on these factors.</p>
+<p>In turn, univariate IVW has more positives than MVMR-IVW. Part of
+this is because it does not control for other exposures. As a classic
+illustration, univariate IVW finds that HDL cholesterol causes CAD – a
+finding that is considered a false positive – while no MVMR methods do,
+including FAMR.</p>
+<pre class="r"><code>knitr::kable(dat)</code></pre>
+<table style="width:100%;">
+<colgroup>
+<col width="33%" />
+<col width="28%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="10%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Exposure</th>
+<th align="left">Outcome</th>
+<th align="right">famr_gfa</th>
+<th align="right">ivw</th>
+<th align="right">robust</th>
+<th align="right">ivw.univar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Smoking</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">1.0000000</td>
+<td align="right">0.9967898</td>
+<td align="right">0.9995172</td>
+<td align="right">0.9999993</td>
+</tr>
+<tr class="even">
+<td align="left">Low Density Lipoprotein (LDL)</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.9999535</td>
+<td align="right">1.0000000</td>
+<td align="right">0.9930075</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Body Mass Index</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.6921328</td>
+<td align="right">0.9909150</td>
+<td align="right">0.9571643</td>
+<td align="right">0.9988323</td>
+</tr>
+<tr class="even">
+<td align="left">Fasting Glucose</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.5336198</td>
+<td align="right">0.9999988</td>
+<td align="right">0.9947333</td>
+<td align="right">0.9627287</td>
+</tr>
+<tr class="odd">
+<td align="left">Birth Weight (BW)</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.3642742</td>
+<td align="right">0.9999988</td>
+<td align="right">0.9975059</td>
+<td align="right">0.9689025</td>
+</tr>
+<tr class="even">
+<td align="left">Systolic Blood Pressure</td>
+<td align="left">Stroke</td>
+<td align="right">0.1964289</td>
+<td align="right">1.0000000</td>
+<td align="right">0.9999929</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Glycine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.9999848</td>
+<td align="right">0.3345779</td>
+<td align="right">0.8062264</td>
+<td align="right">0.8641103</td>
+</tr>
+<tr class="even">
+<td align="left">Systolic Blood Pressure</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0002517</td>
+<td align="right">1.0000000</td>
+<td align="right">0.9999999</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1367086</td>
+<td align="right">0.9749284</td>
+<td align="right">0.8489845</td>
+<td align="right">0.9308568</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0002698</td>
+<td align="right">0.9988733</td>
+<td align="right">0.8062264</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Height</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.5605998</td>
+<td align="right">0.9965720</td>
+<td align="right">0.9971356</td>
+<td align="right">0.0911413</td>
+</tr>
+<tr class="even">
+<td align="left">Low Density Lipoprotein (LDL)</td>
+<td align="left">Stroke</td>
+<td align="right">0.0388384</td>
+<td align="right">0.8046237</td>
+<td align="right">0.7746632</td>
+<td align="right">0.9903733</td>
+</tr>
+<tr class="odd">
+<td align="left">High Density Lipoprotein (HDL)</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1895177</td>
+<td align="right">0.7450817</td>
+<td align="right">0.6827559</td>
+<td align="right">0.9827281</td>
+</tr>
+<tr class="even">
+<td align="left">Diastolic Blood Pressure</td>
+<td align="left">Stroke</td>
+<td align="right">0.9462434</td>
+<td align="right">0.3708722</td>
+<td align="right">0.0831260</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Body Mass Index</td>
+<td align="left">Stroke</td>
+<td align="right">0.1327514</td>
+<td align="right">0.5929153</td>
+<td align="right">0.6517574</td>
+<td align="right">0.9974061</td>
+</tr>
+<tr class="even">
+<td align="left">Glucose</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2625373</td>
+<td align="right">0.4590372</td>
+<td align="right">0.7459946</td>
+<td align="right">0.9044883</td>
+</tr>
+<tr class="odd">
+<td align="left">Low Density Lipoprotein (LDL)</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">1.0000000</td>
+<td align="right">0.4590372</td>
+<td align="right">0.1366035</td>
+<td align="right">0.7562706</td>
+</tr>
+<tr class="even">
+<td align="left">Smoking</td>
+<td align="left">Stroke</td>
+<td align="right">0.0551416</td>
+<td align="right">0.5929153</td>
+<td align="right">0.6517574</td>
+<td align="right">0.9964859</td>
+</tr>
+<tr class="odd">
+<td align="left">Lactate</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0003310</td>
+<td align="right">0.6053010</td>
+<td align="right">0.7642847</td>
+<td align="right">0.8641103</td>
+</tr>
+<tr class="even">
+<td align="left">Polyunsaturated Fatty Acids (PUFA)</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0002425</td>
+<td align="right">0.9885194</td>
+<td align="right">0.2254419</td>
+<td align="right">0.9819322</td>
+</tr>
+<tr class="odd">
+<td align="left">Valine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0008323</td>
+<td align="right">0.5981750</td>
+<td align="right">0.7400847</td>
+<td align="right">0.8455782</td>
+</tr>
+<tr class="even">
+<td align="left">Glycoprotein acetylation</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">1.0000000</td>
+<td align="right">0.0742338</td>
+<td align="right">0.2254419</td>
+<td align="right">0.8439349</td>
+</tr>
+<tr class="odd">
+<td align="left">Albumin</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0006906</td>
+<td align="right">0.5602308</td>
+<td align="right">0.7912540</td>
+<td align="right">0.7800716</td>
+</tr>
+<tr class="even">
+<td align="left">Diastolic Blood Pressure</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">1.0000000</td>
+<td align="right">0.0742338</td>
+<td align="right">0.0462079</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Systolic Blood Pressure</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2308104</td>
+<td align="right">0.4590372</td>
+<td align="right">0.4078020</td>
+<td align="right">0.9999943</td>
+</tr>
+<tr class="even">
+<td align="left">Glucose</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0002550</td>
+<td align="right">0.3220336</td>
+<td align="right">0.7912540</td>
+<td align="right">0.8444897</td>
+</tr>
+<tr class="odd">
+<td align="left">High Density Lipoprotein (HDL)</td>
+<td align="left">Stroke</td>
+<td align="right">0.0272706</td>
+<td align="right">0.5929153</td>
+<td align="right">0.4398289</td>
+<td align="right">0.8641591</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Stroke</td>
+<td align="right">0.0186826</td>
+<td align="right">0.5929153</td>
+<td align="right">0.4433595</td>
+<td align="right">0.8592485</td>
+</tr>
+<tr class="odd">
+<td align="left">Polyunsaturated Fatty Acids (PUFA)</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1490516</td>
+<td align="right">0.5896329</td>
+<td align="right">0.4078020</td>
+<td align="right">0.6510959</td>
+</tr>
+<tr class="even">
+<td align="left">Albumin</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2803295</td>
+<td align="right">0.5896329</td>
+<td align="right">0.7459946</td>
+<td align="right">0.1221709</td>
+</tr>
+<tr class="odd">
+<td align="left">Valine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0476265</td>
+<td align="right">0.6237043</td>
+<td align="right">0.6124978</td>
+<td align="right">0.4404756</td>
+</tr>
+<tr class="even">
+<td align="left">Alanine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2799909</td>
+<td align="right">0.4590372</td>
+<td align="right">0.1255281</td>
+<td align="right">0.8587142</td>
+</tr>
+<tr class="odd">
+<td align="left">Creatinine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.9996642</td>
+<td align="right">0.0742338</td>
+<td align="right">0.4117507</td>
+<td align="right">0.2187513</td>
+</tr>
+<tr class="even">
+<td align="left">High Density Lipoprotein (HDL)</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0004765</td>
+<td align="right">0.6053010</td>
+<td align="right">0.0696489</td>
+<td align="right">0.9996810</td>
+</tr>
+<tr class="odd">
+<td align="left">Creatinine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0197488</td>
+<td align="right">0.5754631</td>
+<td align="right">0.6262602</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="even">
+<td align="left">Glycoprotein acetylation</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1965044</td>
+<td align="right">0.5896329</td>
+<td align="right">0.7459946</td>
+<td align="right">0.0911413</td>
+</tr>
+<tr class="odd">
+<td align="left">Fasting Glucose</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0002629</td>
+<td align="right">0.3345779</td>
+<td align="right">0.4117507</td>
+<td align="right">0.8641103</td>
+</tr>
+<tr class="even">
+<td align="left">Body Fat</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.5424738</td>
+<td align="right">0.0682795</td>
+<td align="right">0.1255281</td>
+<td align="right">0.8587142</td>
+</tr>
+<tr class="odd">
+<td align="left">3-hydroxybutyrate</td>
+<td align="left">Stroke</td>
+<td align="right">0.0208291</td>
+<td align="right">0.5929153</td>
+<td align="right">0.6262602</td>
+<td align="right">0.3467083</td>
+</tr>
+<tr class="even">
+<td align="left">Body Mass Index</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0044385</td>
+<td align="right">0.0742338</td>
+<td align="right">0.4827284</td>
+<td align="right">0.9999999</td>
+</tr>
+<tr class="odd">
+<td align="left">Acetone</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0941076</td>
+<td align="right">0.5896329</td>
+<td align="right">0.4668557</td>
+<td align="right">0.3940797</td>
+</tr>
+<tr class="even">
+<td align="left">Isoleucine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0006346</td>
+<td align="right">0.2698482</td>
+<td align="right">0.4117507</td>
+<td align="right">0.8444897</td>
+</tr>
+<tr class="odd">
+<td align="left">Fasting Glucose</td>
+<td align="left">Stroke</td>
+<td align="right">0.0237175</td>
+<td align="right">0.5929153</td>
+<td align="right">0.4398289</td>
+<td align="right">0.4404756</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0101004</td>
+<td align="right">0.0742338</td>
+<td align="right">0.4117507</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Smoking</td>
+<td align="left">Asthma</td>
+<td align="right">0.0061299</td>
+<td align="right">0.7046357</td>
+<td align="right">0.6498876</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Glycoprotein acetylation</td>
+<td align="left">Stroke</td>
+<td align="right">0.0207244</td>
+<td align="right">0.6454787</td>
+<td align="right">0.7746632</td>
+<td align="right">0.0256565</td>
+</tr>
+<tr class="odd">
+<td align="left">Smoking</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2020228</td>
+<td align="right">0.2006473</td>
+<td align="right">0.0797565</td>
+<td align="right">0.9689025</td>
+</tr>
+<tr class="even">
+<td align="left">Diastolic Blood Pressure</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1582562</td>
+<td align="right">0.0734237</td>
+<td align="right">0.1255281</td>
+<td align="right">0.9977521</td>
+</tr>
+<tr class="odd">
+<td align="left">Birth Weight (BW)</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0014874</td>
+<td align="right">0.2920812</td>
+<td align="right">0.1665383</td>
+<td align="right">0.8641103</td>
+</tr>
+<tr class="even">
+<td align="left">Alcohol</td>
+<td align="left">Stroke</td>
+<td align="right">0.0686277</td>
+<td align="right">0.2351251</td>
+<td align="right">0.0831260</td>
+<td align="right">0.9148137</td>
+</tr>
+<tr class="odd">
+<td align="left">Histidine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0182138</td>
+<td align="right">0.5929153</td>
+<td align="right">0.2644059</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="even">
+<td align="left">Body Fat</td>
+<td align="left">Stroke</td>
+<td align="right">0.0430554</td>
+<td align="right">0.3708722</td>
+<td align="right">0.4398289</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">Lactate</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1509225</td>
+<td align="right">0.4590372</td>
+<td align="right">0.4517228</td>
+<td align="right">0.2061422</td>
+</tr>
+<tr class="even">
+<td align="left">Valine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1030180</td>
+<td align="right">0.2271217</td>
+<td align="right">0.1366035</td>
+<td align="right">0.7866321</td>
+</tr>
+<tr class="odd">
+<td align="left">Leucine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1125628</td>
+<td align="right">0.2006473</td>
+<td align="right">0.1255281</td>
+<td align="right">0.8029487</td>
+</tr>
+<tr class="even">
+<td align="left">Histidine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0924502</td>
+<td align="right">0.2271217</td>
+<td align="right">0.1366035</td>
+<td align="right">0.7562706</td>
+</tr>
+<tr class="odd">
+<td align="left">Acetate</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0471338</td>
+<td align="right">0.0742338</td>
+<td align="right">0.2254419</td>
+<td align="right">0.8641103</td>
+</tr>
+<tr class="even">
+<td align="left">Lactate</td>
+<td align="left">Stroke</td>
+<td align="right">0.0173049</td>
+<td align="right">0.2919419</td>
+<td align="right">0.4398289</td>
+<td align="right">0.4404756</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides</td>
+<td align="left">Stroke</td>
+<td align="right">0.0178506</td>
+<td align="right">0.3708722</td>
+<td align="right">0.3846305</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="even">
+<td align="left">Citrate</td>
+<td align="left">Stroke</td>
+<td align="right">0.0194433</td>
+<td align="right">0.3991966</td>
+<td align="right">0.3389251</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">Height</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0344112</td>
+<td align="right">0.0742338</td>
+<td align="right">0.0462079</td>
+<td align="right">0.9999855</td>
+</tr>
+<tr class="even">
+<td align="left">Leucine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0355313</td>
+<td align="right">0.3887022</td>
+<td align="right">0.2644059</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0935870</td>
+<td align="right">0.4590372</td>
+<td align="right">0.1341114</td>
+<td align="right">0.3940797</td>
+</tr>
+<tr class="even">
+<td align="left">Glucose</td>
+<td align="left">Stroke</td>
+<td align="right">0.0173509</td>
+<td align="right">0.3708722</td>
+<td align="right">0.2760634</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">Alanine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0199321</td>
+<td align="right">0.3708722</td>
+<td align="right">0.3389251</td>
+<td align="right">0.3398597</td>
+</tr>
+<tr class="even">
+<td align="left">Polyunsaturated Fatty Acids (PUFA)</td>
+<td align="left">Stroke</td>
+<td align="right">0.0714396</td>
+<td align="right">0.3028536</td>
+<td align="right">0.2281794</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">3-hydroxybutyrate</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0003384</td>
+<td align="right">0.0855476</td>
+<td align="right">0.0600963</td>
+<td align="right">0.8641103</td>
+</tr>
+<tr class="even">
+<td align="left">Creatinine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2853509</td>
+<td align="right">0.4574460</td>
+<td align="right">0.1366035</td>
+<td align="right">0.1221709</td>
+</tr>
+<tr class="odd">
+<td align="left">Tyrosine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2894670</td>
+<td align="right">0.2271217</td>
+<td align="right">0.1255281</td>
+<td align="right">0.3165463</td>
+</tr>
+<tr class="even">
+<td align="left">Pyruvate</td>
+<td align="left">Stroke</td>
+<td align="right">0.0358135</td>
+<td align="right">0.2421389</td>
+<td align="right">0.2443594</td>
+<td align="right">0.4225246</td>
+</tr>
+<tr class="odd">
+<td align="left">Body Mass Index</td>
+<td align="left">Asthma</td>
+<td align="right">0.1113132</td>
+<td align="right">0.5017438</td>
+<td align="right">0.2159729</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Body Fat</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0005412</td>
+<td align="right">0.2101540</td>
+<td align="right">0.6005793</td>
+<td align="right">0.1098881</td>
+</tr>
+<tr class="odd">
+<td align="left">Leucine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0005193</td>
+<td align="right">0.0742338</td>
+<td align="right">0.0462079</td>
+<td align="right">0.7981275</td>
+</tr>
+<tr class="even">
+<td align="left">Glycine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1262087</td>
+<td align="right">0.2271217</td>
+<td align="right">0.1366035</td>
+<td align="right">0.3940797</td>
+</tr>
+<tr class="odd">
+<td align="left">Histidine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0029429</td>
+<td align="right">0.3345779</td>
+<td align="right">0.4518371</td>
+<td align="right">0.0814085</td>
+</tr>
+<tr class="even">
+<td align="left">Glutamine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0002417</td>
+<td align="right">0.0742338</td>
+<td align="right">0.5735238</td>
+<td align="right">0.2187513</td>
+</tr>
+<tr class="odd">
+<td align="left">Citrate</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1438828</td>
+<td align="right">0.1823054</td>
+<td align="right">0.1341114</td>
+<td align="right">0.3940797</td>
+</tr>
+<tr class="even">
+<td align="left">Glutamine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.2139122</td>
+<td align="right">0.4590372</td>
+<td align="right">0.0493954</td>
+<td align="right">0.1031584</td>
+</tr>
+<tr class="odd">
+<td align="left">Creatinine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0059618</td>
+<td align="right">0.0170073</td>
+<td align="right">0.6498876</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="even">
+<td align="left">Acetone</td>
+<td align="left">Stroke</td>
+<td align="right">0.0172374</td>
+<td align="right">0.0494322</td>
+<td align="right">0.2212693</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">Alcohol</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0060119</td>
+<td align="right">0.3345779</td>
+<td align="right">0.0462079</td>
+<td align="right">0.3073464</td>
+</tr>
+<tr class="even">
+<td align="left">Isoleucine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0215068</td>
+<td align="right">0.1094336</td>
+<td align="right">0.0968527</td>
+<td align="right">0.4404756</td>
+</tr>
+<tr class="odd">
+<td align="left">Height</td>
+<td align="left">Stroke</td>
+<td align="right">0.1028247</td>
+<td align="right">0.0494322</td>
+<td align="right">0.0651921</td>
+<td align="right">0.4404756</td>
+</tr>
+<tr class="even">
+<td align="left">Tyrosine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0534854</td>
+<td align="right">0.0742338</td>
+<td align="right">0.3084909</td>
+<td align="right">0.2199780</td>
+</tr>
+<tr class="odd">
+<td align="left">Isoleucine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1010906</td>
+<td align="right">0.0682795</td>
+<td align="right">0.0797565</td>
+<td align="right">0.3940797</td>
+</tr>
+<tr class="even">
+<td align="left">Tyrosine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057831</td>
+<td align="right">0.5017438</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="odd">
+<td align="left">Systolic Blood Pressure</td>
+<td align="left">Asthma</td>
+<td align="right">0.0085128</td>
+<td align="right">0.3411170</td>
+<td align="right">0.1741061</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Albumin</td>
+<td align="left">Stroke</td>
+<td align="right">0.1682367</td>
+<td align="right">0.0494322</td>
+<td align="right">0.0651921</td>
+<td align="right">0.3467083</td>
+</tr>
+<tr class="odd">
+<td align="left">Pyruvate</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1661551</td>
+<td align="right">0.2271217</td>
+<td align="right">0.1255281</td>
+<td align="right">0.0911413</td>
+</tr>
+<tr class="even">
+<td align="left">Alanine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0011573</td>
+<td align="right">0.2101540</td>
+<td align="right">0.1665383</td>
+<td align="right">0.2187513</td>
+</tr>
+<tr class="odd">
+<td align="left">Acetate</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0939765</td>
+<td align="right">0.0482479</td>
+<td align="right">0.1366035</td>
+<td align="right">0.3165463</td>
+</tr>
+<tr class="even">
+<td align="left">Acetate</td>
+<td align="left">Stroke</td>
+<td align="right">0.0314233</td>
+<td align="right">0.0494322</td>
+<td align="right">0.0831260</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="odd">
+<td align="left">Phenylalanine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0265606</td>
+<td align="right">0.0494322</td>
+<td align="right">0.0831260</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="even">
+<td align="left">Citrate</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0003705</td>
+<td align="right">0.0742338</td>
+<td align="right">0.2254419</td>
+<td align="right">0.2151547</td>
+</tr>
+<tr class="odd">
+<td align="left">Birth Weight (BW)</td>
+<td align="left">Stroke</td>
+<td align="right">0.0247362</td>
+<td align="right">0.0043171</td>
+<td align="right">0.0651921</td>
+<td align="right">0.4147477</td>
+</tr>
+<tr class="even">
+<td align="left">Phenylalanine</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.1353302</td>
+<td align="right">0.2006473</td>
+<td align="right">0.0493954</td>
+<td align="right">0.0911413</td>
+</tr>
+<tr class="odd">
+<td align="left">Phenylalanine</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0009726</td>
+<td align="right">0.0742338</td>
+<td align="right">0.1667379</td>
+<td align="right">0.2187513</td>
+</tr>
+<tr class="even">
+<td align="left">Tyrosine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0316215</td>
+<td align="right">0.0494322</td>
+<td align="right">0.0298225</td>
+<td align="right">0.3467083</td>
+</tr>
+<tr class="odd">
+<td align="left">Pyruvate</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0007118</td>
+<td align="right">0.0657467</td>
+<td align="right">0.3084909</td>
+<td align="right">0.0814085</td>
+</tr>
+<tr class="even">
+<td align="left">3-hydroxybutyrate</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0908511</td>
+<td align="right">0.2006473</td>
+<td align="right">0.1255281</td>
+<td align="right">0.0271845</td>
+</tr>
+<tr class="odd">
+<td align="left">Acetone</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0014583</td>
+<td align="right">0.0742338</td>
+<td align="right">0.1135610</td>
+<td align="right">0.2187513</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057090</td>
+<td align="right">0.2151785</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="odd">
+<td align="left">Glycine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0591285</td>
+<td align="right">0.0494322</td>
+<td align="right">0.1037572</td>
+<td align="right">0.1275271</td>
+</tr>
+<tr class="even">
+<td align="left">Alcohol</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0985729</td>
+<td align="right">0.0482479</td>
+<td align="right">0.0797565</td>
+<td align="right">0.1031584</td>
+</tr>
+<tr class="odd">
+<td align="left">Body Fat</td>
+<td align="left">Asthma</td>
+<td align="right">0.1778389</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Birth Weight (BW)</td>
+<td align="left">Asthma</td>
+<td align="right">0.0141733</td>
+<td align="right">0.0170073</td>
+<td align="right">0.1741061</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="odd">
+<td align="left">Albumin</td>
+<td align="left">Asthma</td>
+<td align="right">0.0295641</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Diastolic Blood Pressure</td>
+<td align="left">Asthma</td>
+<td align="right">0.0121283</td>
+<td align="right">0.0874958</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="odd">
+<td align="left">Acetone</td>
+<td align="left">Asthma</td>
+<td align="right">0.0141371</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Glutamine</td>
+<td align="left">Stroke</td>
+<td align="right">0.0237701</td>
+<td align="right">0.0494322</td>
+<td align="right">0.0831260</td>
+<td align="right">0.0075709</td>
+</tr>
+<tr class="odd">
+<td align="left">Height</td>
+<td align="left">Asthma</td>
+<td align="right">0.0079628</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Pyruvate</td>
+<td align="left">Asthma</td>
+<td align="right">0.0066699</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="odd">
+<td align="left">Glucose</td>
+<td align="left">Asthma</td>
+<td align="right">0.0060323</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Glycine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0059104</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="odd">
+<td align="left">Fasting Glucose</td>
+<td align="left">Asthma</td>
+<td align="right">0.0056888</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="even">
+<td align="left">Isoleucine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0056845</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.1132176</td>
+</tr>
+<tr class="odd">
+<td align="left">3-hydroxybutyrate</td>
+<td align="left">Asthma</td>
+<td align="right">0.0059266</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0913189</td>
+</tr>
+<tr class="even">
+<td align="left">Leucine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057151</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0913189</td>
+</tr>
+<tr class="odd">
+<td align="left">Glycoprotein acetylation</td>
+<td align="left">Asthma</td>
+<td align="right">0.0147497</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0762742</td>
+</tr>
+<tr class="even">
+<td align="left">Histidine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0254360</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="odd">
+<td align="left">Lactate</td>
+<td align="left">Asthma</td>
+<td align="right">0.0063203</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0762742</td>
+</tr>
+<tr class="even">
+<td align="left">High Density Lipoprotein (HDL)</td>
+<td align="left">Asthma</td>
+<td align="right">0.0056841</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0762742</td>
+</tr>
+<tr class="odd">
+<td align="left">Glutamine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0213695</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="even">
+<td align="left">Low Density Lipoprotein (LDL)</td>
+<td align="left">Asthma</td>
+<td align="right">0.0189799</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="odd">
+<td align="left">Acetate</td>
+<td align="left">Asthma</td>
+<td align="right">0.0142803</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="even">
+<td align="left">Citrate</td>
+<td align="left">Asthma</td>
+<td align="right">0.0071226</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="odd">
+<td align="left">Polyunsaturated Fatty Acids (PUFA)</td>
+<td align="left">Asthma</td>
+<td align="right">0.0061867</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="even">
+<td align="left">Phenylalanine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057134</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="odd">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Asthma</td>
+<td align="right">0.0056852</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0594927</td>
+</tr>
+<tr class="even">
+<td align="left">Alanine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057008</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0505663</td>
+</tr>
+<tr class="odd">
+<td align="left">Valine</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057952</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0366632</td>
+</tr>
+<tr class="even">
+<td align="left">Alcohol</td>
+<td align="left">Asthma</td>
+<td align="right">0.0056877</td>
+<td align="right">0.0170073</td>
+<td align="right">0.0196295</td>
+<td align="right">0.0366632</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.43        dplyr_1.1.2       data.table_1.14.8 workflowr_1.7.0  
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.12       compiler_4.2.1    pillar_1.9.0      bslib_0.5.0      
+ [5] later_1.3.1       git2r_0.32.0      jquerylib_0.1.4   tools_4.2.1      
+ [9] getPass_0.2-2     digest_0.6.33     jsonlite_1.8.7    evaluate_0.21    
+[13] lifecycle_1.0.4   tibble_3.2.1      pkgconfig_2.0.3   rlang_1.1.3      
+[17] cli_3.6.2         rstudioapi_0.15.0 yaml_2.3.7        xfun_0.39        
+[21] fastmap_1.1.1     withr_3.0.0       httr_1.4.6        stringr_1.5.0    
+[25] generics_0.1.3    sass_0.4.7        fs_1.6.3          vctrs_0.6.5      
+[29] tidyselect_1.2.0  rprojroot_2.0.3   glue_1.7.0        R6_2.5.1         
+[33] processx_3.8.2    fansi_1.0.6       rmarkdown_2.23    callr_3.7.3      
+[37] magrittr_2.0.3    whisker_0.4.1     ps_1.7.5          promises_1.2.0.1 
+[41] htmltools_0.5.5   httpuv_1.6.11     utf8_1.2.4        stringi_1.8.3    
+[45] cachem_1.0.8     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

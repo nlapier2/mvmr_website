@@ -342,7 +342,7 @@ The default setting for $\gamma_{GZ}$ is 0.6, which is high, but this is to allo
 values, since $\psi_{X}$ and $\psi_{Y}$ cannot be greater than $\gamma_{GZ}$.
 
 
-I show two types of plots:
+I show two types of plots: 
 
 * Bar plots, showing results for a single parameter setting, with Positive Rate (FPR/Power) on the y-axis and the index of the exposure on the x-axis. The first four exposures are true positives (so y-axis is empirical power) while the rest are null (so y-axis is FPR); only the first four nulls are shown for brevity.
 * Line plots, showing results as one of the parameters is varied. FPR plots show results averaged over the four true effects while Power plots show results averaged over the null effects. FPR/Power is on the y-axis and the parameter value is on the x-axis.

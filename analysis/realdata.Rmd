@@ -1,0 +1,119 @@
+---
+title: "Metabolite MR"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r packages, echo=FALSE, include=FALSE}
+library(data.table)
+library(dplyr)
+library(knitr)
+```
+
+```{r process_dat, echo=FALSE}
+# read in data and select methods to display
+dat = fread('data/real_data_results_summary.tsv', sep='\t', header=T)
+dat = dat %>% select(Exposure, Outcome, famr_gfa, ivw, robust, ivw.univar)
+# sort by average PIP across all methods
+dat$Average = rowSums(dat %>% select(famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat) - 2)
+dat = dat[order(dat$Average, decreasing=TRUE), ]
+dat$Average = NULL 
+```
+
+In order to assess the performance of FAMR in a real data setting,
+we performed a high-dimensional / multi-variable Mendelian Randomization (MR)
+analysis of the effect of various metabolic and anthropometric traits on several 
+complex diseases (coronary artery disease, stroke, type 2 diabetes, and asthma).
+
+
+## Data Sources
+
+Summary statistics for the exposure traits were obtained mostly from the 
+UK Biobank while the outcome traits were obtained from other sources, so the
+analysis is two-sample MR.
+All summary statistics were obtained from the
+[IEU Open GWAS](https://gwas.mrcieu.ac.uk/datasets/)
+website.
+
+The 33 exposure traits chosen are the union of the 20 exposure traits analyzed by 
+[Karjalainen et al](https://doi.org/10.1038/s41586-024-07148-y)
+in their MR analysis and those analyzed by 
+[Morrison et al](https://doi.org/10.1038/s41588-020-0631-4)
+in their analysis. 
+We excluded Glycerol because there is no large (>100k samples) dataset available
+on the IEU Open GWAS portal.
+We also included Apolipoprotein B (ApoB) and Poly-Unsaturated Fatty Acids (PUFA)
+as these are known to play a causal role in coronary artery disease (CAD).
+
+[Morrison et al](https://www.nature.com/articles/s41588-020-0631-4/tables/1)
+provide a helpful table of which of the exposures they analyzed are expected
+to affect each of the outcomes based on literature support.
+
+Here are the exposures used in the analysis:
+
+```{r exposures}
+sort(unique(dat$Exposure))
+```
+
+
+## Processing Pipeline
+
+Preprocessing the data consisted of the following steps:
+
+1. For each exposure, we centered 1 Mb windows around each SNP with a p-value
+of less than $5*10^{-8}$ (standard genome-wide significance).
+
+2. We then merged these regions across all exposures, e.g. overlapping regions
+were merged together.
+
+3. We obtained the LD matrix of the SNPs in each of these regions using 
+individual-level data from the UK Biobank.
+
+4. SNPs that were not in the UK Biobank, had minor allele frequency below 0.01,
+were multi-allelic, had an NA value, or were in the Human Leukocyte Antigen (HLA)
+region were filtered out.
+
+5. Due to the high memory requirements, we performed LD clumping to reduce the 
+total number of SNPs, with a threshold of $|r|=0.1$. In particular, SNPs were
+sorted by increasing p-value, and SNPs with abs(LD) greater than 0.1 with a SNP
+with a stronger p-value were removed. This also improves the performance of 
+most factor analysis methods and MVMR methods in simulations.
+
+6. We ran FAMR and various other MVMR methods (see table below) on this data.
+We also ran univariate IVW MR ("ivw.univar") on each exposure-outcome pair.
+
+
+
+## Results
+
+The results table is below, sorted by decreasing average probability
+(across all methods)
+of the exposure having a causal effect on the outcome. 
+For FAMR, the probability of being causal is given
+by the posterior inclusion probability (PIP). 
+For other methods, we performed false discovery rate (FDR) control across
+all exposures for each outcome trait using the Q-value method.
+The probability of causality was computed as 1 minus the Q-value.
+
+In general, in line with simulation results, we
+observed that FAMR is a bit more conservative than IVW. It occasionally misses
+a trait pair that IVW gets that has good evidence according to
+[Morrison et al](https://www.nature.com/articles/s41588-020-0631-4/tables/1).
+However, it also avoids some likely spurious positives that IVW picks up.
+It should be kept in mind that some of the positives identified by FAMR are
+factors, and by examining the factor loadings we can see that some of the
+exposure-outcome pairs that are likely causal are loaded on these factors.
+
+In turn, univariate IVW has more positives than MVMR-IVW. 
+Part of this is because it does not control for other exposures.
+As a classic illustration, univariate IVW finds that HDL cholesterol causes
+CAD -- a finding that is considered a false positive -- while no MVMR methods do,
+including FAMR.
+
+```{r print_results}
+knitr::kable(dat)
+```

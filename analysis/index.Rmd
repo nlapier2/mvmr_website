@@ -16,6 +16,10 @@ Welcome to the MultiVariable Mendelian Randomization (MVMR) project website.
 Here we briefly describe the project and provide some simulation results.
 In the future we will also include instructions for running our software.
 
+See [Metabolite MR](realdata.html) to see results from the analysis 
+of real metabolite data, mostly from the UK Biobank and obtained via
+the [IEU Open GWAS](https://gwas.mrcieu.ac.uk/datasets/) website.
+
 
 ### Project description
 

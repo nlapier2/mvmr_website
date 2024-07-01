@@ -13,6 +13,8 @@ navbar:
     href: simulations.html
   - text: New Experiments
     href: experimental.html
+  - text: Metabolite MR
+    href: realdata.html
   # - text: Gibbs Sampler
   #   href: gibbs.html
   right:
