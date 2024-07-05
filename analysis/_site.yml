@@ -9,9 +9,11 @@ navbar:
   #   href: about.html
   # - text: License
   #   href: license.html
-  - text: Simulations
+  - text: Old Simulations
     href: simulations.html
-  - text: New Experiments
+  - text: New FAMR Simulations
+    href: famrsims.html
+  - text: Old Experiments
     href: experimental.html
   - text: Metabolite MR
     href: realdata.html

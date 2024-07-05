@@ -11,7 +11,7 @@
 
 
 
-<title>Home</title>
+<title>FAMR Simulations</title>
 
 <script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -291,7 +291,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">FAMR Simulations</h1>
 
 </div>
 
@@ -299,7 +299,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -310,8 +310,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -324,9 +324,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>mvmr_website/</code> <span
@@ -349,18 +349,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -491,6 +494,8 @@ Ignored files:
     Ignored:    data/results_true_gx/uncor_plei_gy_0.2_zx_0.2_zy_0.2/
 
 Untracked files:
+    Untracked:  data/results_annih_maxsel_spliced/
+    Untracked:  data/results_nolearnwts_noannih_largeish/
     Untracked:  data/summary_of_results_annih_max.tsv
     Untracked:  data/summary_of_results_noannih_clumped.tsv
 
@@ -515,10 +520,11 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
-repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
-in the table below to view the files as they were in that past version.
+made to the R Markdown (<code>analysis/famrsims.Rmd</code>) and HTML
+(<code>docs/famrsims.html</code>) files. If you’ve configured a remote
+Git repository (see <code>?wflow_git_remote</code>), click on the
+hyperlinks in the table below to view the files as they were in that
+past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -547,7 +553,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/d600faa92d6facec4310ec413e725b3686bcd641/analysis/index.Rmd" target="_blank">d600faa</a>
+<a href="https://github.com/nlapier2/mvmr_website/blob/32197cac9632f9a9422643ee2533f3660a261591/analysis/famrsims.Rmd" target="_blank">32197ca</a>
 </td>
 <td>
 Nathan LaPierre
@@ -556,232 +562,7 @@ Nathan LaPierre
 2024-07-01
 </td>
 <td>
-added page for real data analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/d600faa92d6facec4310ec413e725b3686bcd641/docs/index.html" target="_blank">d600faa</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2024-07-01
-</td>
-<td>
-added page for real data analysis
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/b890f047f5314ace4412ce8c2644f7dcbee0cb52/analysis/index.Rmd" target="_blank">b890f04</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2023-01-09
-</td>
-<td>
-rearranged website, added simulation and gibbs tabs, added more project
-description
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/b890f047f5314ace4412ce8c2644f7dcbee0cb52/docs/index.html" target="_blank">b890f04</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2023-01-09
-</td>
-<td>
-rearranged website, added simulation and gibbs tabs, added more project
-description
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/f7f6cbc259f785033b6de4cde214e8d04a37af70/analysis/index.Rmd" target="_blank">f7f6cbc</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-28
-</td>
-<td>
-added new results files, including susie results
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/f7f6cbc259f785033b6de4cde214e8d04a37af70/docs/index.html" target="_blank">f7f6cbc</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-28
-</td>
-<td>
-added new results files, including susie results
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/89055eca1732fe21fb35b6b4fea2b0c5d14401af/analysis/index.Rmd" target="_blank">89055ec</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-28
-</td>
-<td>
-re-made figures locally in R and added line plots
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/89055eca1732fe21fb35b6b4fea2b0c5d14401af/docs/index.html" target="_blank">89055ec</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-28
-</td>
-<td>
-re-made figures locally in R and added line plots
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17/analysis/index.Rmd" target="_blank">d2f34a9</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-28
-</td>
-<td>
-remade DAG with diagrammeR, refactored notation, improved description of
-methods
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/d2f34a905e9ea1bf5c3bbeb287271a1fc70a2b17/docs/index.html" target="_blank">d2f34a9</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-28
-</td>
-<td>
-remade DAG with diagrammeR, refactored notation, improved description of
-methods
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/c72e79f643ddfa57ab83bc2edc0fa8f59647d4a1/docs/index.html" target="_blank">c72e79f</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/f87ed72cd0a45d63bd8bb277a537bc1ed9061aa8/analysis/index.Rmd" target="_blank">f87ed72</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-05
-</td>
-<td>
-added project overview, simulation description, and simulation results
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/05a281bbe03de8adf620c787141102b4739ed475/docs/index.html" target="_blank">05a281b</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/nlapier2/mvmr_website/blob/88ab00691df4b9f77b61a1b020331f3b87f3c7d7/analysis/index.Rmd" target="_blank">88ab006</a>
-</td>
-<td>
-Nathan LaPierre
-</td>
-<td>
-2022-12-05
-</td>
-<td>
-Start workflowr project.
+started working on adding new FAMR sims with annihilated factors
 </td>
 </tr>
 </tbody>
@@ -791,133 +572,191 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<p>Welcome to the MultiVariable Mendelian Randomization (MVMR) project
-website. Here we briefly describe the project and provide some
-simulation results. In the future we will also include instructions for
-running our software.</p>
-<p>See <a href="realdata.html">Metabolite MR</a> to see results from the
-analysis of real metabolite data, mostly from the UK Biobank and
-obtained via the <a href="https://gwas.mrcieu.ac.uk/datasets/">IEU Open
-GWAS</a> website.</p>
-<div id="project-description" class="section level3">
-<h3>Project description</h3>
+<pre><code>
+Attaching package: &#39;cowplot&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:ggpubr&#39;:
+
+    get_legend</code></pre>
+<div id="simulation-description" class="section level2">
+<h2>Simulation description</h2>
+<p>We simulate according to the following DAG:</p>
 <div id="htmlwidget-e3d5eff22888eb7ba78a" style="width:800px;height:350px;" class="grViz html-widget "></div>
 <script type="application/json" data-for="htmlwidget-e3d5eff22888eb7ba78a">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = LR]\n\n  node [shape = circle]\n  G [label = \"G\"]\n  Z [label = \"Z\"]\n  X [label = \"X\"]\n  Y [label = \"Y\"]\n\n  # edge definitions with the node IDs\n  edge []\n  G -> X [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GX<\/SUB><\/FONT>>]\n  G -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GY<\/SUB><\/FONT>>]\n  G -> Z [label=<θ<FONT POINT-SIZE=\"8\"><SUB>GZ<\/SUB><\/FONT>>]\n  X -> Z [dir=back; label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZX<\/SUB><\/FONT>>]\n  Z -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>ZY<\/SUB><\/FONT>>]\n  X -> Y [label=<θ<FONT POINT-SIZE=\"8\"><SUB>XY<\/SUB><\/FONT>>]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-<p>In MVMR, we wish to determine which “exposure” phenotype(s) <span
-class="math inline">\(X\)</span> affect an “outcome” phenotype Y given
-genotypes <span class="math inline">\(G\)</span> that affect <span
-class="math inline">\(X\)</span>. <span class="math inline">\(X\)</span>
-might be something like metabolites, gene expression, blood cell traits,
-etc. <span class="math inline">\(Y\)</span> could be a disease or
-another cellular phenotype. An example would be the classic question of
-whether HDL, LDL, and/or triglycerides (<span
-class="math inline">\(X\)</span>) affect cardiovascular disease (CVD)
-risk (<span class="math inline">\(Y\)</span>).</p>
-<p>However, if the genetic variants for <span
-class="math inline">\(X\)</span> affect <span
-class="math inline">\(Y\)</span> through pathways other than <span
-class="math inline">\(X\)</span>, this can lead to false positive
-conclusions. Suppose <span class="math inline">\(Z\)</span> represents
-some gene whose expression level modulates both HDL level and CVD risk.
-Then even if HDL doesn’t affect CVD risk, we may still find a false
-positive with standard MVMR methods. This is called “confounding”.
-Specifically, when <span class="math inline">\(Z\)</span> is a phenotype
-caused by <span class="math inline">\(G\)</span> (as opposed to
-something like population stratification), this is called “(horizontal)
-pleiotropy”.</p>
-<p>This model is shown in the “Directed Acyclic Graph (DAG)” above. The
-nodes represent the variables and the labels on the edges represent the
-effect size of one variable on another. In the DAG above, the pathway
-from <span class="math inline">\(G \rightarrow Z \rightarrow Y\)</span>
-causes confounding, as does the direct path <span
-class="math inline">\(G \rightarrow Y\)</span>, with the effect of this
-confounding controlled by the values <span
-class="math inline">\(\theta_{GZ} * \theta_{ZY}\)</span> and <span
-class="math inline">\(\theta_{GY}\)</span>. The effect <span
-class="math inline">\(\theta_{GZ} * \theta_{ZY}\)</span> causes what is
-known as “correlated pleiotropy” since it is correlated with the
-exposures <span class="math inline">\(X\)</span> (since <span
-class="math inline">\(\theta_{GZ}\)</span> affects <span
-class="math inline">\(X\)</span>), while the direct effect <span
-class="math inline">\(\theta_{GY}\)</span> is called “uncorrelated
-pleiotropy” since it is not correlated with <span
-class="math inline">\(X\)</span>.</p>
-<p>The causal model for the data given this DAG can be represented by a
-“Structural Equation Model (SEM)”, which shows how each variable
-functionally affects another. The SEM for this DAG is</p>
-<p><span class="math display">\[Z = G\theta_{GZ} +
-\epsilon_Z\]</span></p>
-<p><span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} +
-\epsilon_X\]</span></p>
-<p><span class="math display">\[Y = X\theta_{XY} + G\theta_{GY} +
-Z\theta_{ZY} + \epsilon_Y\]</span></p>
-<p>Our challenge is to estimate <span
-class="math inline">\(\theta_{XY}\)</span> despite this confounding. Our
-method seeks to address this challenge by modeling potential confounders
-and adjusting for this unwanted signal in the data.</p>
+<!-- ![](../figs/mvmr_dag.jpg) -->
+<p>Here, G are the Genotypes, X are the exposure phenotypes, Y is the
+outcome phenotype, and Z are confounders. All except Y are expected to
+be multivariate. The edge variables signify effects between these
+variables. Let <span class="math inline">\(M\)</span> be the number of
+SNPs, <span class="math inline">\(K\)</span> be the number of exposures,
+and <span class="math inline">\(J\)</span> be the number of
+confounders.</p>
+<p>The structural equation model for this DAG is:</p>
+<p><span class="math display">\[Z = G\theta_{GZ} + \epsilon_Z\]</span>
+<span class="math display">\[X = G\theta_{GX} + Z\theta_{ZX} +
+\epsilon_X\]</span> <span class="math display">\[Y = X\theta_{XY} +
+G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y\]</span></p>
+<p>G is assumed fixed or is drawn from standard normal distributions.
+Define</p>
+<p><span class="math display">\[\psi_X = \theta_{GZ} *
+\theta_{ZX}\]</span> <span class="math display">\[\psi_Y = \theta_{GZ} *
+\theta_{ZY}\]</span> Then <span class="math inline">\(\psi_X\)</span>
+defines the heritability of X mediated through Z, <span
+class="math inline">\(\psi_Y\)</span> defines the confounding effect
+from G to Y that is correlated with X, and <span
+class="math inline">\(\theta_{GY}\)</span> defines the confounding
+effect from G to Y that is not correlated with X.</p>
+<p>By default, <span class="math inline">\(\theta_{XY}\)</span> are
+fixed effects specified by the user, which allows control over the
+strength of effects in the simulation. All other effects <span
+class="math inline">\(theta_i\)</span> (where <span
+class="math inline">\(i\)</span> is a stand-in for <span
+class="math inline">\(GX\)</span>, <span
+class="math inline">\(GY\)</span>, and so on) are drawn according to
+point-(multivarite-)normal distributions,</p>
+<p><span class="math display">\[\theta_i = f_i *
+\gamma^*_{i},\]</span></p>
+<p>where f is the point-(multivariate-)normal,</p>
+<p><span class="math display">\[f_i \sim \pi_{0,i}\delta +
+\pi_{1,i}\mathcal{N}_d(\mu, \Sigma_{i}),\]</span></p>
+<p>where <span class="math inline">\(\delta\)</span> is the Dirac delta
+function and <span class="math inline">\(d\)</span> is the
+dimensionality of the effected variable, i.e. <span
+class="math inline">\(J\)</span> if the effect is on <span
+class="math inline">\(Z\)</span>, <span class="math inline">\(K\)</span>
+for <span class="math inline">\(X\)</span>, or <span
+class="math inline">\(1\)</span> for <span
+class="math inline">\(Y\)</span>. <span
+class="math inline">\(\mu\)</span>, the mean parameter, is set to 0 by
+default, but can be set to non-zero values to allow “directional
+pleiotropy”. <span class="math inline">\(\Sigma_i\)</span> is currently
+taken to be a diagonal matrix, but could be generalized to allow
+correlated effects.</p>
+<p><span class="math inline">\(\pi_{0,i}\)</span> represents the amount
+of sparsity while <span class="math inline">\(\pi_{1,i}\)</span>
+represents the density, and <span class="math inline">\(\pi_{0,i} +
+\pi_{1,i} = 1\)</span>. In practice this is achieved by first simulating
+the multivariate normal, then multiplying each entry by <span
+class="math inline">\(\pi_{1,i}\)</span>, which is drawn separately for
+each entry according to</p>
+<p><span class="math display">\[\pi_{1,i} \sim
+Bernoulli(\phi_i),\]</span></p>
+<p>where <span class="math inline">\(\phi_i\)</span> is a parameter that
+controls the level of density. By default, the density of <span
+class="math inline">\(\theta_{ZY}\)</span> is set to 1 (<span
+class="math inline">\(\phi_{ZY}=1\)</span>) because if some <span
+class="math inline">\(Z_j\)</span> does not affect <span
+class="math inline">\(Y\)</span> then it is not a confounder.</p>
+<p>Finally, <span class="math inline">\(\gamma_i\)</span> represents the
+scaling parameter to achieve the desired <span
+class="math inline">\(R^2\)</span>. <span
+class="math inline">\(G\)</span>, <span
+class="math inline">\(Z\)</span>, <span
+class="math inline">\(X\)</span>, and <span
+class="math inline">\(Y\)</span> are controlled to have unit variance
+(see simulation of noise below). For <span
+class="math inline">\(G\)</span> to have the desired <span
+class="math inline">\(R^2\)</span> (heritability) on <span
+class="math inline">\(Z\)</span>, <span
+class="math inline">\(X\)</span>, or <span
+class="math inline">\(Y\)</span>, we need to adjust this parameter by
+the number of SNPs and the sparsity of the effects. Therefore, the
+per-SNP <span class="math inline">\(\gamma_i^*\)</span> is</p>
+<p><span class="math display">\[\gamma^*_{i} = \sqrt{\gamma_{i} / M /
+\phi_i}\]</span></p>
+<!-- We draw alpha similarly to theta except that we do not allow sparsity, as a variable that does not affect Y is not a confounder, and a variable that does not affect X does not represent correlated horizontal pleiotropy. However, it may make sense to also allow sparsity for the effects of Z on X, as it could make sense for some Z to affect some subset of X. -->
+<p>The noise variances, epsilon, are designed so that Z, X, and Y have
+unit variance. So they are simulated according to</p>
+<p><span class="math display">\[\epsilon_Z \sim \mathcal{N}_J(0, \xi_Z
+I_J)\]</span> <span class="math display">\[\epsilon_X \sim
+\mathcal{N}_K(0, \xi_Z I_K)\]</span> <span
+class="math display">\[\epsilon_Y \sim \mathcal{N}(0,
+\xi_Y)\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\xi_Z = 1 - \gamma_{GZ}\]</span> <span
+class="math display">\[\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}\]</span>
+<span class="math display">\[\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} -
+\sum_i \theta_{XY,i}^2\]</span></p>
 </div>
-<div id="methods-and-results" class="section level3">
-<h3>Methods and Results</h3>
-<p>To evaluate existing approaches, I ran some <a
-href="simulations.html">simulations</a> on data simulated from the SEM
-above. As expected, existing methods had either high False Positive
-Rates (FPRs) or very low power due to the confounding.</p>
-<p>How do we address this problem? The easiest thing would be if we
-already knew the true values of <span
-class="math inline">\(\tilde{Z}\)</span> (where <span
-class="math inline">\(\tilde{Z} = G\theta_{GZ}\)</span>, ignoring the
-noise term) and <span class="math inline">\(\theta_{GY}\)</span>. Then
-we could control for the confounding directly. Indeed, my <a
-href="simulations.html">simulations</a> show that this “oracle” approach
-combined with the standard “two-stage least squares (2SLS)” estimation
-procedure controles FPR and maintains high power under arbitrarily
-strong confounding.</p>
-<p>This is a good sanity check, but in the real world we will not know
-<span class="math inline">\(\tilde{Z}\)</span> or <span
-class="math inline">\(\theta_{GY}\)</span>. How do we estimate them?
-Suppose for now that we have individual-level data available.
-<!-- We leave aside estimating $\theta_{GY}$ for now, as this is generally an easier problem -- for example, "MR-Egger" is an existing solution to adjust for uncorrelated pleiotropy. -->
-Let’s start by focusing on <span
-class="math inline">\(\tilde{Z}\)</span>. In this case, since we already
-know <span class="math inline">\(G\)</span>, the challenge is really to
-estimate <span class="math inline">\(\theta_{GZ}\)</span>. (An
-alternative that also works is to learn <span
-class="math inline">\(\psi_X = \theta_{GZ} * \theta_{ZX}\)</span>).</p>
-<p>One straightforward approach is to apply truncated singular value
-decomposition (SVD), or any other standard factor analysis (FA) method,
-to <span class="math inline">\(\tilde{X}\)</span>. From our DAG / SEM,
-we have that <span class="math inline">\(\tilde{X} = G * (\theta_{GX} +
-\theta_{GZ} * \theta_{ZX})\)</span>. We assume that each <span
-class="math inline">\(\tilde{Z}\)</span> affects several exposures. So
-our hope is that the latent factors will pick up on these factors
-affecting multiple variables.</p>
-<p>However, these “one-stage” approaches (FA on <span
-class="math inline">\(X\)</span> without accounting for <span
-class="math inline">\(Y\)</span>) are unlikely to work satisfactorily.
-One reason is that <span class="math inline">\(\theta_{GZ}\)</span>, our
-target, is NOT independent of <span class="math inline">\(Y\)</span>,
-since <span class="math inline">\(Z\)</span> affects <span
-class="math inline">\(Y\)</span> (by definition, since <span
-class="math inline">\(Z\)</span> is a confounder). Therefore, not
-accounting for <span class="math inline">\(Y\)</span> necessarily limits
-how well one can approximate <span
-class="math inline">\(\theta_{GZ}\)</span>.</p>
-<p>My <a href="gibbs.html">Gibbs sampler page</a> shows the conditional
-distribution of <span class="math inline">\(\theta_{GZ}\)</span> given
-all other variables, assuming that they are all normally-distributed.
-This explicitly shows how <span
-class="math inline">\(\theta_{GZ}\)</span> depends on both X and Y.
-However, there are currently some limitations for the multiple-exposure
-case that I am working through, and I am not currently accounting for
-sparsity or non-normal unimodal distributions, like ash does.</p>
-<p>For summary statistics, where <span class="math inline">\(G\)</span>
-is not available, we will probably have to perform FA on the betas and
-stderrs for <span class="math inline">\(X\)</span> and <span
-class="math inline">\(Y\)</span>. One starting point is to assume that
-the direct effects of any given SNP on the exposures are independent, so
-that the betas for each exposure are only correlated due to the
-unobserved factors. We could explore extensions to existing Bayesian
-frameworks like RUV-Bayes, Flash, or Mash.</p>
+<div id="simulation-results-annihilator-mode" class="section level2">
+<h2>Simulation results – Annihilator mode</h2>
+<p>Here we regress out (“annihilate”) inferred factors from both the
+exposure and outcome traits.</p>
+<p>Here is a stacked bar plot showing the results versus IVW, with only
+correlated pleiotropy. In this plot, factor effects are quite dense
+(factors affect 50% of exposures on average) making it relatively easy
+for GFA to infer the factors.</p>
+<pre class="r"><code>stacked_barplot(&#39;data/results_annih_keep_factors/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
+                prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
+<p><img src="figure/famrsims.Rmd/annih_stackbar-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here is the PIP calibration plot for FAMR_GFA.</p>
+<pre class="r"><code>res = na.omit(read.table(
+  &#39;data/results_annih_keep_factors/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
+pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<pre><code>Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead.
+This warning is displayed once every 8 hours.
+Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+generated.</code></pre>
+<p><img src="figure/famrsims.Rmd/annih_cal-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>It also does very well at controlling uncorrelated pleiotropy:</p>
+<pre class="r"><code>stacked_barplot(&#39;data/results_annih_keep_factors/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
+                prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
+<p><img src="figure/famrsims.Rmd/annih_stackbar_uncor-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res = na.omit(read.table(
+  &#39;data/results_annih_keep_factors/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
+pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
+<p><img src="figure/famrsims.Rmd/annih_cal_uncor-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>However, performance degrades a bit if I change factors to only
+affect 10% of exposures on average:</p>
+<pre class="r"><code>stacked_barplot(&#39;data/results_sparser_zx_J3/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
+                prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
+<p><img src="figure/famrsims.Rmd/annih_stackbar_sparse-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res = na.omit(read.table(
+  &#39;data/results_sparser_zx_J3/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
+pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
+<p><img src="figure/famrsims.Rmd/annih_cal_sparse-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="non-annihilator-mode" class="section level2">
+<h2>Non-annihilator mode</h2>
+<p>We can also run FAMR just including factors as extra exposures, and
+not annihilating / regressing them out. This works a bit worse factor
+effects are dense, but roughly as well or even a bit better when factor
+effects are sparse.</p>
+<p>One odd thing is that, when factors are not annihilated, FAMR works
+better when we do not learn SNP “weights” for the Z-scores and R, at
+least when we use a highly pruned set of SNPs. We just use the betas as
+weights. This is in contrast to annihilator mode, which does better when
+we learn weights.</p>
+<p>Here are the results with correlated pleiotropy.</p>
+<pre class="r"><code>stacked_barplot(&#39;data/results_nolearnwts_noannih_largeish/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
+                prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
+<p><img src="figure/famrsims.Rmd/noannih_stackbar-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Here is the PIP calibration plot for FAMR_GFA.</p>
+<pre class="r"><code>res = na.omit(read.table(
+  &#39;data/results_nolearnwts_noannih_largeish/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
+pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
+<p><img src="figure/famrsims.Rmd/noannih_cal-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="results-with-max-snp-selection" class="section level2">
+<h2>Results with Max SNP selection</h2>
+<p>Upon further evaluation, it appears that standard MVMR methods like
+IVW do better when SNPs are selected according to the “max Z” criterion
+rather than just LD clumping.</p>
+<p>Here’s what the results look like with correlated pleiotropy, using
+FAMR annihilator mode results from above:</p>
+<pre class="r"><code>stacked_barplot(&#39;data/results_annih_maxsel_spliced/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
+                prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
+<p><img src="figure/famrsims.Rmd/maxsel-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -942,21 +781,28 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] DiagrammeR_1.0.10 workflowr_1.7.0  
+[1] cowplot_1.1.3     qvalue_2.28.0     ggpubr_0.6.0      ggplot2_3.5.0    
+[5] DiagrammeR_1.0.10 workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.12        RColorBrewer_1.1-3 compiler_4.2.1     pillar_1.9.0      
- [5] bslib_0.5.0        later_1.3.1        git2r_0.32.0       jquerylib_0.1.4   
- [9] tools_4.2.1        getPass_0.2-2      digest_0.6.33      jsonlite_1.8.7    
-[13] evaluate_0.21      lifecycle_1.0.4    tibble_3.2.1       pkgconfig_2.0.3   
-[17] rlang_1.1.3        cli_3.6.2          rstudioapi_0.15.0  yaml_2.3.7        
-[21] xfun_0.39          fastmap_1.1.1      httr_1.4.6         stringr_1.5.0     
-[25] knitr_1.43         htmlwidgets_1.6.2  sass_0.4.7         fs_1.6.3          
-[29] vctrs_0.6.5        rprojroot_2.0.3    glue_1.7.0         R6_2.5.1          
-[33] processx_3.8.2     fansi_1.0.6        rmarkdown_2.23     callr_3.7.3       
-[37] magrittr_2.0.3     whisker_0.4.1      ellipsis_0.3.2     ps_1.7.5          
-[41] promises_1.2.0.1   htmltools_0.5.5    httpuv_1.6.11      utf8_1.2.4        
-[45] stringi_1.8.3      visNetwork_2.1.2   cachem_1.0.8      </code></pre>
+ [1] Rcpp_1.0.12        tidyr_1.3.0        getPass_0.2-2      ps_1.7.5          
+ [5] visNetwork_2.1.2   rprojroot_2.0.3    digest_0.6.33      utf8_1.2.4        
+ [9] R6_2.5.1           plyr_1.8.9         backports_1.4.1    evaluate_0.21     
+[13] highr_0.10         httr_1.4.6         pillar_1.9.0       rlang_1.1.3       
+[17] rstudioapi_0.15.0  whisker_0.4.1      car_3.1-2          callr_3.7.3       
+[21] jquerylib_0.1.4    rmarkdown_2.23     labeling_0.4.3     splines_4.2.1     
+[25] stringr_1.5.0      htmlwidgets_1.6.2  munsell_0.5.1      broom_1.0.5       
+[29] compiler_4.2.1     httpuv_1.6.11      xfun_0.39          pkgconfig_2.0.3   
+[33] htmltools_0.5.5    tidyselect_1.2.0   tibble_3.2.1       fansi_1.0.6       
+[37] crayon_1.5.2       dplyr_1.1.2        withr_3.0.0        later_1.3.1       
+[41] grid_4.2.1         jsonlite_1.8.7     gtable_0.3.4       lifecycle_1.0.4   
+[45] git2r_0.32.0       magrittr_2.0.3     scales_1.3.0       cli_3.6.2         
+[49] stringi_1.8.3      cachem_1.0.8       carData_3.0-5      farver_2.1.1      
+[53] ggsignif_0.6.4     reshape2_1.4.4     fs_1.6.3           promises_1.2.0.1  
+[57] bslib_0.5.0        ellipsis_0.3.2     generics_0.1.3     vctrs_0.6.5       
+[61] RColorBrewer_1.1-3 tools_4.2.1        glue_1.7.0         purrr_1.0.1       
+[65] processx_3.8.2     abind_1.4-5        fastmap_1.1.1      yaml_2.3.7        
+[69] colorspace_2.1-0   rstatix_0.7.2      knitr_1.43         sass_0.4.7        </code></pre>
 </div>
 </div>
 

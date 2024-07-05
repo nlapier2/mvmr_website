@@ -16,12 +16,20 @@ library(knitr)
 
 ```{r process_dat, echo=FALSE}
 # read in data and select methods to display
-dat = fread('data/real_data_results_summary.tsv', sep='\t', header=T)
-dat = dat %>% select(Exposure, Outcome, famr_gfa, ivw, robust, ivw.univar)
+dat = fread('data/summary_of_results_annih_max.tsv', sep='\t', header=T)
+dat = dat %>% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.univar)
 # sort by average PIP across all methods
-dat$Average = rowSums(dat %>% select(famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat) - 2)
+dat$Average = rowSums(dat %>% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat) - 2)
 dat = dat[order(dat$Average, decreasing=TRUE), ]
 dat$Average = NULL 
+ 
+# read in data and select methods to display
+dat2 = fread('data/summary_of_results_noannih_clumped.tsv', sep='\t', header=T)
+dat2 = dat2 %>% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.univar)
+# sort by average PIP across all methods
+dat2$Average = rowSums(dat2 %>% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat2) - 2)
+dat2 = dat2[order(dat2$Average, decreasing=TRUE), ]
+dat2$Average = NULL 
 ```
 
 In order to assess the performance of FAMR in a real data setting,
@@ -85,6 +93,8 @@ most factor analysis methods and MVMR methods in simulations.
 
 6. We ran FAMR and various other MVMR methods (see table below) on this data.
 We also ran univariate IVW MR ("ivw.univar") on each exposure-outcome pair.
+For FAMR, we ran it both with and without regressing out ("annihilating")
+the learned factors from the exposures.
 
 
 
@@ -116,4 +126,24 @@ including FAMR.
 
 ```{r print_results}
 knitr::kable(dat)
+```
+
+
+
+## Results with no factor annihilation and clumped SNP selection
+
+Here we present a slightly different run setting, with SNPs for non-FAMR
+MVMR methods being selected by simply LD clumping SNPs
+(again at a threshold of 0.1, so using the same set of SNPs as FAMR)
+rather than only taking the max Z-score SNP per locus.
+Also, we ran FAMR with no factor annihilation.
+
+As we can see, FAMR with no factor annihilation is less conservative than the
+one with factor annihilation.
+MVMR methods in the clumped setting had many more positive findings,
+some of which are likely true but many of which are likely false, including
+finding an effect of HDL on CAD independent of LDL.
+
+```{r print_results2}
+knitr::kable(dat2)
 ```
