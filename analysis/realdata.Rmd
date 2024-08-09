@@ -97,6 +97,632 @@ For FAMR, we ran it both with and without regressing out ("annihilating")
 the learned factors from the exposures.
 
 
+## Trait names vs. codes
+
+Consult the following list for trait names vs their codes.
+I have tried to put the trait name in the results below where possible,
+but this will be useful in cases where I forgot or it was impractical.
+
+
+```
+Trait Name	                     Trait ID
+Alcohol	                         ieu-b-73
+Birth Weight (BW)	               ieu-a-1083
+Body Fat	                       ieu-a-999
+Body Mass Index	                 ieu-a-2
+Diastolic Blood Pressure	       ieu-b-39
+Fasting Glucose	                 ieu-b-113
+Height	                         ieu-a-89
+High Density Lipoprotein (HDL)	 ieu-a-299
+Low Density Lipoprotein (LDL)	   ieu-a-300
+Smoking	                         ieu-b-4877
+Systolic Blood Pressure	         ieu-b-38
+Triglycerides	                   ieu-a-302
+Asthma	                         ebi-a-GCST006862
+Coronary Artery Disease (CAD)	   ebi-a-GCST005195
+Stroke	                         ebi-a-GCST005838
+Type 2 Diabetes	                 ieu-a-26
+Acetate	                         met-d-Acetate
+Acetone	                         met-d-Acetone
+Alanine	                         met-d-Ala
+Albumin	                         met-d-Albumin
+3-hydroxybutyrate	               met-d-bOHbutyrate
+Citrate	                         met-d-Citrate
+Creatinine	                     met-d-Creatinine
+Glucose	                         met-d-Glucose
+Glutamine	                       met-d-Gln
+Glycoprotein acetylation	       met-d-GlycA
+Glycine	                         met-d-Gly
+Histidine	                       met-d-His
+Isoleucine	                     met-d-Ile
+Lactate	                         met-d-Lactate
+Leucine	                         met-d-Leu
+Phenylalanine	                   met-d-Phe
+Pyruvate	                       met-d-Pyruvate
+Tyrosine	                       met-d-Tyr
+Valine	                         met-d-Val
+Apolipoprotein B	               met-d-ApoB
+Polyunsaturated Fatty Acids	     met-d-PUFA
+```
+
+
+## Characterization of the data
+
+Here we discuss the number of independent loci and heritability of each trait,
+as well as its most genetically-correlated traits.
+
+#### Number of regions
+
+Across all 33 exposure traits, 2530 1 Mb loci were identified (avg. about 77 per trait),
+and there were 726 independent loci after merging overlapping loci.
+Excluding blood pressure and height, which were by far the most polygenic,
+there were 1097 regions across 30 traits (avg. about 37 per trait).=,
+and there were 477 independent loci after merging overlapping loci.
+
+Here are the number of independent 1 Mb loci per trait:
+
+```
+-   522 regions_combined/ieu-b-39_regions.txt (Diastolic blood pressure)
+-   495 regions_combined/ieu-b-38_regions.txt (Systolic blood pressure)
+-   416 regions_combined/ieu-a-89_regions.txt (Height)
+-   103 regions_combined/ieu-b-4877_regions.txt (Smoking status)
+-    86 regions_combined/ieu-a-299_regions.txt (HDL cholesterol)
+-    83 regions_combined/ieu-a-2_regions.txt (Body mass index)
+-    69 regions_combined/met-d-Creatinine_regions.txt (Creatinine)
+-    67 regions_combined/ieu-a-300_regions.txt (LDL cholesterol)
+-    55 regions_combined/met-d-PUFA_regions.txt (Polyunsaturated fatty acids)
+-    55 regions_combined/ieu-a-302_regions.txt (Triglycerides)
+-    53 regions_combined/ieu-a-1083_regions.txt (Birth weight)
+-    48 regions_combined/met-d-GlycA_regions.txt (Glycoprotein acetylation)
+-    47 regions_combined/met-d-Gln_regions.txt (Glutamine)
+-    46 regions_combined/met-d-ApoB_regions.txt (Apolipoprotein B)
+-    41 regions_combined/met-d-Gly_regions.txt (Glycine)
+-    39 regions_combined/ieu-b-73_regions.txt (Alcohol intake)
+-    32 regions_combined/met-d-Citrate_regions.txt (Citrate)
+-    32 regions_combined/met-d-Albumin_regions.txt (Albumin)
+-    32 regions_combined/met-d-Ala_regions.txt (Alanine)
+-    28 regions_combined/met-d-Tyr_regions.txt (Tyrosine)
+-    23 regions_combined/met-d-Glucose_regions.txt (Glucose)
+-    21 regions_combined/ieu-b-113_regions.txt (Fasting glucose)
+-    19 regions_combined/met-d-Pyruvate_regions.txt (Pyruvate)
+-    18 regions_combined/met-d-Val_regions.txt (Valine)
+-    15 regions_combined/met-d-Leu_regions.txt (Leucine)
+-    15 regions_combined/met-d-His_regions.txt (Histidine)
+-    14 regions_combined/met-d-bOHbutyrate_regions.txt (bOHbutyrate)
+-    11 regions_combined/met-d-Acetone_regions.txt (Acetone)
+-    10 regions_combined/met-d-Lactate_regions.txt (Lactate)
+-    10 regions_combined/ieu-a-999_regions.txt (Body fat)
+-     9 regions_combined/met-d-Acetate_regions.txt (Acetate)
+-     8 regions_combined/met-d-Phe_regions.txt (Phenylalanine)
+-     8 regions_combined/met-d-Ile_regions.txt (Isoleucine)
+```
+
+
+#### Heritability
+
+We used the [HDL package](https://github.com/zhenin/HDL) to compute heritability
+and genetic correlations.
+
+Below is the heritability of each trait (including the outcomes).
+As you can see, except for the highly polygenic blood pressure and height traits,
+all others have heritabilities between $1\%$ and $27\%$, with most being in the
+$5\%$ to $18\%$ range. The median heritability is about $9\%$.
+
+```
+               trait                   h2
+           ieu-b-38 (SBP)              0.7654
+           ieu-b-39 (DBP)              0.7616
+           ieu-a-89 (Height)           0.5236
+         ieu-b-4877 (Smoking)          0.2612
+          met-d-Gly (Glycine)          0.2506
+            ieu-a-2 (BMI)              0.1788
+        met-d-GlycA (Glyc. Acet.)      0.1742
+           ieu-b-73 (Alc)              0.1709
+   ebi-a-GCST005195 (CAD)              0.1667
+  met-d-Creatinine                     0.1560
+        met-d-PUFA                     0.1524
+         met-d-Gln (Glutamine)         0.1345
+        ieu-a-1083 (Birth Wt.)         0.1288
+         met-d-Tyr (Tyrosine)          0.1133
+        met-d-ApoB                     0.1097
+     met-d-Citrate                     0.1031
+     met-d-Albumin                     0.0965
+         met-d-Ala (Alanine)           0.0900
+         met-d-Val (Valine)            0.0885
+         ieu-a-302 (Trigly.)           0.0877
+         ieu-a-299 (HDL)               0.0840
+         met-d-Leu (Leucine)           0.0704
+     met-d-Glucose                     0.0695
+    met-d-Pyruvate                     0.0649
+ met-d-bOHbutyrate                     0.0559
+         met-d-Ile (Isoleuc.)          0.0547
+         ieu-a-300 (LDL)               0.0537
+     met-d-Acetone                     0.0524
+     met-d-Lactate                     0.0516
+     met-d-Acetate                     0.0479
+         met-d-Phe (Phenylal.)         0.0459
+         met-d-His (Histidine)         0.0385
+  ebi-a-GCST006862 (Asthma)            0.0342
+         ieu-a-999 (Body fat)          0.0281
+          ieu-a-26 (T2D)               0.0243
+  ebi-a-GCST005838 (Stroke)            0.0235
+         ieu-b-113 (Fast. Gluc.)       0.0145
+```
+
+
+#### Genetic correlation
+
+Below are the genetic correlations between traits computed by the 
+[HDL package](https://github.com/zhenin/HDL).
+
+Most of them look reasonable, but some are obviously over-estimates
+(e.g. some correlations are over 1).
+One big surprise is that HDL and LDL are hardly correlated.
+
+About half of the traits have below 50% correlation with all other traits
+- Most of the non-BCAA amino acids
+- Ketone bodies
+- Glycolysis-related metabolites
+- Fluid balance traits
+
+The other roughly half of traits form small highly-correlated clusters. Examples:
+- BCAAs (Valine, Leucine, Isoleucine)
+- LDL, ApoB, and PUFA
+- Triglycerides and GlycA
+- T2D, Fasting Glucose, Glucose
+- BMI and Body Fat
+- Systolic and Diastolic blood pressure
+- CAD and Stroke
+
+
+Here are the top five correlations for each trait:
+
+<details><summary>Click to expand</summary>
+
+```
+Genetic correlations for ebi-a-GCST005195: 
+
+               trait    corr
+1   ebi-a-GCST005838  0.7797
+2           ieu-a-26  0.4230
+3           ieu-b-38  0.3812
+4          ieu-a-299 -0.3723
+5          ieu-a-999  0.3710
+
+
+
+Genetic correlations for ebi-a-GCST005838: 
+
+               trait    corr
+1   ebi-a-GCST005195  0.7797
+2           ieu-a-26  0.7256
+3           ieu-b-38  0.5899
+4          ieu-b-113  0.5394
+5          ieu-a-999  0.5265
+
+
+
+Genetic correlations for ebi-a-GCST006862: 
+
+               trait    corr
+1           ieu-a-26  0.2385
+2          ieu-a-999  0.1635
+3      met-d-Lactate  0.1595
+4      met-d-Acetate -0.1492
+5      met-d-Acetone -0.1365
+
+
+
+Genetic correlations for ieu-a-1083: 
+
+               trait       corr
+1           ieu-a-89  0.4254000
+2           ieu-a-26 -0.2863000
+3           ieu-b-38 -0.2067000
+4   ebi-a-GCST005838 -0.1901000
+5          ieu-b-113 -0.1881000
+
+
+
+
+Genetic correlations for ieu-a-26: 
+
+               trait    corr
+1          ieu-b-113  1.1869
+2   ebi-a-GCST005838  0.7256
+3          met-d-Val  0.6845
+4          met-d-Ile  0.6437
+5          met-d-Leu  0.5972
+
+
+
+
+Genetic correlations for ieu-a-299: 
+
+               trait    corr
+1          ieu-a-302 -0.6848
+2          met-d-Leu -0.5278
+3          met-d-Ile -0.5216
+4          met-d-Val -0.4811
+5        met-d-GlycA -0.4504
+
+
+
+
+Genetic correlations for ieu-a-2: 
+
+               trait    corr
+1          ieu-a-999  1.0984
+2           ieu-a-26  0.4698
+3          met-d-Ile  0.3667
+4          ieu-b-113  0.3641
+5          met-d-Val  0.3465
+
+
+
+
+Genetic correlations for ieu-a-300: 
+
+               trait    corr
+1         met-d-ApoB  1.1036
+2         met-d-PUFA  0.8297
+3          ieu-a-302  0.4555
+4        met-d-GlycA  0.3966
+5   ebi-a-GCST005195  0.2779
+
+
+
+
+Genetic correlations for ieu-a-302: 
+
+               trait    corr
+1        met-d-GlycA  0.7566
+2          ieu-a-299 -0.6848
+3          met-d-Val  0.6040
+4          met-d-Ile  0.6016
+5          met-d-Leu  0.5518
+
+
+
+
+Genetic correlations for ieu-a-89: 
+
+               trait    corr
+1         ieu-a-1083  0.4254
+2      met-d-Lactate -0.1501
+3      met-d-Acetate  0.1385
+4        met-d-GlycA -0.1158
+5          ieu-a-999 -0.1154
+
+
+
+
+Genetic correlations for ieu-a-999: 
+
+               trait    corr
+1            ieu-a-2  1.0984
+2           ieu-a-26  0.5278
+3   ebi-a-GCST005838  0.5265
+4        met-d-GlycA  0.5159
+5          met-d-Phe  0.5021
+
+
+
+
+Genetic correlations for ieu-b-113: 
+
+               trait    corr
+1      met-d-Glucose  1.3238
+2           ieu-a-26  1.1870
+3   ebi-a-GCST005838  0.5394
+4          met-d-Ala  0.3701
+5            ieu-a-2  0.3641
+
+
+
+
+Genetic correlations for ieu-b-38: 
+
+               trait    corr
+1           ieu-b-39  0.8183
+2   ebi-a-GCST005838  0.5899
+3   ebi-a-GCST005195  0.3812
+4           ieu-a-26  0.2913
+5          ieu-b-113  0.2854
+
+
+
+
+Genetic correlations for ieu-b-39: 
+
+               trait    corr
+1           ieu-b-38  0.8183
+2   ebi-a-GCST005838  0.5168
+3   ebi-a-GCST005195  0.3087
+4           ieu-a-26  0.2087
+5         ieu-a-1083 -0.1685
+
+
+
+
+Genetic correlations for ieu-b-4877: 
+
+               trait    corr
+1           ieu-b-73  0.4361
+2   ebi-a-GCST005838  0.3304
+3   ebi-a-GCST005195  0.2555
+4          ieu-a-999  0.2368
+5        met-d-GlycA  0.2131
+
+
+
+
+Genetic correlations for ieu-b-73: 
+
+               trait       corr
+1         ieu-b-4877  0.4361000
+2          ieu-a-299  0.2524000
+3      met-d-Acetone  0.2249000
+4      met-d-Citrate -0.2223000
+5      met-d-Acetate  0.1415000
+
+
+
+
+Genetic correlations for met-d-Acetate: 
+
+               trait    corr
+1      met-d-Lactate -0.5745
+2        met-d-GlycA -0.5055
+3   ebi-a-GCST005838 -0.4637
+4          ieu-a-999 -0.4556
+5          ieu-a-302 -0.4030
+
+
+
+
+Genetic correlations for met-d-Acetone: 
+
+               trait    corr
+1  met-d-bOHbutyrate  0.5463
+2        met-d-GlycA -0.3522
+3          ieu-a-302 -0.3022
+4          met-d-Ala -0.2856
+5      met-d-Acetate  0.2843
+
+
+
+
+Genetic correlations for met-d-Ala: 
+
+               trait    corr
+1          met-d-Ile  0.4868
+2          met-d-Leu  0.4491
+3          met-d-Val  0.4450
+4           ieu-a-26  0.4261
+5          ieu-b-113  0.3701
+
+
+
+
+Genetic correlations for met-d-Albumin: 
+
+               trait    corr
+1          ieu-a-999 -0.4238
+2          met-d-Phe -0.3036
+3            ieu-a-2 -0.2880
+4   ebi-a-GCST005838 -0.2476
+5          met-d-His  0.1864
+
+
+
+
+Genetic correlations for met-d-ApoB: 
+
+               trait    corr
+1          ieu-a-300  1.1036
+2         met-d-PUFA  0.7652
+3          ieu-a-302  0.4816
+4        met-d-GlycA  0.2698
+5   ebi-a-GCST005838 -0.2280
+
+
+
+
+Genetic correlations for met-d-bOHbutyrate: 
+
+              trait    corr
+1     met-d-Acetone  0.5463
+2         ieu-a-999  0.2629
+3     met-d-Lactate  0.2563
+4         met-d-Ala -0.2461
+5         met-d-Tyr -0.2204
+
+
+
+
+Genetic correlations for met-d-Citrate: 
+
+               trait    corr
+1   met-d-Creatinine  0.2538
+2           ieu-b-73 -0.2223
+3         ieu-b-4877 -0.1716
+4      met-d-Acetone  0.1354
+5  met-d-bOHbutyrate  0.1317
+
+
+
+
+Genetic correlations for met-d-Creatinine: 
+
+               trait    corr
+1          ieu-a-302  0.3592
+2        met-d-GlycA  0.2742
+3      met-d-Citrate  0.2539
+4          ieu-a-299 -0.2244
+5          met-d-Ile  0.2223
+
+
+
+
+Genetic correlations for met-d-Gln: 
+
+               trait    corr
+1          met-d-His  0.4011
+2          ieu-a-999 -0.2858
+3      met-d-Acetate  0.2532
+4          ieu-a-302 -0.2433
+5      met-d-Lactate -0.2381
+
+
+
+
+Genetic correlations for met-d-Glucose: 
+
+               trait    corr
+1          ieu-b-113  1.3238
+2           ieu-a-26  0.5720
+3      met-d-Lactate -0.2855
+4        met-d-GlycA  0.2739
+5          ieu-a-999  0.2482
+
+
+
+
+Genetic correlations for met-d-GlycA: 
+
+               trait    corr
+1          ieu-a-302  0.7566
+2          ieu-a-999  0.5159
+3      met-d-Acetate -0.5055
+4           ieu-a-26  0.4640
+5          ieu-a-299 -0.4504
+
+
+
+
+Genetic correlations for met-d-Gly: 
+
+               trait    corr
+1           ieu-a-26 -0.3062
+2          ieu-a-999 -0.2387
+3          ieu-b-113 -0.2232
+4          met-d-Val -0.2222
+5          met-d-Gln  0.1838
+
+
+
+
+Genetic correlations for met-d-His: 
+
+               trait    corr
+1          met-d-Gln  0.4011
+2   ebi-a-GCST005838 -0.2631
+3          met-d-Ala  0.2453
+4      met-d-Lactate -0.2362
+5          ieu-a-999 -0.2301
+
+
+
+
+Genetic correlations for met-d-Ile: 
+
+               trait    corr
+1          met-d-Leu  0.9522
+2          met-d-Val  0.9351
+3           ieu-a-26  0.6437
+4          ieu-a-302  0.6016
+5          ieu-a-299 -0.5216
+
+
+
+
+Genetic correlations for met-d-Lactate: 
+
+               trait    corr
+1      met-d-Acetate -0.5745
+2     met-d-Pyruvate  0.3740
+3           ieu-a-26  0.3611
+4          ieu-a-302  0.3313
+5      met-d-Glucose -0.2855
+
+
+
+
+Genetic correlations for met-d-Leu: 
+
+               trait    corr
+1          met-d-Ile  0.9522
+2          met-d-Val  0.9275
+3           ieu-a-26  0.5972
+4          ieu-a-302  0.5518
+5          ieu-a-299 -0.5278
+
+
+
+
+Genetic correlations for met-d-Phe: 
+
+               trait    corr
+1          met-d-Ile  0.5117
+2          ieu-a-999  0.5021
+3          met-d-Tyr  0.4812
+4           ieu-a-26  0.4648
+5          met-d-Leu  0.4629
+
+
+
+
+Genetic correlations for met-d-PUFA: 
+
+               trait    corr
+1          ieu-a-300  0.8297
+2         met-d-ApoB  0.7652
+3          ieu-a-302  0.5174
+4        met-d-GlycA  0.3093
+5          ieu-a-299  0.2889
+
+
+
+
+Genetic correlations for met-d-Pyruvate: 
+
+               trait    corr
+1      met-d-Lactate  0.3740
+2   ebi-a-GCST005838  0.2643
+3      met-d-Acetate -0.2584
+4        met-d-GlycA  0.2499
+5          ieu-a-999  0.2409
+
+
+
+
+Genetic correlations for met-d-Tyr: 
+
+               trait    corr
+1          met-d-Phe  0.4812
+2          met-d-Ile  0.3482
+3          met-d-Val  0.3107
+4          met-d-Ala  0.3042
+5           ieu-a-26  0.3029
+
+
+
+
+Genetic correlations for met-d-Val: 
+
+               trait    corr
+1          met-d-Ile  0.9351
+2          met-d-Leu  0.9275
+3           ieu-a-26  0.6845
+4          ieu-a-302  0.6041
+5          ieu-a-299 -0.4811
+```
+
+</details>
+
+
+
 
 ## Results
 

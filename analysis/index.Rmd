@@ -21,7 +21,7 @@ of real metabolite data, mostly from the UK Biobank and obtained via
 the [IEU Open GWAS](https://gwas.mrcieu.ac.uk/datasets/) website.
 
 
-### Project description
+## Project description
 
 ```{r dag, echo=FALSE}
 DiagrammeR::grViz("digraph {
@@ -72,35 +72,97 @@ $$Y = X\theta_{XY} + G\theta_{GY} + Z\theta_{ZY} + \epsilon_Y$$
 Our challenge is to estimate $\theta_{XY}$ despite this confounding. Our method seeks to address this challenge by modeling potential confounders and adjusting for this unwanted signal in the data.
 
 
-### Methods and Results
 
-To evaluate existing approaches, I ran some [simulations](simulations.html) on data simulated from the SEM above. 
-As expected, existing methods had either high False Positive Rates (FPRs) or very low power due to the confounding. 
 
-How do we address this problem? The easiest thing would be if we already knew the true values of $\tilde{Z}$ (where $\tilde{Z} = G\theta_{GZ}$, ignoring the noise term) and $\theta_{GY}$. 
-Then we could control for the confounding directly. 
-Indeed, my [simulations](simulations.html) show that this "oracle" approach combined with the standard "two-stage least squares (2SLS)" estimation procedure controles FPR and maintains high power under arbitrarily strong confounding.
+## State of the project
 
-This is a good sanity check, but in the real world we will not know $\tilde{Z}$ or $\theta_{GY}$. 
-How do we estimate them? Suppose for now that we have individual-level data available.
-<!-- We leave aside estimating $\theta_{GY}$ for now, as this is generally an easier problem -- for example, "MR-Egger" is an existing solution to adjust for uncorrelated pleiotropy. -->
-Let's start by focusing on $\tilde{Z}$.
-In this case, since we already know $G$, the challenge is really to estimate $\theta_{GZ}$.
-(An alternative that also works is to learn $\psi_X = \theta_{GZ} * \theta_{ZX}$).
+Below, I summarize the narrative of the project, current results, and current
+questions and things in progress.
 
-One straightforward approach is to apply truncated singular value decomposition (SVD), or any other standard factor analysis (FA) method, to $\tilde{X}$. 
-From our DAG / SEM, we have that $\tilde{X} = G * (\theta_{GX} + \theta_{GZ} * \theta_{ZX})$. 
-We assume that each $\tilde{Z}$ affects several exposures. 
-So our hope is that the latent factors will pick up on these factors affecting multiple variables.
+#### Narrative
 
-However, these "one-stage" approaches (FA on $X$ without accounting for $Y$) are unlikely to work satisfactorily. 
-One reason is that $\theta_{GZ}$, our target, is NOT independent of $Y$, since $Z$ affects $Y$ (by definition, since $Z$ is a confounder). 
-Therefore, not accounting for $Y$ necessarily limits how well one can approximate $\theta_{GZ}$.
+- High dimensional MR can help give granular causal insights into disease and complex trait etiology
+- However, pleiotropic confounding is a big concern in MR. Few methods address it in the multivariate setting, and even fewer look at the high-dimensional case with possibly highly correlated traits.
+- We demonstrate that factor analysis can be used to infer and correct for potential pleiotropic confounders, since
 
-My [Gibbs sampler page](gibbs.html) shows the conditional distribution of $\theta_{GZ}$ given all other variables, assuming that they are all normally-distributed. 
-This explicitly shows how $\theta_{GZ}$ depends on both X and Y. 
-However, there are currently some limitations for the multiple-exposure case that I am working through, and I am not currently accounting for sparsity or non-normal unimodal distributions, like ash does.
+$\hat{\theta}_{GX} \approx \theta_{GX} + \theta_{GZ}\theta_{ZX},$
 
-For summary statistics, where $G$ is not available, we will probably have to perform FA on the betas and stderrs for $X$ and $Y$. 
-One starting point is to assume that the direct effects of any given SNP on the exposures are independent, so that the betas for each exposure are only correlated due to the unobserved factors. 
-We could explore extensions to existing Bayesian frameworks like RUV-Bayes, Flash, or Mash.
+so we can run factor analysis on $\hat{\theta}_{GX}$ to estimate $\theta_{GZ}$,
+i.e. the genetic component of confounders, and include them in the subsequent 
+regression to control for them.
+
+- We introduce FAMR, which is a general framework that breaks this problem into three main steps: (1) factor analysis; (2) polygenic modeling; (3) regression or variable selection.
+- We propose using GFA for (1), susie or a PRS method for (2), and susie-rss for (3).
+- The latter allows us to form credible sets of highly correlated exposures when present.
+- cTWAS-style FAMR framework allows us to include SNPs and control for uncorrelated pleiotropy, and to handle sparsity in effects.
+- We show that existing methods have inflated false positives under pleiotropy, or do not scale or perform well in the high dimensional setting (MVMR-cML).
+- We also show that, as we include more and more exposures, because the SNP-exposure effect matrix gets sparser, power for traditional methods can decrease. Not so for FAMR.
+
+
+#### Outline of method
+
+1. Identify loci centered around genome-wide significant SNPs for each trait.
+
+2. LD prune these SNPs to make memory/runtime feasible.
+
+3. Run GFA on pruned SNPs. GFA's L_hat parameter is an estimate for $\theta_{GZ}$ and its F_hat is an estimate for $\theta_{ZX}$.
+
+4. Learn SNP effect weights, i.e. sparsified effect estimates for SNPs on exposures and confounders, e.g. via multiple regression or summary statistics equivalent. Use susie, PRS, or other regression methods for this.
+
+5. For both the exposures and inferred factors, impute Z-scores (for their effect on $Y$) and $R$ (correlations between these traits and between traits and SNPs). This follows the 
+derivation in the [S-PrediXcan paper](https://www.nature.com/articles/s41467-018-03621-1), by way of cTWAS (see cTWAS supplementary information, equations 32-34).
+
+$\hat{\zeta}_{X_jY} \approx \frac{w_j \hat{\zeta}_{GY}} {\sqrt{w_j R_j w_j^T}}$
+
+where $j$ indexes the exposure, $w_j$ are weights (effect sizes) for the SNPs on exposure $j$, $R_j$ is the LD matrix of the SNPs, and $\hat{\zeta}_{GY}$ are the estimated Z-scores of the SNPs on the outcome trait.
+
+Between a variant and a trait $j$,
+
+$\hat{R}_{ij} = \frac{R_{i,j} w_j^T} {\sqrt{w_j R_j w_j^T}}$
+
+where $R_{i,j}$ is the vector of correlations between SNP $i$ and the SNPs in
+the prediction model of exposure $j$.
+
+Between two traits $i$ and $j$,
+
+$\hat{R}_{ij} = \frac{w_i R^s_{i,j} w_j^T} {\sqrt{w_i R_i w_i^T} \sqrt{w_j R_j w_j^T}}$
+
+where $R_{i,j}$ is now defined as the correlation matrix between the SNPs in the
+prediction models of exposures $i$ and $j$.
+
+
+6. Run cTWAS-style framework to fit priors for SNPs and exposures+factors, output PIPs and credible sets. Essentially this involves repearted runs of $susie.rss(Z, R)$ (where $Z$ and $R$ come from above, and include both SNPs and traits), each time fitting prior inclusion probability and prior second moment parameters for each class of variable (SNP and exposure). See cTWAS paper for more details.
+
+
+
+#### Current results
+
+- Showing pleiotropy of existing methods and FA correcting for it: looks good in my standard simulations, both uncorrelated and correlated pleiotropy. (See FAMR Simulations page.)
+
+- When doing simulations with stronger-effect confounders, didn't do quite as well (need to upload these results)
+
+- Showing loss of power in high dimensions due to inclusion of many irrelevant/weak instruments -- had some initial results on this that looked promising (see overleaf), but need to update. In-progress.
+
+- Real data: FAMR's results seem very underpowered when regressing out factors. When not regressing them out the power is better, but still not great, and has a few questionable results. (See Metabolite MR page.)
+
+- Real data with highly correlated exposures (lipoprotein subfractions): early results looked reasonable; need to clean and upload.
+
+
+
+#### Questions / In-progress
+
+- As mentioned above, working on showing robustness to power loss or false positives with many exposures.
+
+- A new strategy I am pursuing is, instead of heavily LD pruning before FAMR, instead only heavily prune SNPs for GFA (since GFA does not model LD). Then use GFA to impute L_hat (i.e. $\theta_{GZ}$) for all SNPs, using the learned F_hat (i.e. $\theta_{ZX}$, which does not depend on SNPs). Then the Z and R are built on all SNPs (or a much larger subset) and thus should hopefully be more accurate. I have implemented this and I am currently assessing it.
+
+- How can we improve the estimation of R between exposures and factors? Would better (possibly PRS-based) weight-learning schemes help? Would this fix issues with false positive control when not annihilating factors?
+
+- Running simulations that use the true G-X signal from real data, as well as factors inferred by GFA, only simulating Y. So far, some odd results, but need to debug.
+
+- Regressing out factors vs keeping them in -- maybe keep the former as a conservative approach, but latter has more power, even if it doesn't control FPR quite as well.
+
+- There are still memory usage improvements I am working on.
+
+- Maybe more time consuming / future work: can we incorporate uncertainty about weight estimates (and thus Z and R) into susie-rss, to avoid the problem of confidently selecting with 100% PIP one of two highly-correlated exposures, and instead put them in a credible set together?
+
+

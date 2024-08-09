@@ -320,7 +320,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-07-05
+<strong>Last updated:</strong> 2024-08-09
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -454,15 +454,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree32197cac9632f9a9422643ee2533f3660a261591targetblank32197caa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreedf92d98bde4d3e9970eea6204dcbd4cfde1a9fdctargetblankdf92d98a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/nlapier2/mvmr_website/tree/32197cac9632f9a9422643ee2533f3660a261591" target="_blank">32197ca</a>
+<a href="https://github.com/nlapier2/mvmr_website/tree/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc" target="_blank">df92d98</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree32197cac9632f9a9422643ee2533f3660a261591targetblank32197caa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreedf92d98bde4d3e9970eea6204dcbd4cfde1a9fdctargetblankdf92d98a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -472,7 +472,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/nlapier2/mvmr_website/tree/32197cac9632f9a9422643ee2533f3660a261591" target="_blank">32197ca</a>.
+<a href="https://github.com/nlapier2/mvmr_website/tree/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc" target="_blank">df92d98</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -493,16 +493,8 @@ Ignored files:
     Ignored:    data/results/.DS_Store
     Ignored:    data/results_true_gx/uncor_plei_gy_0.2_zx_0.2_zy_0.2/
 
-Untracked files:
-    Untracked:  data/results_annih_maxsel_spliced/
-    Untracked:  data/results_nolearnwts_noannih_largeish/
-    Untracked:  data/summary_of_results_annih_max.tsv
-    Untracked:  data/summary_of_results_noannih_clumped.tsv
-
 Unstaged changes:
-    Modified:   analysis/_site.yml
     Modified:   analysis/famrsims.Rmd
-    Modified:   analysis/realdata.Rmd
 
 </code></pre>
 <p>
@@ -548,6 +540,42 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/analysis/famrsims.Rmd" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+<td>
+added new FAMR simulations, and updated real data results with
+annihilator mode
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/famrsims.html" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+<td>
+added new FAMR simulations, and updated real data results with
+annihilator mode
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -677,6 +705,67 @@ class="math display">\[\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}\]</span>
 <span class="math display">\[\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} -
 \sum_i \theta_{XY,i}^2\]</span></p>
 </div>
+<div id="simulation-parameters" class="section level2">
+<h2>Simulation parameters</h2>
+<p>In the initial simulations below, we use the following parameter
+settings.</p>
+<p>Size parameters:</p>
+<ul>
+<li><span class="math inline">\(N\)</span> (number of samples) =
+10000</li>
+<li><span class="math inline">\(K\)</span> (number of exposures) =
+30</li>
+<li><span class="math inline">\(J\)</span> (number of confounders) =
+3</li>
+<li>number of GWAS loci = 200</li>
+<li><span class="math inline">\(M\)</span> (number of causal SNPs) = up
+to 3 per locus; 400 on average</li>
+</ul>
+<p>Effect size parameters (recall <span
+class="math inline">\(\gamma_{GX}\)</span> for example denotes the
+effect size of <span class="math inline">\(G\)</span> on <span
+class="math inline">\(X\)</span>):</p>
+<ul>
+<li><span class="math inline">\(\gamma_{GX} = 0.2\)</span></li>
+<li><span class="math inline">\(\gamma_{GZ} = 0.4\)</span></li>
+<li><span class="math inline">\(\gamma_{GY} = 0.2\)</span> (if
+uncorrelated pleiotropy is included)</li>
+<li><span class="math inline">\(\gamma_{ZX} = 0.5\)</span></li>
+<li><span class="math inline">\(\gamma_{ZY} = 0.375\)</span> (if
+correlated pleiotropy is included)</li>
+<li><span class="math inline">\(\gamma_{XY} = (\sqrt{0.05}, \sqrt{0.1},
+\sqrt{0.2}, \sqrt{0.3})\)</span> for the first four exposures, and 0 for
+the others</li>
+</ul>
+<p>Thus the heritability of exposures is about <span
+class="math inline">\(0.2 + 0.4*0.5 = 40\%\)</span> and the heritability
+of the outcome is about <span class="math inline">\(0.4*(\sqrt{0.05} +
+\sqrt{0.1} + \sqrt{0.2} + \sqrt{0.3}) + 0.4*0.375 = 20.3\%\)</span>
+without uncorrelated pleiotropy, or <span
+class="math inline">\(40.3\%\)</span> with uncorrelated pleiotropy.</p>
+<p>Sparsity parameters (recall <span
+class="math inline">\(\phi_{GX}\)</span> for example denotes the density
+of effects of <span class="math inline">\(G\)</span> on <span
+class="math inline">\(X\)</span>, as in what percentage of the G-X
+matrix entries for causal SNPs are nonzero):</p>
+<ul>
+<li><span class="math inline">\(\phi_{GX} = 0.02\)</span></li>
+<li><span class="math inline">\(\phi_{GZ} = 0.1\)</span></li>
+<li><span class="math inline">\(\phi_{GY} = 0.02\)</span> (if
+uncorrelated pleiotropy is included)</li>
+<li><span class="math inline">\(\phi_{ZX} = 0.5\)</span></li>
+<li><span class="math inline">\(\phi_{ZY} = 1\)</span> (if correlated
+pleiotropy is included)</li>
+<li><span class="math inline">\(\phi_{XY} = 4/30\)</span> since four of
+the 30 exposures are causal</li>
+</ul>
+<p>Other info:</p>
+<ul>
+<li>two-sample mode (exposure and outcome are generated on disjoint
+samples, each of size <span class="math inline">\(N/2\)</span>)</li>
+<li>results averaged over 100 simulations</li>
+</ul>
+</div>
 <div id="simulation-results-annihilator-mode" class="section level2">
 <h2>Simulation results – Annihilator mode</h2>
 <p>Here we regress out (“annihilate”) inferred factors from both the
@@ -689,6 +778,43 @@ for GFA to infer the factors.</p>
                 prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
 <p><img src="figure/famrsims.Rmd/annih_stackbar-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-annih_stackbar-1">
+Past versions of annih_stackbar-1.png
+</button>
+</p>
+<div id="fig-annih_stackbar-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/annih_stackbar-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here is the PIP calibration plot for FAMR_GFA.</p>
 <pre class="r"><code>res = na.omit(read.table(
   &#39;data/results_annih_keep_factors/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
@@ -704,25 +830,210 @@ This warning is displayed once every 8 hours.
 Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 generated.</code></pre>
 <p><img src="figure/famrsims.Rmd/annih_cal-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-annih_cal-1">
+Past versions of annih_cal-1.png
+</button>
+</p>
+<div id="fig-annih_cal-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/annih_cal-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>It also does very well at controlling uncorrelated pleiotropy:</p>
 <pre class="r"><code>stacked_barplot(&#39;data/results_annih_keep_factors/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
                 prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
 <p><img src="figure/famrsims.Rmd/annih_stackbar_uncor-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-annih_stackbar_uncor-1">
+Past versions of annih_stackbar_uncor-1.png
+</button>
+</p>
+<div id="fig-annih_stackbar_uncor-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/annih_stackbar_uncor-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res = na.omit(read.table(
   &#39;data/results_annih_keep_factors/uncor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
 pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
 <p><img src="figure/famrsims.Rmd/annih_cal_uncor-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-annih_cal_uncor-1">
+Past versions of annih_cal_uncor-1.png
+</button>
+</p>
+<div id="fig-annih_cal_uncor-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/annih_cal_uncor-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>However, performance degrades a bit if I change factors to only
 affect 10% of exposures on average:</p>
 <pre class="r"><code>stacked_barplot(&#39;data/results_sparser_zx_J3/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/&#39;, &#39;1,2,3,4&#39;,
                 prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
 <p><img src="figure/famrsims.Rmd/annih_stackbar_sparse-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-annih_stackbar_sparse-1">
+Past versions of annih_stackbar_sparse-1.png
+</button>
+</p>
+<div id="fig-annih_stackbar_sparse-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/annih_stackbar_sparse-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>res = na.omit(read.table(
   &#39;data/results_sparser_zx_J3/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
 pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
 <p><img src="figure/famrsims.Rmd/annih_cal_sparse-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-annih_cal_sparse-1">
+Past versions of annih_cal_sparse-1.png
+</button>
+</p>
+<div id="fig-annih_cal_sparse-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/annih_cal_sparse-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="non-annihilator-mode" class="section level2">
 <h2>Non-annihilator mode</h2>
@@ -740,11 +1051,85 @@ we learn weights.</p>
                 prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
 <p><img src="figure/famrsims.Rmd/noannih_stackbar-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-noannih_stackbar-1">
+Past versions of noannih_stackbar-1.png
+</button>
+</p>
+<div id="fig-noannih_stackbar-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/noannih_stackbar-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Here is the PIP calibration plot for FAMR_GFA.</p>
 <pre class="r"><code>res = na.omit(read.table(
   &#39;data/results_nolearnwts_noannih_largeish/cor_plei_gx_0.2_gy_0.2_gz_0.4_psix_0.2_psiy_0.15_mu_0.0/all_res_famr_gfa.txt&#39;))
 pip_calibration_plot(res, &#39;1,2,3,4&#39;, &#39;famr_gfa&#39;)</code></pre>
 <p><img src="figure/famrsims.Rmd/noannih_cal-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-noannih_cal-1">
+Past versions of noannih_cal-1.png
+</button>
+</p>
+<div id="fig-noannih_cal-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/noannih_cal-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="results-with-max-snp-selection" class="section level2">
 <h2>Results with Max SNP selection</h2>
@@ -757,6 +1142,43 @@ FAMR annihilator mode results from above:</p>
                 prefix=&#39;all_res_&#39;, thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c(&#39;famr&#39;, &#39;famr_gfa&#39;, &#39;ivw&#39;, &#39;ivw_gfa&#39;))</code></pre>
 <p><img src="figure/famrsims.Rmd/maxsel-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-maxsel-1">
+Past versions of maxsel-1.png
+</button>
+</p>
+<div id="fig-maxsel-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc/docs/figure/famrsims.Rmd/maxsel-1.png" target="_blank">df92d98</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-07-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

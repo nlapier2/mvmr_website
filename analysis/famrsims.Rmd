@@ -436,6 +436,48 @@ $$\xi_X = 1 - \gamma_{GX} - \gamma_{ZX}$$
 $$\xi_y = 1 - \gamma_{GY} - \gamma_{ZY} - \sum_i \theta_{XY,i}^2$$
 
 
+## Simulation parameters
+
+In the initial simulations below, we use the following parameter settings.
+
+Size parameters:
+
+* $N$ (number of samples) = 10000
+* $K$ (number of exposures) = 30
+* $J$ (number of confounders) = 3
+* number of GWAS loci = 200
+* $M$ (number of causal SNPs) = up to 3 per locus; 400 on average
+
+
+Effect size parameters (recall $\gamma_{GX}$ for example denotes the effect size of $G$ on $X$):
+
+* $\gamma_{GX} = 0.2$
+* $\gamma_{GZ} = 0.4$
+* $\gamma_{GY} = 0.2$ (if uncorrelated pleiotropy is included)
+* $\gamma_{ZX} = 0.5$
+* $\gamma_{ZY} = 0.375$ (if correlated pleiotropy is included)
+* $\gamma_{XY} = (\sqrt{0.05}, \sqrt{0.1}, \sqrt{0.2}, \sqrt{0.3})$ for the first four exposures, and 0 for the others
+
+Thus the heritability of exposures is about $0.2 + 0.4*0.5 = 40\%$
+and the heritability of the outcome is about $0.4*(\sqrt{0.05} + \sqrt{0.1} + \sqrt{0.2} + \sqrt{0.3}) + 0.4*0.375 = 20.3\%$ without uncorrelated pleiotropy, or $40.3\%$ with uncorrelated pleiotropy.
+
+
+Sparsity parameters (recall $\phi_{GX}$ for example denotes the density of effects of $G$ on $X$, as in what percentage of the G-X matrix entries for causal SNPs are nonzero):
+
+* $\phi_{GX} = 0.02$
+* $\phi_{GZ} = 0.1$
+* $\phi_{GY} = 0.02$ (if uncorrelated pleiotropy is included)
+* $\phi_{ZX} = 0.5$
+* $\phi_{ZY} = 1$ (if correlated pleiotropy is included)
+* $\phi_{XY} = 4/30$ since four of the 30 exposures are causal
+
+Other info:
+
+* two-sample mode (exposure and outcome are generated on disjoint samples, each of size $N/2$)
+* results averaged over 100 simulations
+
+
+
 ## Simulation results -- Annihilator mode
 
 Here we regress out ("annihilate") inferred factors from both the exposure
