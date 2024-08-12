@@ -316,7 +316,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2024-08-09
+<strong>Last updated:</strong> 2024-08-12
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -450,15 +450,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreedf92d98bde4d3e9970eea6204dcbd4cfde1a9fdctargetblankdf92d98a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree373c87c39e78383ba04232a6cffb126a8d284f3etargetblank373c87ca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/nlapier2/mvmr_website/tree/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc" target="_blank">df92d98</a>
+<a href="https://github.com/nlapier2/mvmr_website/tree/373c87c39e78383ba04232a6cffb126a8d284f3e" target="_blank">373c87c</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetreedf92d98bde4d3e9970eea6204dcbd4cfde1a9fdctargetblankdf92d98a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomnlapier2mvmrwebsitetree373c87c39e78383ba04232a6cffb126a8d284f3etargetblank373c87ca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -468,7 +468,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/nlapier2/mvmr_website/tree/df92d98bde4d3e9970eea6204dcbd4cfde1a9fdc" target="_blank">df92d98</a>.
+<a href="https://github.com/nlapier2/mvmr_website/tree/373c87c39e78383ba04232a6cffb126a8d284f3e" target="_blank">373c87c</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -489,8 +489,10 @@ Ignored files:
     Ignored:    data/results/.DS_Store
     Ignored:    data/results_true_gx/uncor_plei_gy_0.2_zx_0.2_zy_0.2/
 
+Untracked files:
+    Untracked:  data/summary_of_results_metc_noannih_clumped.tsv
+
 Unstaged changes:
-    Modified:   analysis/famrsims.Rmd
     Modified:   analysis/realdata.Rmd
 
 </code></pre>
@@ -537,6 +539,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nlapier2/mvmr_website/blob/373c87c39e78383ba04232a6cffb126a8d284f3e/analysis/realdata.Rmd" target="_blank">373c87c</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-08-09
+</td>
+<td>
+added state of the project, as well as details on real data
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nlapier2/mvmr_website/373c87c39e78383ba04232a6cffb126a8d284f3e/docs/realdata.html" target="_blank">373c87c</a>
+</td>
+<td>
+Nathan LaPierre
+</td>
+<td>
+2024-08-09
+</td>
+<td>
+added state of the project, as well as details on real data
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -3753,6 +3789,3587 @@ on CAD independent of LDL.</p>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="results-with-lipoprotein-subfractions" class="section level1">
+<h1>Results with lipoprotein subfractions</h1>
+<p>In this analysis, I analyzed the causal effects of 94 lipoprotein
+subfraction (“met-c” on IEU GWAS Browser) traits on the same four
+outcome traits. Here we are moving away from complex trait exposures
+with (sometimes) known relationships to the outcome, and into a setting
+with many very highly correlated molecular exposures.</p>
+<p>The processing pipeline is similar to the previous one, and the
+highly correlated traits are mostly pretty obvious (e.g. LDL
+subfractions are highly correlated with each other, and not with HDL
+subfractions), so I just list the traits and then give the results
+below.</p>
+<div id="trait-names" class="section level3">
+<h3>Trait names</h3>
+<pre class="r"><code># read in data and select methods to display
+dat_metc = fread(&#39;data/summary_of_results_metc_noannih_clumped.tsv&#39;, sep=&#39;\t&#39;, header=T)
+dat_metc = dat_metc %&gt;% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.univar)
+# sort by average PIP across all methods
+dat_metc$Average = rowSums(dat_metc %&gt;% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat_metc) - 2)
+dat_metc = dat_metc[order(dat_metc$Average, decreasing=TRUE), ]
+dat_metc$Average = NULL 
+sort(unique(dat_metc$Exposure))</code></pre>
+<pre><code> [1] &quot;Apolipoprotein A-I&quot;                                      
+ [2] &quot;Apolipoprotein B&quot;                                        
+ [3] &quot;Cholesterol esters in large HDL&quot;                         
+ [4] &quot;Cholesterol esters in large VLDL&quot;                        
+ [5] &quot;Cholesterol esters in medium HDL&quot;                        
+ [6] &quot;Cholesterol esters in medium LDL&quot;                        
+ [7] &quot;Cholesterol esters in medium VLDL&quot;                       
+ [8] &quot;Cholesterol esters in very large HDL&quot;                    
+ [9] &quot;Concentration of chylomicrons and largest VLDL particles&quot;
+[10] &quot;Concentration of IDL particles&quot;                          
+[11] &quot;Concentration of large HDL particles&quot;                    
+[12] &quot;Concentration of large LDL particles&quot;                    
+[13] &quot;Concentration of large VLDL particles&quot;                   
+[14] &quot;Concentration of medium HDL particles&quot;                   
+[15] &quot;Concentration of medium LDL particles&quot;                   
+[16] &quot;Concentration of medium VLDL particles&quot;                  
+[17] &quot;Concentration of small HDL particles&quot;                    
+[18] &quot;Concentration of small LDL particles&quot;                    
+[19] &quot;Concentration of small VLDL particles&quot;                   
+[20] &quot;Concentration of very large HDL particles&quot;               
+[21] &quot;Concentration of very large VLDL particles&quot;              
+[22] &quot;Concentration of very small VLDL particles&quot;              
+[23] &quot;Free cholesterol&quot;                                        
+[24] &quot;Free cholesterol in IDL&quot;                                 
+[25] &quot;Free cholesterol in large HDL&quot;                           
+[26] &quot;Free cholesterol in large LDL&quot;                           
+[27] &quot;Free cholesterol in large VLDL&quot;                          
+[28] &quot;Free cholesterol in medium HDL&quot;                          
+[29] &quot;Free cholesterol in medium VLDL&quot;                         
+[30] &quot;Free cholesterol in small VLDL&quot;                          
+[31] &quot;Free cholesterol in very large HDL&quot;                      
+[32] &quot;Free cholesterol to esterified cholesterol ratio&quot;        
+[33] &quot;Mean diameter for HDL particles&quot;                         
+[34] &quot;Mean diameter for LDL particles&quot;                         
+[35] &quot;Mean diameter for VLDL particles&quot;                        
+[36] &quot;Phospholipids in chylomicrons and largest VLDL particles&quot;
+[37] &quot;Phospholipids in IDL&quot;                                    
+[38] &quot;Phospholipids in large HDL&quot;                              
+[39] &quot;Phospholipids in large VLDL&quot;                             
+[40] &quot;Phospholipids in medium HDL&quot;                             
+[41] &quot;Phospholipids in medium LDL&quot;                             
+[42] &quot;Phospholipids in medium VLDL&quot;                            
+[43] &quot;Phospholipids in very large HDL&quot;                         
+[44] &quot;Phospholipids in very large VLDL&quot;                        
+[45] &quot;Phospholipids in very small VLDL&quot;                        
+[46] &quot;Serum total cholesterol&quot;                                 
+[47] &quot;Serum total triglycerides&quot;                               
+[48] &quot;Total cholesterol in IDL&quot;                                
+[49] &quot;Total cholesterol in large HDL&quot;                          
+[50] &quot;Total cholesterol in large VLDL&quot;                         
+[51] &quot;Total cholesterol in LDL&quot;                                
+[52] &quot;Total cholesterol in medium HDL&quot;                         
+[53] &quot;Total cholesterol in medium LDL&quot;                         
+[54] &quot;Total cholesterol in small LDL&quot;                          
+[55] &quot;Total cholesterol in small VLDL&quot;                         
+[56] &quot;Total cholesterol in very large HDL&quot;                     
+[57] &quot;Total lipids in chylomicrons and largest VLDL particles&quot; 
+[58] &quot;Total lipids in IDL&quot;                                     
+[59] &quot;Total lipids in large HDL&quot;                               
+[60] &quot;Total lipids in large LDL&quot;                               
+[61] &quot;Total lipids in large VLDL&quot;                              
+[62] &quot;Total lipids in medium HDL&quot;                              
+[63] &quot;Total lipids in medium LDL&quot;                              
+[64] &quot;Total lipids in medium VLDL&quot;                             
+[65] &quot;Total lipids in small HDL&quot;                               
+[66] &quot;Total lipids in small LDL&quot;                               
+[67] &quot;Total lipids in small VLDL&quot;                              
+[68] &quot;Total lipids in very large HDL&quot;                          
+[69] &quot;Total lipids in very large VLDL&quot;                         
+[70] &quot;Total lipids in very small VLDL&quot;                         
+[71] &quot;Triglycerides in chylomicrons and largest VLDL particles&quot;
+[72] &quot;Triglycerides in IDL&quot;                                    
+[73] &quot;Triglycerides in large VLDL&quot;                             
+[74] &quot;Triglycerides in medium VLDL&quot;                            
+[75] &quot;Triglycerides in small HDL&quot;                              
+[76] &quot;Triglycerides in small VLDL&quot;                             
+[77] &quot;Triglycerides in very large HDL&quot;                         
+[78] &quot;Triglycerides in very large VLDL&quot;                        
+[79] &quot;Triglycerides in very small VLDL&quot;                        </code></pre>
+</div>
+<div id="results-1" class="section level3">
+<h3>Results</h3>
+<p>One important note: because the GWAS loci for different lipoprotein
+subfractions overlap highly, there are only 51 total loci compared to 94
+exposures. Thus, for standard MVMR methods, SNPs cannot be selected by
+the “SNP with max Z for each locus” method, as this would result in
+fewer instruments than exposures. Thus, for these methods, we have to
+use the LD clumping approach to select instruments, which, as shown
+above, can lead to some false positives. We see similar results
+below.</p>
+<p>Also, FAMR with factors regressed out doesn’t yield any credible sets
+containing any exposures. So we show the FAMR results with GFA factors
+not regressed out.</p>
+<p>The following are the main takeaways so far:</p>
+<ul>
+<li><p>Multivariable MR methods rarely identify any individual
+exposure-outcome pair as significant, which is to be expected given the
+very high correlations between the exposures.</p></li>
+<li><p>However, FAMR_GFA does identify a credible set containing many
+LDL-related exposures for CAD, which is a positive sign. This set
+contains: Apolipoprotein B, Cholesterol esters in large VLDL, Total
+lipids in large LDL, Concentration of large LDL particles, Total
+cholesterol in LDL, Total cholesterol in medium LDL, Cholesterol esters
+in medium LDL, Total lipids in medium LDL, Concentration of medium LDL
+particles, Phospholipids in medium LDL, Total cholesterol in small LDL,
+and Total cholesterol in small VLDL.</p></li>
+<li><p>FAMR does not identify credible sets containing exposures for any
+other outcome trait.</p></li>
+<li><p>The exposures with the highest PIPs for MVMR-IVW and MVMR-Robust
+are mostly unknown (effect of IDL and LDL subfractions on T2D) or
+unlikely to be true (effect of IDL and LDL subfractions on
+Asthma).</p></li>
+<li><p>Meanwhile, univariate IVW finds many individual significant
+exposure-outcome pairs, mostly LDL-related and VLDL-related exposures on
+CAD and Stroke, as well as ApoB, which makes sense. However, it also
+identifies some HDL subfractions as having an effect on CAD and/or
+Stroke, which are probably false positives.</p></li>
+</ul>
+<p>Overall the FAMR results are a bit conservative but it avoids likely
+false positives found by other methods and provides some useful
+qualitative information via the credible sets.</p>
+<p>Notably, there is <a
+href="https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.121.053797">another
+study</a> on the effects of lipoprotein subfractions on CAD risk. That
+study found that large low-density lipoprotein particle concentration
+was the most likely subfraction to affect CAD, while ApoB was the most
+likely causal lipoprotein-related risk factor. In agreement with this,
+FAMR_GFA’s credible set contains both of these traits, although their
+PIPs are not among the highest few in the set. The highest FAMR PIPs in
+the set are for “Total cholesterol in LDL” followed by “Total
+cholesterol in medium LDL”. Their study approached instrument selection
+differently and did not use the same set of exposures, so the results
+are not directly comparable, but this is an encouraging sign.</p>
+<pre class="r"><code>knitr::kable(dat_metc)</code></pre>
+<table>
+<colgroup>
+<col width="41%" />
+<col width="21%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+<col width="7%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Exposure</th>
+<th align="left">Outcome</th>
+<th align="right">famr_none</th>
+<th align="right">famr_gfa</th>
+<th align="right">ivw</th>
+<th align="right">robust</th>
+<th align="right">ivw.univar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Total lipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0240701</td>
+<td align="right">0.0009829</td>
+<td align="right">0.7891533</td>
+<td align="right">0.5710152</td>
+<td align="right">0.8065072</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0051824</td>
+<td align="right">0.0015148</td>
+<td align="right">0.9372387</td>
+<td align="right">0.8649900</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in IDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0062341</td>
+<td align="right">0.0000301</td>
+<td align="right">0.9371791</td>
+<td align="right">0.9371268</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of IDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0072966</td>
+<td align="right">0.0000299</td>
+<td align="right">0.9036930</td>
+<td align="right">0.9371268</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in medium HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.8422067</td>
+<td align="right">0.0622933</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9314469</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in IDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0059944</td>
+<td align="right">0.0000308</td>
+<td align="right">0.8047931</td>
+<td align="right">0.9371268</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in very small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0044273</td>
+<td align="right">0.0017779</td>
+<td align="right">0.7086232</td>
+<td align="right">0.8649900</td>
+<td align="right">0.2095573</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in IDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0036941</td>
+<td align="right">0.0050171</td>
+<td align="right">0.7086232</td>
+<td align="right">0.6981318</td>
+<td align="right">0.2095573</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.2590905</td>
+<td align="right">0.3349642</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium LDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0106200</td>
+<td align="right">0.0213587</td>
+<td align="right">0.1505910</td>
+<td align="right">0.3510347</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in IDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0260828</td>
+<td align="right">0.0117033</td>
+<td align="right">0.4365566</td>
+<td align="right">0.0528927</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in IDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0095350</td>
+<td align="right">0.0054257</td>
+<td align="right">0.4365566</td>
+<td align="right">0.0528927</td>
+<td align="right">0.9999984</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in large LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.4578348</td>
+<td align="right">0.0182280</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of small LDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0055820</td>
+<td align="right">0.0016172</td>
+<td align="right">0.7086232</td>
+<td align="right">0.4976637</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in medium LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0719169</td>
+<td align="right">0.2135685</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999998</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0148291</td>
+<td align="right">0.0064633</td>
+<td align="right">0.2957494</td>
+<td align="right">0.0528927</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0320665</td>
+<td align="right">0.0013236</td>
+<td align="right">0.3731428</td>
+<td align="right">0.1221628</td>
+<td align="right">0.8344720</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0272500</td>
+<td align="right">0.0013673</td>
+<td align="right">0.3219466</td>
+<td align="right">0.1221628</td>
+<td align="right">0.8669188</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in IDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0097138</td>
+<td align="right">0.0066119</td>
+<td align="right">0.2160400</td>
+<td align="right">0.0528927</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in IDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0095810</td>
+<td align="right">0.0093578</td>
+<td align="right">0.2407591</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in medium VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0920049</td>
+<td align="right">0.0056967</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999879</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in small LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0467711</td>
+<td align="right">0.0495897</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094964</td>
+<td align="right">0.0058063</td>
+<td align="right">0.2160400</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999997</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in medium LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0344557</td>
+<td align="right">0.0843650</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of small VLDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0577832</td>
+<td align="right">0.0062543</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999996</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.1141336</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in IDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0403137</td>
+<td align="right">0.0083202</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1040141</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large LDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0113160</td>
+<td align="right">0.0323364</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0796567</td>
+<td align="right">0.0121724</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999999</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in small LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0273333</td>
+<td align="right">0.0012480</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9348800</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0897796</td>
+<td align="right">0.0075358</td>
+<td align="right">0.0814837</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999989</td>
+</tr>
+<tr class="odd">
+<td align="left">Serum total triglycerides</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0202986</td>
+<td align="right">0.0053420</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999924</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in medium HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.1075215</td>
+<td align="right">0.0432515</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9451636</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094713</td>
+<td align="right">0.0052990</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999995</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0353129</td>
+<td align="right">0.0018317</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0312138</td>
+<td align="right">0.0015980</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0111170</td>
+<td align="right">0.0467577</td>
+<td align="right">0.0977195</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in large LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0276478</td>
+<td align="right">0.0442120</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol to esterified cholesterol ratio</td>
+<td align="left">Stroke</td>
+<td align="right">0.0188792</td>
+<td align="right">0.0011371</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9638500</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0389017</td>
+<td align="right">0.0064093</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999998</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in large LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0255612</td>
+<td align="right">0.0012881</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in medium LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0275077</td>
+<td align="right">0.0012263</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9640872</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="even">
+<td align="left">Serum total cholesterol</td>
+<td align="left">Stroke</td>
+<td align="right">0.0262404</td>
+<td align="right">0.0009849</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9330527</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of chylomicrons and largest VLDL
+particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0280828</td>
+<td align="right">0.0023592</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.8669188</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0125727</td>
+<td align="right">0.0253658</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of medium VLDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0132017</td>
+<td align="right">0.0056810</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999915</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0108462</td>
+<td align="right">0.0055532</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999995</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in medium LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0310218</td>
+<td align="right">0.0011808</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1159880</td>
+<td align="right">0.9452140</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium LDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0277892</td>
+<td align="right">0.0012145</td>
+<td align="right">0.0092963</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9674953</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in medium VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0233869</td>
+<td align="right">0.0054882</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999895</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0204673</td>
+<td align="right">0.0053702</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999996</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.0054829</td>
+<td align="right">0.0878116</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of IDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094612</td>
+<td align="right">0.0074741</td>
+<td align="right">0.0814837</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Serum total cholesterol</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0103953</td>
+<td align="right">0.0062106</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in small HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0110172</td>
+<td align="right">0.0053808</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9998869</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol</td>
+<td align="left">Stroke</td>
+<td align="right">0.0229793</td>
+<td align="right">0.0009919</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9107973</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol to esterified cholesterol ratio</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0099616</td>
+<td align="right">0.0053476</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in very small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094573</td>
+<td align="right">0.0054537</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in IDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264904</td>
+<td align="right">0.0017937</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9107973</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in medium HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0568486</td>
+<td align="right">0.0350066</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9825369</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of IDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0239595</td>
+<td align="right">0.0014611</td>
+<td align="right">0.0092963</td>
+<td align="right">0.1221628</td>
+<td align="right">0.9330527</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0069520</td>
+<td align="right">0.0000399</td>
+<td align="right">0.3918666</td>
+<td align="right">0.6382783</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in small LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0096128</td>
+<td align="right">0.0068791</td>
+<td align="right">0.0529478</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015625</td>
+<td align="right">0.0000601</td>
+<td align="right">0.3918666</td>
+<td align="right">0.6382783</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of small LDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0253814</td>
+<td align="right">0.0010928</td>
+<td align="right">0.0357172</td>
+<td align="right">0.0450120</td>
+<td align="right">0.9640872</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in medium LDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0141671</td>
+<td align="right">0.0364908</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999999</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in medium HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0167257</td>
+<td align="right">0.1241110</td>
+<td align="right">0.0068194</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9045922</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in small VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0220236</td>
+<td align="right">0.0214534</td>
+<td align="right">0.0068194</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999994</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in very large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0106840</td>
+<td align="right">0.0066364</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9519713</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in medium VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0149240</td>
+<td align="right">0.0052977</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999991</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in medium VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0123719</td>
+<td align="right">0.0053024</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999998</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0108202</td>
+<td align="right">0.0055690</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999947</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of small LDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094862</td>
+<td align="right">0.0068314</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very small VLDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0096318</td>
+<td align="right">0.0055624</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.9999932</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0398197</td>
+<td align="right">0.0010485</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.7397728</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in medium LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0062089</td>
+<td align="right">0.0018952</td>
+<td align="right">0.3571710</td>
+<td align="right">0.4140830</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in medium LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0307122</td>
+<td align="right">0.0012410</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Stroke</td>
+<td align="right">0.0286377</td>
+<td align="right">0.0014031</td>
+<td align="right">0.0357172</td>
+<td align="right">0.0450120</td>
+<td align="right">0.8982194</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in small LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0311118</td>
+<td align="right">0.0012891</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9689083</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in IDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0241378</td>
+<td align="right">0.0012637</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9676418</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in IDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0243844</td>
+<td align="right">0.0016839</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9674953</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in very large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0171838</td>
+<td align="right">0.0059557</td>
+<td align="right">0.4365566</td>
+<td align="right">0.0528927</td>
+<td align="right">0.4860060</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large LDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0243247</td>
+<td align="right">0.0012876</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9596899</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in IDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0239510</td>
+<td align="right">0.0013942</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9454956</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in medium LDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0366011</td>
+<td align="right">0.0014654</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.9348800</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of small VLDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0038274</td>
+<td align="right">0.0015503</td>
+<td align="right">0.1461877</td>
+<td align="right">0.6981318</td>
+<td align="right">0.1236150</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in medium HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0141822</td>
+<td align="right">0.0714889</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.8570198</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in very small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0029826</td>
+<td align="right">0.0023566</td>
+<td align="right">0.1461877</td>
+<td align="right">0.6981318</td>
+<td align="right">0.1074558</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of very large VLDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0161416</td>
+<td align="right">0.0009916</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.6892075</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0215128</td>
+<td align="right">0.0010011</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.7427760</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0191023</td>
+<td align="right">0.0014597</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0450120</td>
+<td align="right">0.8215424</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0041443</td>
+<td align="right">0.0014351</td>
+<td align="right">0.0516597</td>
+<td align="right">0.6981318</td>
+<td align="right">0.1074558</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in IDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0050825</td>
+<td align="right">0.0044255</td>
+<td align="right">0.1688288</td>
+<td align="right">0.4441830</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0661076</td>
+<td align="right">0.0042828</td>
+<td align="right">0.3731428</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large HDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0646450</td>
+<td align="right">0.0042408</td>
+<td align="right">0.3731428</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0549474</td>
+<td align="right">0.0024630</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.7397728</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for LDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0159585</td>
+<td align="right">0.0117132</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.6658415</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0179944</td>
+<td align="right">0.0021888</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.5794797</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in very large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0196077</td>
+<td align="right">0.0018580</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.5950571</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium HDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0135668</td>
+<td align="right">0.0861884</td>
+<td align="right">0.0022069</td>
+<td align="right">0.0168377</td>
+<td align="right">0.6362659</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in IDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0034212</td>
+<td align="right">0.0024263</td>
+<td align="right">0.1461877</td>
+<td align="right">0.4441830</td>
+<td align="right">0.1322641</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of large LDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0072434</td>
+<td align="right">0.0000314</td>
+<td align="right">0.1204114</td>
+<td align="right">0.5466753</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of medium VLDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0178128</td>
+<td align="right">0.0010228</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.5213811</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0231244</td>
+<td align="right">0.0098301</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.5729229</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0464534</td>
+<td align="right">0.0058030</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4092862</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0123590</td>
+<td align="right">0.0137435</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.4919861</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160914</td>
+<td align="right">0.0009829</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1110199</td>
+<td align="right">0.5194921</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very large VLDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0041563</td>
+<td align="right">0.0019421</td>
+<td align="right">0.1461877</td>
+<td align="right">0.2920552</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in very large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0255638</td>
+<td align="right">0.0070288</td>
+<td align="right">0.4365566</td>
+<td align="right">0.0528927</td>
+<td align="right">0.1545841</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of chylomicrons and largest VLDL
+particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0028766</td>
+<td align="right">0.0009411</td>
+<td align="right">0.1461877</td>
+<td align="right">0.2920552</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of chylomicrons and largest VLDL
+particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0022031</td>
+<td align="right">0.0000815</td>
+<td align="right">0.1204114</td>
+<td align="right">0.5004613</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in medium HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0691977</td>
+<td align="right">0.0031876</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4152313</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0122443</td>
+<td align="right">0.0166456</td>
+<td align="right">0.0068194</td>
+<td align="right">0.0168377</td>
+<td align="right">0.6009345</td>
+</tr>
+<tr class="even">
+<td align="left">Mean diameter for VLDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0095396</td>
+<td align="right">0.0055840</td>
+<td align="right">0.4031195</td>
+<td align="right">0.0168377</td>
+<td align="right">0.2180434</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for VLDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0033696</td>
+<td align="right">0.0009457</td>
+<td align="right">0.1461877</td>
+<td align="right">0.2920552</td>
+<td align="right">0.2068160</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in medium HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0543528</td>
+<td align="right">0.0024823</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4094331</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in medium HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.1002746</td>
+<td align="right">0.0028257</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.5194921</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0044445</td>
+<td align="right">0.0000365</td>
+<td align="right">0.1204114</td>
+<td align="right">0.4549219</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large HDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0116478</td>
+<td align="right">0.0145573</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.4860060</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in medium HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0927338</td>
+<td align="right">0.0041753</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in very large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0236873</td>
+<td align="right">0.0009903</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4152313</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0442952</td>
+<td align="right">0.0033979</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4094331</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0348044</td>
+<td align="right">0.0013392</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4012091</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0100860</td>
+<td align="right">0.0125921</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.4860060</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0186692</td>
+<td align="right">0.0009824</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.5660450</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016499</td>
+<td align="right">0.0000304</td>
+<td align="right">0.0348614</td>
+<td align="right">0.5004613</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for HDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0069047</td>
+<td align="right">0.0009698</td>
+<td align="right">0.0516597</td>
+<td align="right">0.2920552</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0139480</td>
+<td align="right">0.0122891</td>
+<td align="right">0.0501432</td>
+<td align="right">0.0168377</td>
+<td align="right">0.4922051</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for VLDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0198310</td>
+<td align="right">0.0010047</td>
+<td align="right">0.0280427</td>
+<td align="right">0.1221628</td>
+<td align="right">0.4114999</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0466530</td>
+<td align="right">0.0044664</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.3516876</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for LDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0029610</td>
+<td align="right">0.0023233</td>
+<td align="right">0.1688288</td>
+<td align="right">0.2920552</td>
+<td align="right">0.1074558</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.1007725</td>
+<td align="right">0.0039405</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0078108</td>
+<td align="right">0.0025369</td>
+<td align="right">0.1262996</td>
+<td align="right">0.2005116</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in medium HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0034906</td>
+<td align="right">0.0009554</td>
+<td align="right">0.1461877</td>
+<td align="right">0.2920552</td>
+<td align="right">0.1263519</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in very large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0166706</td>
+<td align="right">0.0017860</td>
+<td align="right">0.0158713</td>
+<td align="right">0.0021201</td>
+<td align="right">0.5325568</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Asthma</td>
+<td align="right">0.0041759</td>
+<td align="right">0.0018687</td>
+<td align="right">0.1461877</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in IDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0034892</td>
+<td align="right">0.0023333</td>
+<td align="right">0.1461877</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0136243</td>
+<td align="right">0.0091551</td>
+<td align="right">0.0529478</td>
+<td align="right">0.0168377</td>
+<td align="right">0.4084920</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large VLDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0163347</td>
+<td align="right">0.0010654</td>
+<td align="right">0.0689267</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0108382</td>
+<td align="right">0.0009777</td>
+<td align="right">0.0516597</td>
+<td align="right">0.2005116</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0183738</td>
+<td align="right">0.0021290</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2368547</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0195512</td>
+<td align="right">0.0009826</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in IDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0170716</td>
+<td align="right">0.0012827</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014707</td>
+<td align="right">0.0000357</td>
+<td align="right">0.0703557</td>
+<td align="right">0.3555994</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in very large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0013998</td>
+<td align="right">0.0000311</td>
+<td align="right">0.0703557</td>
+<td align="right">0.3555994</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of IDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0036181</td>
+<td align="right">0.0025825</td>
+<td align="right">0.1461877</td>
+<td align="right">0.2005116</td>
+<td align="right">0.1236150</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0264474</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0161658</td>
+<td align="right">0.0009858</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2814084</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium HDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0494766</td>
+<td align="right">0.0024909</td>
+<td align="right">0.0063628</td>
+<td align="right">0.0021201</td>
+<td align="right">0.4094331</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0012450</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0160789</td>
+<td align="right">0.0010268</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0100005</td>
+<td align="right">0.0165036</td>
+<td align="right">0.3328500</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0890773</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in medium VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0168745</td>
+<td align="right">0.0010088</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.4335522</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in large LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0075101</td>
+<td align="right">0.0000325</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3555994</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017618</td>
+<td align="right">0.0000480</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3555994</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol</td>
+<td align="left">Asthma</td>
+<td align="right">0.0035060</td>
+<td align="right">0.0014261</td>
+<td align="right">0.0516597</td>
+<td align="right">0.2005116</td>
+<td align="right">0.1858967</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in small HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017083</td>
+<td align="right">0.0000345</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3555994</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in medium VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014010</td>
+<td align="right">0.0000406</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3555994</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of chylomicrons and largest VLDL
+particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0098825</td>
+<td align="right">0.0075855</td>
+<td align="right">0.2160400</td>
+<td align="right">0.0528927</td>
+<td align="right">0.1545841</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in medium VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0164309</td>
+<td align="right">0.0010449</td>
+<td align="right">0.0092963</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0036913</td>
+<td align="right">0.0011007</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1435805</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0077445</td>
+<td align="right">0.0019795</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016792</td>
+<td align="right">0.0000318</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3409054</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for HDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014154</td>
+<td align="right">0.0000331</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3409054</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium LDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0060578</td>
+<td align="right">0.0019180</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large HDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0067587</td>
+<td align="right">0.0009480</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Serum total cholesterol</td>
+<td align="left">Asthma</td>
+<td align="right">0.0058673</td>
+<td align="right">0.0015450</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0061966</td>
+<td align="right">0.0009416</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in medium HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0030855</td>
+<td align="right">0.0009454</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in very large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0191105</td>
+<td align="right">0.0075598</td>
+<td align="right">0.2957494</td>
+<td align="right">0.0528927</td>
+<td align="right">0.0464159</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in medium VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0018362</td>
+<td align="right">0.0000524</td>
+<td align="right">0.1204114</td>
+<td align="right">0.2435695</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014198</td>
+<td align="right">0.0000325</td>
+<td align="right">0.0348614</td>
+<td align="right">0.3244495</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium VLDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0046287</td>
+<td align="right">0.0018234</td>
+<td align="right">0.0516597</td>
+<td align="right">0.1330488</td>
+<td align="right">0.2122151</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in medium VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0195978</td>
+<td align="right">0.0010431</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.2007834</td>
+</tr>
+<tr class="even">
+<td align="left">Serum total triglycerides</td>
+<td align="left">Stroke</td>
+<td align="right">0.0199264</td>
+<td align="right">0.0010913</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.1280759</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in medium LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0059892</td>
+<td align="right">0.0000354</td>
+<td align="right">0.0348614</td>
+<td align="right">0.2803180</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of small VLDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0226521</td>
+<td align="right">0.0011453</td>
+<td align="right">0.0357172</td>
+<td align="right">0.1221628</td>
+<td align="right">0.1883569</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in very large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015281</td>
+<td align="right">0.0000336</td>
+<td align="right">0.0348614</td>
+<td align="right">0.2803180</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0166156</td>
+<td align="right">0.0009914</td>
+<td align="right">0.1148238</td>
+<td align="right">0.1221628</td>
+<td align="right">0.1045472</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0051405</td>
+<td align="right">0.0010521</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0639655</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0063081</td>
+<td align="right">0.0032653</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0530749</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in very large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0068211</td>
+<td align="right">0.0009620</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0530749</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Mean diameter for HDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0152619</td>
+<td align="right">0.0171188</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0528927</td>
+<td align="right">0.1545841</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016190</td>
+<td align="right">0.0000323</td>
+<td align="right">0.1204114</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0313035</td>
+<td align="right">0.0011707</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in very large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0123836</td>
+<td align="right">0.0086274</td>
+<td align="right">0.2407591</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in very large HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0163022</td>
+<td align="right">0.0020307</td>
+<td align="right">0.0163080</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0040040</td>
+<td align="right">0.0009417</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0328812</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0028317</td>
+<td align="right">0.0009667</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0328812</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in small HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0133852</td>
+<td align="right">0.0009435</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in medium VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0112651</td>
+<td align="right">0.0028257</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in large VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0169982</td>
+<td align="right">0.0009821</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in medium VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0069742</td>
+<td align="right">0.0036847</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0069982</td>
+<td align="right">0.0036017</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0060276</td>
+<td align="right">0.0034846</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in medium LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0070329</td>
+<td align="right">0.0022451</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very large HDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0168112</td>
+<td align="right">0.0013196</td>
+<td align="right">0.0158713</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2814084</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large LDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0060739</td>
+<td align="right">0.0022682</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0064918</td>
+<td align="right">0.0017418</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of very large HDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0094071</td>
+<td align="right">0.0009876</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0182328</td>
+<td align="right">0.0014727</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2903787</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in medium LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0061429</td>
+<td align="right">0.0017893</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of small HDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0068158</td>
+<td align="right">0.0009435</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in small LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0056947</td>
+<td align="right">0.0017187</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0054589</td>
+<td align="right">0.0019409</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in medium LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0050958</td>
+<td align="right">0.0019849</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0071534</td>
+<td align="right">0.0021597</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0057752</td>
+<td align="right">0.0009574</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in large LDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0062717</td>
+<td align="right">0.0021479</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2320535</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in very large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0054204</td>
+<td align="right">0.0009419</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in IDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0039211</td>
+<td align="right">0.0019728</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0033604</td>
+<td align="right">0.0024196</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0042904</td>
+<td align="right">0.0013362</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0045832</td>
+<td align="right">0.0009585</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0041476</td>
+<td align="right">0.0011150</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0030531</td>
+<td align="right">0.0009928</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Mean diameter for HDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0239827</td>
+<td align="right">0.0024215</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.1081149</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of medium HDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0041368</td>
+<td align="right">0.0009605</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very small VLDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0167276</td>
+<td align="right">0.0014398</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0450120</td>
+<td align="right">0.2368547</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0070851</td>
+<td align="right">0.0009599</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0328812</td>
+<td align="right">0.2122151</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein A-I</td>
+<td align="left">Stroke</td>
+<td align="right">0.0366481</td>
+<td align="right">0.0022720</td>
+<td align="right">0.0549291</td>
+<td align="right">0.1221628</td>
+<td align="right">0.0860701</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in very large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0030339</td>
+<td align="right">0.0013396</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0328812</td>
+<td align="right">0.2122151</td>
+</tr>
+<tr class="even">
+<td align="left">Serum total triglycerides</td>
+<td align="left">Asthma</td>
+<td align="right">0.0037502</td>
+<td align="right">0.0017986</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0328812</td>
+<td align="right">0.2068160</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0073913</td>
+<td align="right">0.0014764</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2122151</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in very large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0071421</td>
+<td align="right">0.0009476</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2122151</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of small HDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0806889</td>
+<td align="right">0.0013240</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2007834</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in medium VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0041439</td>
+<td align="right">0.0015627</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2109903</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0104032</td>
+<td align="right">0.0052894</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.1545841</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0018482</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0053411</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very small VLDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0039429</td>
+<td align="right">0.0022973</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0048647</td>
+<td align="right">0.0013057</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2008923</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in large HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0055311</td>
+<td align="right">0.0009436</td>
+<td align="right">0.0155302</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in very large VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0036124</td>
+<td align="right">0.0013427</td>
+<td align="right">0.0155302</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in medium HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0037699</td>
+<td align="right">0.0009491</td>
+<td align="right">0.0155302</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2339147</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in very large HDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0095525</td>
+<td align="right">0.0093255</td>
+<td align="right">0.1104010</td>
+<td align="right">0.0168377</td>
+<td align="right">0.1231833</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0242677</td>
+<td align="right">0.0011359</td>
+<td align="right">0.0046639</td>
+<td align="right">0.1221628</td>
+<td align="right">0.1132448</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0171489</td>
+<td align="right">0.0011542</td>
+<td align="right">0.0158713</td>
+<td align="right">0.1221628</td>
+<td align="right">0.1081149</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in small HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0039529</td>
+<td align="right">0.0016188</td>
+<td align="right">0.0265416</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2068160</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in medium VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0161657</td>
+<td align="right">0.0010955</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.2368547</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in medium VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0077347</td>
+<td align="right">0.0018358</td>
+<td align="right">0.0155302</td>
+<td align="right">0.0231967</td>
+<td align="right">0.2122151</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in medium HDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0052192</td>
+<td align="right">0.0010125</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0328812</td>
+<td align="right">0.1598409</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1620218</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Apolipoprotein A-I</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0136661</td>
+<td align="right">0.0149485</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="even">
+<td align="left">Apolipoprotein A-I</td>
+<td align="left">Asthma</td>
+<td align="right">0.0029164</td>
+<td align="right">0.0009542</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.1627723</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0100262</td>
+<td align="right">0.0137121</td>
+<td align="right">0.1505910</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very large HDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0096221</td>
+<td align="right">0.0097650</td>
+<td align="right">0.0068194</td>
+<td align="right">0.0168377</td>
+<td align="right">0.1955883</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large VLDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0109602</td>
+<td align="right">0.0053216</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.1216509</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of small HDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0119131</td>
+<td align="right">0.0130717</td>
+<td align="right">0.0978822</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0890773</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in small HDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0240173</td>
+<td align="right">0.0013395</td>
+<td align="right">0.0092963</td>
+<td align="right">0.0021201</td>
+<td align="right">0.1780402</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in very small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0030438</td>
+<td align="right">0.0021183</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.1263519</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0267002</td>
+<td align="right">0.0012292</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0450120</td>
+<td align="right">0.1280759</td>
+</tr>
+<tr class="even">
+<td align="left">Mean diameter for VLDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017621</td>
+<td align="right">0.0000318</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1150936</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of small VLDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016002</td>
+<td align="right">0.0000362</td>
+<td align="right">0.0348614</td>
+<td align="right">0.1150936</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0076101</td>
+<td align="right">0.0000335</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol to esterified cholesterol ratio</td>
+<td align="left">Asthma</td>
+<td align="right">0.0033320</td>
+<td align="right">0.0012471</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.1074558</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in small LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0056465</td>
+<td align="right">0.0000355</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in medium LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0054616</td>
+<td align="right">0.0000388</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in medium LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0048874</td>
+<td align="right">0.0000340</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of medium LDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0046162</td>
+<td align="right">0.0000328</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of small LDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0043197</td>
+<td align="right">0.0000320</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in very small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0034778</td>
+<td align="right">0.0000297</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094517</td>
+<td align="right">0.0090674</td>
+<td align="right">0.0977195</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="odd">
+<td align="left">Apolipoprotein B</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0020060</td>
+<td align="right">0.0000297</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017105</td>
+<td align="right">0.0000893</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of small HDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016726</td>
+<td align="right">0.0000775</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017040</td>
+<td align="right">0.0000455</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in medium HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016700</td>
+<td align="right">0.0000331</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in medium HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015591</td>
+<td align="right">0.0000385</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015291</td>
+<td align="right">0.0000297</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of large HDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014978</td>
+<td align="right">0.0000295</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Mean diameter for LDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014494</td>
+<td align="right">0.0000304</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in very large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014395</td>
+<td align="right">0.0000304</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Apolipoprotein A-I</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014368</td>
+<td align="right">0.0000292</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in very large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014104</td>
+<td align="right">0.0000351</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014145</td>
+<td align="right">0.0000307</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very large VLDL particles</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0216064</td>
+<td align="right">0.0064881</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in medium VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014318</td>
+<td align="right">0.0000412</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0818402</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0018803</td>
+<td align="right">0.0000427</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0360757</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in very large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094539</td>
+<td align="right">0.0099648</td>
+<td align="right">0.0814837</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0146190</td>
+<td align="right">0.0068219</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0132599</td>
+<td align="right">0.0054909</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in very large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0100681</td>
+<td align="right">0.0069370</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in large VLDL</td>
+<td align="left">Coronary Artery Disease (CAD)</td>
+<td align="right">0.0094520</td>
+<td align="right">0.0052877</td>
+<td align="right">0.0793469</td>
+<td align="right">0.0168377</td>
+<td align="right">0.0491455</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in IDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0055831</td>
+<td align="right">0.0000302</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0687527</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0018414</td>
+<td align="right">0.0000471</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0941066</td>
+<td align="right">0.0282087</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of very large HDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014205</td>
+<td align="right">0.0000330</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0697200</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large VLDL particles</td>
+<td align="left">Asthma</td>
+<td align="right">0.0038801</td>
+<td align="right">0.0017182</td>
+<td align="right">0.0493682</td>
+<td align="right">0.0231967</td>
+<td align="right">0.0684771</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0242113</td>
+<td align="right">0.0012223</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0021201</td>
+<td align="right">0.1045472</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in small VLDL</td>
+<td align="left">Asthma</td>
+<td align="right">0.0038300</td>
+<td align="right">0.0028422</td>
+<td align="right">0.0516597</td>
+<td align="right">0.0231967</td>
+<td align="right">0.0551924</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015040</td>
+<td align="right">0.0000292</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0268695</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0159240</td>
+<td align="right">0.0000294</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Mean diameter for LDL particles</td>
+<td align="left">Stroke</td>
+<td align="right">0.0242596</td>
+<td align="right">0.0014480</td>
+<td align="right">0.0046639</td>
+<td align="right">0.0002358</td>
+<td align="right">0.0772732</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0111748</td>
+<td align="right">0.0000293</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol to esterified cholesterol ratio</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0092735</td>
+<td align="right">0.0000336</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0063672</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in IDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0059352</td>
+<td align="right">0.0000304</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small LDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0049691</td>
+<td align="right">0.0000334</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of very small VLDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0034158</td>
+<td align="right">0.0000299</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in IDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0028374</td>
+<td align="right">0.0000316</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of very large VLDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0022851</td>
+<td align="right">0.0000345</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in medium HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0022326</td>
+<td align="right">0.0000378</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in chylomicrons and largest VLDL
+particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0019578</td>
+<td align="right">0.0000748</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in medium HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017797</td>
+<td align="right">0.0000433</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total lipids in medium VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017061</td>
+<td align="right">0.0000411</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017032</td>
+<td align="right">0.0000439</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Concentration of large VLDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016529</td>
+<td align="right">0.0000337</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000441</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Cholesterol esters in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0016366</td>
+<td align="right">0.0000341</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total cholesterol in large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015691</td>
+<td align="right">0.0000293</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Serum total triglycerides</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015261</td>
+<td align="right">0.0000493</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0015303</td>
+<td align="right">0.0000295</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Total cholesterol in medium HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014914</td>
+<td align="right">0.0000392</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Free cholesterol in large HDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014895</td>
+<td align="right">0.0000294</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Phospholipids in very large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014496</td>
+<td align="right">0.0000335</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Total lipids in small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014459</td>
+<td align="right">0.0000348</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in large VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014392</td>
+<td align="right">0.0000329</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Phospholipids in medium VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014127</td>
+<td align="right">0.0000415</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Free cholesterol in small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014001</td>
+<td align="right">0.0000354</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Triglycerides in very small VLDL</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0014012</td>
+<td align="right">0.0000343</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="odd">
+<td align="left">Triglycerides in very small VLDL</td>
+<td align="left">Stroke</td>
+<td align="right">0.0192982</td>
+<td align="right">0.0012860</td>
+<td align="right">0.0158713</td>
+<td align="right">0.0021201</td>
+<td align="right">0.0433352</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium VLDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0017631</td>
+<td align="right">0.0000355</td>
+<td align="right">0.0348614</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0282087</td>
+</tr>
+<tr class="odd">
+<td align="left">Serum total cholesterol</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0045945</td>
+<td align="right">0.0000300</td>
+<td align="right">0.0053224</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+<tr class="even">
+<td align="left">Concentration of medium HDL particles</td>
+<td align="left">Type 2 Diabetes</td>
+<td align="right">0.0018314</td>
+<td align="right">0.0000367</td>
+<td align="right">0.0053224</td>
+<td align="right">0.0087153</td>
+<td align="right">0.0507528</td>
+</tr>
+</tbody>
+</table>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -3792,6 +7409,7 @@ loaded via a namespace (and not attached):
 [37] magrittr_2.0.3    whisker_0.4.1     ps_1.7.5          promises_1.2.0.1 
 [41] htmltools_0.5.5   httpuv_1.6.11     utf8_1.2.4        stringi_1.8.3    
 [45] cachem_1.0.8     </code></pre>
+</div>
 </div>
 </div>
 

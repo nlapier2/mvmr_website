@@ -773,3 +773,97 @@ finding an effect of HDL on CAD independent of LDL.
 ```{r print_results2}
 knitr::kable(dat2)
 ```
+
+
+
+
+# Results with lipoprotein subfractions
+
+In this analysis, I analyzed the causal effects of 94 lipoprotein subfraction
+("met-c" on IEU GWAS Browser) traits on the same four outcome traits.
+Here we are moving away from complex trait exposures with (sometimes) known
+relationships to the outcome, and into a setting with many very highly correlated
+molecular exposures.
+
+The processing pipeline is similar to the previous one, and the highly correlated
+traits are mostly pretty obvious (e.g. LDL subfractions are highly correlated
+with each other, and not with HDL subfractions), so I just list the traits and
+then give the results below.
+
+
+### Trait names
+
+```{r metc-exposures}
+# read in data and select methods to display
+dat_metc = fread('data/summary_of_results_metc_noannih_clumped.tsv', sep='\t', header=T)
+dat_metc = dat_metc %>% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.univar)
+# sort by average PIP across all methods
+dat_metc$Average = rowSums(dat_metc %>% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat_metc) - 2)
+dat_metc = dat_metc[order(dat_metc$Average, decreasing=TRUE), ]
+dat_metc$Average = NULL 
+sort(unique(dat_metc$Exposure))
+```
+
+### Results
+
+One important note: because the GWAS loci for different lipoprotein subfractions
+overlap highly, there are only 51 total loci compared to 94 exposures. 
+Thus, for standard MVMR methods, SNPs cannot be selected by the "SNP with max Z
+for each locus" method, as this would result in fewer instruments than exposures.
+Thus, for these methods, we have to use the LD clumping approach to select 
+instruments, which, as shown above, can lead to some false positives.
+We see similar results below.
+
+Also, FAMR with factors regressed out doesn't yield any credible sets containing
+any exposures. So we show the FAMR results with GFA factors not regressed out.
+
+The following are the main takeaways so far:
+
+* Multivariable MR methods rarely identify any individual exposure-outcome pair
+as significant, which is to be expected given the very high correlations between
+the exposures.
+
+* However, FAMR_GFA does identify a credible set containing many LDL-related
+exposures for CAD, which is a positive sign. This set contains: Apolipoprotein B,
+Cholesterol esters in large VLDL, Total lipids in large LDL, 
+Concentration of large LDL particles, Total cholesterol in LDL,
+Total cholesterol in medium LDL, Cholesterol esters in medium LDL,
+Total lipids in medium LDL, Concentration of medium LDL particles,
+Phospholipids in medium LDL, Total cholesterol in small LDL,
+and Total cholesterol in small VLDL.
+
+* FAMR does not identify credible sets containing exposures for any other outcome trait.
+
+* The exposures with the highest PIPs for MVMR-IVW and MVMR-Robust are mostly 
+unknown (effect of IDL and LDL subfractions on T2D) or unlikely to be true
+(effect of IDL and LDL subfractions on Asthma).
+
+* Meanwhile, univariate IVW finds many individual significant exposure-outcome pairs,
+mostly LDL-related and VLDL-related exposures on CAD and Stroke, as well as ApoB,
+which makes sense. However, it also identifies some HDL subfractions as having
+an effect on CAD and/or Stroke, which are probably false positives.
+
+Overall the FAMR results are a bit conservative but it avoids likely false 
+positives found by other methods and provides some useful qualitative information via
+the credible sets.
+
+Notably, there is 
+[another study](https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.121.053797)
+on the effects of lipoprotein subfractions on CAD risk.
+That study found that large low-density lipoprotein particle concentration was 
+the most likely subfraction to affect CAD, while ApoB was the most likely causal
+lipoprotein-related risk factor.
+In agreement with this, FAMR_GFA's credible set contains both of these traits,
+although their PIPs are not among the highest few in the set.
+The highest FAMR PIPs in the set are for "Total cholesterol in LDL" followed by
+"Total cholesterol in medium LDL".
+Their study approached instrument selection differently and did not use the
+same set of exposures, so the results are not directly comparable, but this is 
+an encouraging sign.
+
+
+
+```{r print_results_metc}
+knitr::kable(dat_metc)
+```
+

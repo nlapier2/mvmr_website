@@ -137,32 +137,68 @@ prediction models of exposures $i$ and $j$.
 
 #### Current results
 
-- Showing pleiotropy of existing methods and FA correcting for it: looks good in my standard simulations, both uncorrelated and correlated pleiotropy. (See FAMR Simulations page.)
+- Showing pleiotropy of existing methods and FA correcting for it: 
+looks good in my standard simulations, both uncorrelated and correlated pleiotropy. 
+(See FAMR Simulations page.)
 
-- When doing simulations with stronger-effect confounders, didn't do quite as well (need to upload these results)
+- When doing simulations with stronger-effect confounders, didn't do quite as well 
+(need to upload these results)
 
-- Showing loss of power in high dimensions due to inclusion of many irrelevant/weak instruments -- had some initial results on this that looked promising (see overleaf), but need to update. In-progress.
+- Real data: FAMR's results seem very underpowered when regressing out factors. 
+When not regressing them out the power is better, but still not great, 
+and has a few questionable results. (See Metabolite MR page.)
 
-- Real data: FAMR's results seem very underpowered when regressing out factors. When not regressing them out the power is better, but still not great, and has a few questionable results. (See Metabolite MR page.)
+- Real data with highly correlated exposures (lipoprotein subfractions):
+FAMR_GFA with factors regressed out is once again very conservative.
+FAMR_GFA with factors not regressed out is still a bit conservative, 
+but it does find a credible set containing many LDL subfractions as well as 
+Apolipoprotein B for coronary artery disease (CAD). 
+One of the subfractions in this set was found by 
+[another study](https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.121.053797)
+to be the most likely subfractions associated with CAD, and that same study also
+said ApoB was the most likely causal lipoprotein-related risk factor. Meanwhile,
+the top PIP exposures for IVW and Robust seem likely to be false positives.
+So this is encouraging so far. (See Metabolite MR page.)
 
-- Real data with highly correlated exposures (lipoprotein subfractions): early results looked reasonable; need to clean and upload.
+
+- Showing loss of power in high dimensions due to inclusion of many 
+irrelevant/weak instruments -- had some initial results on this that 
+looked promising, but need to update. In-progress.
 
 
 
 #### Questions / In-progress
 
-- As mentioned above, working on showing robustness to power loss or false positives with many exposures.
+Currently I think there are two main questions/issues we are facing:
 
-- A new strategy I am pursuing is, instead of heavily LD pruning before FAMR, instead only heavily prune SNPs for GFA (since GFA does not model LD). Then use GFA to impute L_hat (i.e. $\theta_{GZ}$) for all SNPs, using the learned F_hat (i.e. $\theta_{ZX}$, which does not depend on SNPs). Then the Z and R are built on all SNPs (or a much larger subset) and thus should hopefully be more accurate. I have implemented this and I am currently assessing it.
+1. When regressing out factors, the approach seems overly-conservative, and while
+it looks good in some of my simulations, it is too conservative in realistic settings.
+When not regressing out factors, the approach seems a bit anti-conservative in 
+simulations, and maybe gives a couple false positives in real data. It seems that
+this may be due to under-estimation of the correlation between exposures and factors.
+So I am trying different weight-learning approaches (for the $w_j$ above) that
+will hopefully avoid this under-estimation. Then the version with factors 
+not regressed out would be the standard approach.
+
+2. Because we don't account for uncertainty in weight ($w_j$) estimation, and
+thus uncertainty in the Z-scores and R matrix between exposures and factors, susie sometimes
+(subjectively) over-confidently assigns "all of the PIP" to one of two or more
+highly correlated exposures. This may need to be left for future work as it 
+would involve modifying some of the susie core methods.
+
+
+Here is a more granular look at things I am working on:
 
 - How can we improve the estimation of R between exposures and factors? Would better (possibly PRS-based) weight-learning schemes help? Would this fix issues with false positive control when not annihilating factors?
 
+- Maybe more time consuming / future work: can we incorporate uncertainty about weight estimates (and thus Z and R) into susie-rss, to avoid the problem of confidently selecting with 100% PIP one of two highly-correlated exposures, and instead put them in a credible set together?
+
+- A new strategy I am pursuing is, instead of heavily LD pruning before FAMR, instead only heavily prune SNPs for GFA (since GFA does not model LD). Then use GFA to impute L_hat (i.e. $\theta_{GZ}$) for all SNPs, using the learned F_hat (i.e. $\theta_{ZX}$, which does not depend on SNPs). Then the Z and R are built on all SNPs (or a much larger subset) and thus should hopefully be more accurate. I have implemented this and I am currently assessing it.
+
 - Running simulations that use the true G-X signal from real data, as well as factors inferred by GFA, only simulating Y. So far, some odd results, but need to debug.
 
-- Regressing out factors vs keeping them in -- maybe keep the former as a conservative approach, but latter has more power, even if it doesn't control FPR quite as well.
+- As mentioned above, working on showing robustness to power loss or false positives with many exposures.
 
 - There are still memory usage improvements I am working on.
-
-- Maybe more time consuming / future work: can we incorporate uncertainty about weight estimates (and thus Z and R) into susie-rss, to avoid the problem of confidently selecting with 100% PIP one of two highly-correlated exposures, and instead put them in a credible set together?
 
 
