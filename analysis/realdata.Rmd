@@ -12,6 +12,8 @@ editor_options:
 library(data.table)
 library(dplyr)
 library(knitr)
+library(ggplot2)
+library(reshape2)
 ```
 
 ```{r process_dat, echo=FALSE}
@@ -103,6 +105,7 @@ Consult the following list for trait names vs their codes.
 I have tried to put the trait name in the results below where possible,
 but this will be useful in cases where I forgot or it was impractical.
 
+<details><summary>Click to expand</summary>
 
 ```
 Trait Name	                     Trait ID
@@ -145,6 +148,8 @@ Apolipoprotein B	               met-d-ApoB
 Polyunsaturated Fatty Acids	     met-d-PUFA
 ```
 
+</details>
+
 
 ## Characterization of the data
 
@@ -160,6 +165,8 @@ there were 1097 regions across 30 traits (avg. about 37 per trait).=,
 and there were 477 independent loci after merging overlapping loci.
 
 Here are the number of independent 1 Mb loci per trait:
+
+<details><summary>Click to expand</summary>
 
 ```
 -   522 regions_combined/ieu-b-39_regions.txt (Diastolic blood pressure)
@@ -197,6 +204,8 @@ Here are the number of independent 1 Mb loci per trait:
 -     8 regions_combined/met-d-Ile_regions.txt (Isoleucine)
 ```
 
+</details>
+
 
 #### Heritability
 
@@ -207,6 +216,8 @@ Below is the heritability of each trait (including the outcomes).
 As you can see, except for the highly polygenic blood pressure and height traits,
 all others have heritabilities between $1\%$ and $27\%$, with most being in the
 $5\%$ to $18\%$ range. The median heritability is about $9\%$.
+
+<details><summary>Click to expand</summary>
 
 ```
                trait                   h2
@@ -248,6 +259,8 @@ $5\%$ to $18\%$ range. The median heritability is about $9\%$.
   ebi-a-GCST005838 (Stroke)            0.0235
          ieu-b-113 (Fast. Gluc.)       0.0145
 ```
+
+</details>
 
 
 #### Genetic correlation
@@ -750,9 +763,13 @@ As a classic illustration, univariate IVW finds that HDL cholesterol causes
 CAD -- a finding that is considered a false positive -- while no MVMR methods do,
 including FAMR.
 
+<details><summary>Click to expand</summary>
+
 ```{r print_results}
 knitr::kable(dat)
 ```
+
+</details>
 
 
 
@@ -770,8 +787,117 @@ MVMR methods in the clumped setting had many more positive findings,
 some of which are likely true but many of which are likely false, including
 finding an effect of HDL on CAD independent of LDL.
 
+<details><summary>Click to expand</summary>
+
 ```{r print_results2}
 knitr::kable(dat2)
+```
+
+</details>
+
+
+
+## CAD Z-scores, PIPs, and credible set indices between FAMR versions
+
+This table compiles the Z-scores, PIPs, and credible set indices learned by
+four different versions of FAMR on CAD.
+
+<details><summary>Click to expand</summary>
+
+```{r print_z}
+z_tab = data.frame(fread('data/mvmr_combined_zscores_pips.tsv', sep='\t', header=T), row.names=1)
+colnames(z_tab) = c("No FA, learned weights", "No annihilation, learned weights", "No annihilation, weights = betas", "Annihilator mode, learned weights")
+knitr::kable(z_tab)
+```
+
+</details>
+
+
+
+## Correlations between exposures and factors
+
+Here we give the exposure-exposure and exposure-factor correlations based on 
+either weights learned by susie or weights = betas (effect size estimates from GWAS).
+
+We will see that, in general, exposure-factor and exposure-exposure correlations
+are estimated to be lower with weights learned by susie than when using betas as weights.
+
+Here are my interpretations of the factors, based on their estimated correlations with exposures:
+
+* Factor 1 is clearly strongly associated with systolic and diastolic blood pressure,
+and thus can be thought of as a general "blood pressure factor".
+* Factor 2 is strongly associated with leucine, isoleucine, and valine, and thus
+can be thought of as a "branched-chain amino acids" factor.
+* For the most part, factors 3-8 have more modest associations with exposures.
+* Factor 3 is associated primarily with PUFA and ApoB, which are CAD risk factors.
+* Factor 7 is primarily positively associated with triglycerides, LDL, and BMI,
+and negatively with HDL.
+* Factor 8 is primarily associated with the lifestyle traits of smoking and alcohol.
+* Factors 5 and 6 are modestly associated with a number of ketone-containing traits,
+e.g. Acetone, bOHbutyrate, Pyruvate.
+* Factor 4 is difficult for me to interpret, as it is modestly associated with
+a wide variety of traits.
+
+
+```{r read_R, echo=FALSE}
+R_learnwts = readRDS('data/results_famr_gfa_noannih_ebi-a-GCST005195.rds')
+R_learnwts = as.matrix(R_learnwts$R)[1:41,1:41]
+colnames(R_learnwts) = rownames(z_tab)
+rownames(R_learnwts) = rownames(z_tab)
+
+R_nolearnwts = readRDS('data/results_famr_gfa_nolearnwts_ebi-a-GCST005195.rds')
+R_nolearnwts = as.matrix(R_nolearnwts$R)[1:41,1:41]
+colnames(R_nolearnwts) = rownames(z_tab)
+rownames(R_nolearnwts) = rownames(z_tab)
+```
+
+Here are the learned exposure-factor correlations with weights learned by susie:
+
+```{r exp_fac_cor_learnwts, echo=FALSE}
+data_learnwts <- melt(R_learnwts[1:33, 34:41])
+ggplot(data_learnwts, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Here are the learned exposure-factor correlations with weights = betas:
+
+```{r exp_fac_cor_nolearnwts, echo=FALSE}
+data_nolearnwts <- melt(R_nolearnwts[1:33, 34:41])
+ggplot(data_nolearnwts, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Now here are the exposure-exposure correlations with weights learned by susie:
+
+```{r exp_exp_cor_learnwts, echo=FALSE}
+data_learnwts2 <- melt(R_learnwts[1:33, 1:33])
+ggplot(data_learnwts2, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+
+And here are the exposure-exposure correlations with weights = betas:
+
+```{r exp_exp_cor_nolearnwts, echo=FALSE}
+data_nolearnwts2 <- melt(R_nolearnwts[1:33, 1:33])
+ggplot(data_nolearnwts2, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
 
@@ -862,8 +988,11 @@ same set of exposures, so the results are not directly comparable, but this is
 an encouraging sign.
 
 
+<details><summary>Click to expand</summary>
 
 ```{r print_results_metc}
 knitr::kable(dat_metc)
 ```
+
+</details>
 
