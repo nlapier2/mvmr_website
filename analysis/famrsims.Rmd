@@ -582,3 +582,80 @@ stacked_barplot('data/results_annih_maxsel_spliced/cor_plei_gx_0.2_gy_0.2_gz_0.4
                 methods=c('famr', 'famr_gfa', 'ivw', 'ivw_gfa'))
 
 ```
+
+
+
+## New non-annihilator results with high PIPs on factors
+
+In non-annihilator mode, I have taken a new approach, where I do a lighter 
+LD prune at abs(R)=0.5, then a stronger LD prune for FA only of abs(R)=0.1, then
+using the estimated $\theta_{ZX}$ from that, I impute $\theta_{GZ}$ for the rest of the SNPs
+that survive the lighter LD pruning threshold.
+In this case, I learn weights (with susie_rss) on both exposures and factors.
+
+I also force the prior on factors to be 100x higher than the prior on the other
+exposures in order to force susie to fit the factors. This achieves a sort of
+balance between the conservatism of annihilator mode while still retaining the 
+ability (and potential power gains) for fitting factors alongside exposures.
+
+With correlated pleiotropy only, FAMR-GFA in this setting is somewhat more powerful
+than IVW-GFA, but also has a somewhat higher false positive rate, and is not
+fully calibrated.
+
+```{r factor_highpip_cor}
+stacked_barplot('data/results_gfa_noannih_factor_highpip/cor_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa'))
+
+```
+
+```{r factor_highpip_cor_calib}
+res = na.omit(read.table(
+  'data/results_gfa_noannih_factor_highpip/cor_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
+```
+
+However, as expected, FAMR does much better with uncorrelated pleiotropy:
+
+```{r factor_highpip_uncor}
+stacked_barplot('data/results_gfa_noannih_factor_highpip/uncor_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa'))
+
+```
+
+```{r factor_highpip_uncor_calib}
+res = na.omit(read.table(
+  'data/results_gfa_noannih_factor_highpip/uncor_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
+```
+
+Because of that, it does much better overall with both kinds of pleiotropy:
+
+```{r factor_highpip_both}
+stacked_barplot('data/results_gfa_noannih_factor_highpip/both_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa'))
+
+```
+
+```{r factor_highpip_both_calib}
+res = na.omit(read.table(
+  'data/results_gfa_noannih_factor_highpip/both_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
+```
+
+It also has a bit more power than IVW when there is no pleiotropy.
+
+```{r factor_highpip_none}
+stacked_barplot('data/results_gfa_noannih_factor_highpip/no_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa'))
+
+```
+
+```{r factor_highpip_none_calib}
+res = na.omit(read.table(
+  'data/results_gfa_noannih_factor_highpip/no_plei_gx_0.1_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
+```
