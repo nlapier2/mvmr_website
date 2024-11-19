@@ -32,6 +32,22 @@ dat2 = dat2 %>% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.
 dat2$Average = rowSums(dat2 %>% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat2) - 2)
 dat2 = dat2[order(dat2$Average, decreasing=TRUE), ]
 dat2$Average = NULL 
+
+# read in data and select methods to display
+dat_rsp = fread('data/summary_of_rsparsepro_wts_susie_final_results.tsv', sep='\t', header=T)
+dat_rsp = dat_rsp %>% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.univar)
+# sort by average PIP across all methods
+dat_rsp$Average = rowSums(dat_rsp %>% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat_rsp) - 2)
+dat_rsp = dat_rsp[order(dat_rsp$Average, decreasing=TRUE), ]
+dat_rsp$Average = NULL 
+
+# read in data and select methods to display
+dat_rescalez = fread('data/summary_of_rescale_z_results.tsv', sep='\t', header=T)
+dat_rescalez = dat_rescalez %>% select(Exposure, Outcome, famr_none, famr_gfa, ivw, robust, ivw.univar)
+# sort by average PIP across all methods
+dat_rescalez$Average = rowSums(dat_rescalez %>% select(famr_none, famr_gfa, ivw, robust, ivw.univar)) / (ncol(dat_rescalez) - 2)
+dat_rescalez = dat_rescalez[order(dat_rescalez$Average, decreasing=TRUE), ]
+dat_rescalez$Average = NULL 
 ```
 
 In order to assess the performance of FAMR in a real data setting,
@@ -797,6 +813,54 @@ knitr::kable(dat2)
 
 
 
+## Results with rescaled Z-scores
+
+Sometimes there have been issues with very high
+Z-scores for exposures computed based on susie weights when there were many SNPs.
+Also, the performance of the method in both simulations and real data tends to be
+unstable when there are very high Z-scores. Thus, I tried running some runs
+with exposure z-scores scaled down (equally) so that the maximum
+z-score among all exposures was 20.
+
+
+The results for this are shown below, with only CAD and T2D for brevity.
+This does seem to avoid a lot of false positives for CAD, but there are some
+iffy results for T2D, including Citrate and Albumin.
+
+<details><summary>Click to expand</summary>
+
+```{r print_rescale_z_results}
+knitr::kable(dat_rescalez)
+```
+
+</details>
+
+
+
+## Results with RSparsePro
+
+[RSparsePro](https://doi.org/10.1101/2024.10.29.620968) is a method that is like
+Susie-RSS, but is supposed to be more robust to errors in the R matrix between
+exposures, factors, and SNPs.
+Since that has been a challenge for our method, I decided to try running
+RSparsePro in place of Susie-RSS.
+Note that I have not figured out how RSparsePro can be integrated with a 
+cTWAS-style framework (or if that is feasible with minimal modification),
+so right now RSparsePro is run just once, with no class priors.
+
+This produced a sensible, if slightly conservative, set of results across
+the four outcomes tested.
+
+<details><summary>Click to expand</summary>
+
+```{r print_rsparsepro_results}
+knitr::kable(dat_rsp)
+```
+
+</details>
+
+
+
 ## CAD Z-scores, PIPs, and credible set indices between FAMR versions
 
 This table compiles the Z-scores, PIPs, and credible set indices learned by
@@ -849,6 +913,11 @@ R_nolearnwts = readRDS('data/results_famr_gfa_nolearnwts_ebi-a-GCST005195.rds')
 R_nolearnwts = as.matrix(R_nolearnwts$R)[1:41,1:41]
 colnames(R_nolearnwts) = rownames(z_tab)
 rownames(R_nolearnwts) = rownames(z_tab)
+
+R_rsparsepro = readRDS('data/results_famr_gfa_rsparsepro_ebi-a-GCST005195.rds')
+R_rsparsepro = as.matrix(R_rsparsepro$R)[1:41,1:41]
+colnames(R_rsparsepro) = rownames(z_tab)
+rownames(R_rsparsepro) = rownames(z_tab)
 ```
 
 Here are the learned exposure-factor correlations with weights learned by susie:
@@ -856,6 +925,18 @@ Here are the learned exposure-factor correlations with weights learned by susie:
 ```{r exp_fac_cor_learnwts, echo=FALSE}
 data_learnwts <- melt(R_learnwts[1:33, 34:41])
 ggplot(data_learnwts, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Here are the learned exposure-factor correlations learned by RSparsePro:
+
+```{r exp_fac_cor_rsparsepro, echo=FALSE}
+data_rsparsepro <- melt(R_rsparsepro[1:33, 34:41])
+ggplot(data_rsparsepro, aes(x = Var2, y = Var1, fill = value)) +
   geom_tile() +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
   labs(x = "", y = "", fill = "Value") +
@@ -875,11 +956,25 @@ ggplot(data_nolearnwts, aes(x = Var2, y = Var1, fill = value)) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
 
+-------
+
 Now here are the exposure-exposure correlations with weights learned by susie:
 
 ```{r exp_exp_cor_learnwts, echo=FALSE}
 data_learnwts2 <- melt(R_learnwts[1:33, 1:33])
 ggplot(data_learnwts2, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Here are the exposure-exposure correlations learned by RSparsePro:
+
+```{r exp_exp_cor_rsparsepro, echo=FALSE}
+data_rsparsepro2 <- melt(R_rsparsepro[1:33, 1:33])
+ggplot(data_rsparsepro2, aes(x = Var2, y = Var1, fill = value)) +
   geom_tile() +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
   labs(x = "", y = "", fill = "Value") +
@@ -899,7 +994,6 @@ ggplot(data_nolearnwts2, aes(x = Var2, y = Var1, fill = value)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
-
 
 
 
