@@ -715,29 +715,28 @@ Susie-RSS, but is supposed to be more robust to errors in the R matrix between
 exposures, factors, and SNPs.
 Since that has been a challenge for our method, I decided to try running
 RSparsePro in place of Susie-RSS in our simulations.
-Note that I have not figured out how RSparsePro can be integrated with a 
-cTWAS-style framework (or if that is feasible with minimal modification),
-so right now RSparsePro is run just once, with no class priors.
+Specifically, RSparsePro is used to compute the SNP-exposure weights used to
+compute the Z-scores and R between exposures and factors, while I still use the
+susie/cTWAS framework for the final regression to generate the PIPs for traits.
 
-This obtained solid results in simulations with no need for strong priors on 
-factors or rescaling Z-scores, as well as in real data (see ``Metabolite MR'').
+This obtained solid results in simulations with no need for rescaling Z-scores, 
+as well as in real data (see ``Metabolite MR'').
 However, there are significant computational issues with the main implementation,
 which I may be able to resolve by writing my own version.
-Also, the PIPs tend to be very dichotomous, i.e. almost always very close to 0 or 1.
 
 Here are the results with correlated pleiotropy:
 
 ```{r rsparsepro_cor}
 stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/cor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
                 prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
-                methods=c('famr_gfa', 'ivw_gfa'))
+                methods=c('famr_gfa', 'ivw_gfa')) 
 
 ```
 
 ```{r rsparsepro_cor_calib}
 res = na.omit(read.table(
  'data/results_test_rsparsepro_final_reg_norescale_prune0pt5/cor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
-pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
 ```
 
 Here are the results with uncorrelated pleiotropy:

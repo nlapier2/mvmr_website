@@ -844,9 +844,9 @@ Susie-RSS, but is supposed to be more robust to errors in the R matrix between
 exposures, factors, and SNPs.
 Since that has been a challenge for our method, I decided to try running
 RSparsePro in place of Susie-RSS.
-Note that I have not figured out how RSparsePro can be integrated with a 
-cTWAS-style framework (or if that is feasible with minimal modification),
-so right now RSparsePro is run just once, with no class priors.
+Specifically, RSparsePro is used to compute the SNP-exposure weights used to
+compute the Z-scores and R between exposures and factors, while I still use the
+susie/cTWAS framework for the final regression to generate the PIPs for traits.
 
 This produced a sensible, if slightly conservative, set of results across
 the four outcomes tested.
