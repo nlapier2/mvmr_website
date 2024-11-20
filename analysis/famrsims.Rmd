@@ -727,7 +727,7 @@ which I may be able to resolve by writing my own version.
 Here are the results with correlated pleiotropy:
 
 ```{r rsparsepro_cor}
-stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/cor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+stacked_barplot('data/results_test_rsparsepro_norescale_prune0pt5/cor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
                 prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c('famr_gfa', 'ivw_gfa')) 
 
@@ -735,14 +735,14 @@ stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/cor_
 
 ```{r rsparsepro_cor_calib}
 res = na.omit(read.table(
- 'data/results_test_rsparsepro_final_reg_norescale_prune0pt5/cor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+ 'data/results_test_rsparsepro_norescale_prune0pt5/cor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
 pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
 ```
 
 Here are the results with uncorrelated pleiotropy:
 
 ```{r rsparsepro_uncor}
-stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/uncor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+stacked_barplot('data/results_test_rsparsepro_norescale_prune0pt5/uncor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
                 prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c('famr_gfa', 'ivw_gfa'))
 
@@ -750,14 +750,14 @@ stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/unco
 
 ```{r rsparsepro_uncor_calib}
 res = na.omit(read.table(
- 'data/results_test_rsparsepro_final_reg_norescale_prune0pt5/uncor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+ 'data/results_test_rsparsepro_norescale_prune0pt5/uncor_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
 pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
 ```
 
 Here are the results with no pleiotropy:
 
 ```{r rsparsepro_none}
-stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/no_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+stacked_barplot('data/results_test_rsparsepro_norescale_prune0pt5/no_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
                 prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
                 methods=c('famr_gfa', 'ivw_gfa'))
 
@@ -765,6 +765,6 @@ stacked_barplot('data/results_test_rsparsepro_final_reg_norescale_prune0pt5/no_p
 
 ```{r rsparsepro_none_calib}
 res = na.omit(read.table(
- 'data/results_test_rsparsepro_final_reg_norescale_prune0pt5/no_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+ 'data/results_test_rsparsepro_norescale_prune0pt5/no_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
 pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
 ```
