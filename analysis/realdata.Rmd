@@ -868,9 +868,11 @@ four different versions of FAMR on CAD.
 
 <details><summary>Click to expand</summary>
 
-```{r print_z}
-z_tab = data.frame(fread('data/mvmr_combined_zscores_pips.tsv', sep='\t', header=T), row.names=1)
-colnames(z_tab) = c("No FA, learned weights", "No annihilation, learned weights", "No annihilation, weights = betas", "Annihilator mode, learned weights")
+```{r print_cad_z_tab}
+z_tab = data.frame(fread('data/mvmr-cad-realdata-combined-zscores-pips.tsv', sep='\t', header=T), row.names=1)
+colnames(z_tab) = c("No FA, learned weights", "No annihilation, learned weights", 
+                    "No annihilation, weights = betas", "Annihilator mode, learned weights",
+                    "No annihilation, RSparsePro weights")
 knitr::kable(z_tab)
 ```
 
