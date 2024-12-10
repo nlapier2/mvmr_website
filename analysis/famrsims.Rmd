@@ -127,7 +127,7 @@ stacked_barplot = function(dirname, truevars, prefix='all_res_', thresh = 0.05,
   ggplot(df, aes(fill=tf_labels, y=counts, x=method_labels)) +
     geom_bar(position="stack", stat="identity") +
     scale_fill_manual(values=c("#888888", "#44AA99")) +
-    theme(text = element_text(size = 20), axis.title.x=element_blank(),
+    theme(text = element_text(size = 16), axis.title.x=element_blank(),
           axis.title.y=element_blank(), legend.title=element_blank())
 }
 
@@ -768,3 +768,104 @@ res = na.omit(read.table(
  'data/results_test_rsparsepro_norescale_prune0pt5/no_plei_gx_0.2_gy_0.2_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
 pip_calibration_plot(res, '1,2,3,4', 'famr_gfa')
 ```
+
+
+
+
+
+## Current simulations for paper
+
+These are simulation results that I will possibly use in the paper.
+
+Correlated pleiotropy:
+
+```{r paper_std_rsp_cor}
+stacked_barplot('data/results_standard_settings_rsparsepro_wts/cor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw', 'median', 'median_gfa', 'grapple', 'cml')) 
+
+```
+
+```{r paper_std_rsp_cor_calib}
+res = na.omit(read.table(
+ 'data/results_standard_settings_rsparsepro_wts/cor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
+
+Uncorrelated pleiotropy:
+
+```{r paper_std_rsp_uncor}
+stacked_barplot('data/results_standard_settings_rsparsepro_wts/uncor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw', 'median', 'median_gfa', 'grapple', 'cml')) 
+
+```
+
+```{r paper_std_rsp_uncor_calib}
+res = na.omit(read.table(
+ 'data/results_standard_settings_rsparsepro_wts/uncor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
+
+Both pleiotropy:
+
+```{r paper_std_rsp_both}
+stacked_barplot('data/results_standard_settings_rsparsepro_wts/both_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw', 'median', 'median_gfa', 'grapple', 'cml')) 
+
+```
+
+```{r paper_std_rsp_both_calib}
+res = na.omit(read.table(
+ 'data/results_standard_settings_rsparsepro_wts/both_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
+
+No pleiotropy:
+
+```{r paper_std_rsp_none}
+stacked_barplot('data/results_standard_settings_rsparsepro_wts/no_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw', 'median', 'median_gfa', 'grapple', 'cml')) 
+
+```
+
+```{r paper_std_rsp_none_calib}
+res = na.omit(read.table(
+ 'data/results_standard_settings_rsparsepro_wts/no_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
+
+-----
+
+With 100 exposures (still 4 causal), correlated pleiotropy:
+
+```{r paper_100expo_rsp_cor}
+stacked_barplot('data/results_rsparsepro_100expo/cor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw', 'median', 'median_gfa', 'grapple')) 
+
+```
+
+```{r paper_100expo_rsp_cor_calib}
+res = na.omit(read.table(
+ 'data/results_rsparsepro_100expo/cor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
+
+Ditto above, with uncorrelated pleiotropy:
+
+```{r paper_100expo_rsp_uncor}
+stacked_barplot('data/results_rsparsepro_100expo/uncor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw', 'median', 'median_gfa', 'grapple', 'cml')) 
+
+```
+
+```{r paper_100expo_rsp_uncor_calib}
+res = na.omit(read.table(
+ 'data/results_rsparsepro_100expo/uncor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
+
