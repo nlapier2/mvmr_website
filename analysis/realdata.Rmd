@@ -920,6 +920,18 @@ R_rsparsepro = readRDS('data/results_famr_gfa_rsparsepro_ebi-a-GCST005195.rds')
 R_rsparsepro = as.matrix(R_rsparsepro$R)[1:41,1:41]
 colnames(R_rsparsepro) = rownames(z_tab)
 rownames(R_rsparsepro) = rownames(z_tab)
+
+R_interval = readRDS('data/results_famr_gfa_interval_ebi-a-GCST003116.rds')
+all_names = c(colnames(R_interval$factor_corrs), rownames(R_interval$factor_corrs))
+R_interval = as.matrix(R_interval$R)[1:150,1:150]
+colnames(R_interval) = all_names
+rownames(R_interval) = all_names
+
+R_interval_nosub = readRDS('data/results_famr_gfa_interval_no_lipo_subfrac_ebi-a-GCST003116.rds')
+all_names = c(colnames(R_interval_nosub$factor_corrs), rownames(R_interval_nosub$factor_corrs))
+R_interval_nosub = as.matrix(R_interval_nosub$R)[1:49,1:49]
+colnames(R_interval_nosub) = all_names
+rownames(R_interval_nosub) = all_names
 ```
 
 Here are the learned exposure-factor correlations with weights learned by susie:
@@ -996,6 +1008,66 @@ ggplot(data_nolearnwts2, aes(x = Var2, y = Var1, fill = value)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 ```
+
+---------------
+
+Here are the exposure-exposure correlations for the INTERVAL Nightingale data:
+
+```{r exp_exp_cor_interval, echo=FALSE, fig.width=15, fig.height=15}
+# reorder data first to reveal cluster structure
+dist_matrix <- as.dist(1 - R_interval[1:141, 1:141])
+hc <- hclust(dist_matrix)  # hierarchical clustering
+ordered_R_interval <- (R_interval[1:141, 1:141])[hc$order, hc$order]
+data_interval <- melt(ordered_R_interval)
+ggplot(data_interval, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Here they are with no lipoprotein subfractions:
+
+```{r exp_exp_cor_interval_nosub, echo=FALSE}
+#data_interval_nosub <- melt(R_interval_nosub[1:43, 1:43])
+dist_matrix <- as.dist(1 - R_interval_nosub[1:43, 1:43])
+hc <- hclust(dist_matrix)  # hierarchical clustering
+ordered_R_interval_nosub <- (R_interval_nosub[1:43, 1:43])[hc$order, hc$order]
+data_interval_nosub <- melt(ordered_R_interval_nosub)
+ggplot(data_interval_nosub, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Here are exposure-factor correlations for the INTERVAL Nightingale data:
+
+```{r exp_fac_cor_interval, echo=FALSE, fig.height=15}
+data_interval <- melt(R_interval[1:141, 142:150])
+ggplot(data_interval, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+Here they are with no lipoprotein subfractions:
+
+```{r exp_fac_cor_interval_nosub, echo=FALSE}
+data_interval_nosub <- melt(R_interval_nosub[1:43, 44:49])
+ggplot(data_interval_nosub, aes(x = Var2, y = Var1, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(x = "", y = "", fill = "Value") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+
 
 
 
