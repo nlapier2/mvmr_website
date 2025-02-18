@@ -869,3 +869,20 @@ res = na.omit(read.table(
 pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
 ```
 
+
+----------
+
+With 100 exposures, susie-lambda, and including clumped IVW 
+
+```{r paper_100expo_lambda_cor}
+stacked_barplot('data/results_paper_100expo_susie_lambda/cor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/', '1,2,3,4',
+                prefix='all_res_', thresh = 0.05, pip_thresh=0.95, use_qval=T,
+                methods=c('famr_gfa', 'ivw_gfa', 'ivw_gfa-clumped')) 
+
+```
+
+```{r paper_100expo_lambda_cor_calib}
+res = na.omit(read.table(
+ 'data/results_paper_100expo_susie_lambda/cor_plei_gx_0.2_gy_0.1_gz_0.2_psix_0.1_psiy_0.05_mu_0.0/all_res_famr_gfa.txt'))
+pip_calibration_plot(res, '1,2,3,4', 'famr_gfa') 
+```
